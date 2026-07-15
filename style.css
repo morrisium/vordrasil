@@ -1,0 +1,126 @@
+﻿html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+    background-color: #1a1a1a; /* Dark background so there's no harsh white flash */
+    overflow: hidden;
+}
+
+#map {
+    width: 100%;
+    height: 100%;
+}
+
+/* Custom styling for the fantasy popups */
+.leaflet-popup-content-wrapper {
+    background: #2c251e; /* Dark wood/parchment background */
+    color: #f4ecd8;      /* Cream text */
+    border: 2px solid #d4af37; /* Gold border */
+    border-radius: 8px;
+    font-family: 'Georgia', serif;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+}
+
+.leaflet-popup-tip {
+    background: #2c251e;
+    border-left: 2px solid #d4af37;
+    border-bottom: 2px solid #d4af37;
+}
+
+.popup-content h2 {
+    margin: 0 0 10px 0;
+    color: #d4af37;
+    font-size: 1.5rem;
+    border-bottom: 1px solid #d4af37;
+    padding-bottom: 5px;
+}
+
+.popup-content p {
+    font-size: 0.95rem;
+    line-height: 1.4;
+    margin-bottom: 15px;
+}
+
+/* Stylized click button */
+.popup-btn {
+    background-color: #8b1e0f; /* Crimson button */
+    color: #f4ecd8;
+    border: 1px solid #d4af37;
+    padding: 8px 16px;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 4px;
+    width: 100%;
+    transition: background 0.2s ease;
+}
+
+.popup-btn:hover {
+    background-color: #b22c19; /* Lighter crimson on hover */
+}
+
+/* Hover style for the active map region */
+.interactive-region:hover {
+    fill-opacity: 0.4; /* Highlight glows stronger when hovered */
+    cursor: pointer;
+}
+
+/* Floating UI Back Button Styling */
+#back-btn {
+    display: none; /* Hidden by default, JavaScript will show it */
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    z-index: 1000; /* Ensures it floats on top of the map */
+    background-color: #2c251e;
+    color: #d4af37;
+    border: 2px solid #d4af37;
+    padding: 10px 20px;
+    font-family: 'Georgia', serif;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 6px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+    transition: all 0.2s ease;
+}
+
+#back-btn:hover {
+    background-color: #d4af37;
+    color: #2c251e;
+    transform: scale(1.05); /* Slight pop-out effect */
+}
+
+/* Subtitle/Tag below the building name */
+.district-tag {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #a0522d; /* Wooden/rusty brown color */
+    margin-top: -8px;
+    margin-bottom: 12px;
+    font-weight: bold;
+}
+
+/* Elegant thin gold divider */
+.popup-divider {
+    border: 0;
+    height: 1px;
+    background-image: linear-gradient(to right, rgba(212, 175, 55, 0), rgba(212, 175, 55, 0.75), rgba(212, 175, 55, 0));
+    margin: 10px 0;
+}
+
+/* Lore/NPC text styling */
+.popup-lore {
+    font-size: 0.85rem;
+    font-style: italic;
+    color: #dfd5be;
+    line-height: 1.3;
+}
+
+/* ==========================================================================
+   Leaflet Custom Smooth Zoom Transition
+   ========================================================================== */
+.leaflet-zoom-animated {
+    transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1) !important;
+}
