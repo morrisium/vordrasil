@@ -160,15 +160,54 @@ fetch('cities.json')
       };
 
       const getCityScale = () => Math.pow(2, map.getZoom() - maxZoom);
+      let iconVisible = false;
+
       const marker = L.marker([hafngard.y, hafngard.x], { icon: createCityIcon(getCityScale()), interactive: true }).addTo(worldLayer);
+
+      const updateIconVisibility = (visible) => {
+          iconVisible = visible;
+          const markerEl = marker.getElement();
+          if (!markerEl) return;
+          markerEl.style.opacity = visible ? '1' : '0';
+      };
+
+      const getIconBounds = () => {
+          const point = map.latLngToContainerPoint([hafngard.y, hafngard.x]);
+          const scale = getCityScale();
+          const width = baseWidth * scale;
+          const height = baseHeight * scale;
+
+          return {
+              left: point.x - width / 2,
+              right: point.x + width / 2,
+              top: point.y - height / 2,
+              bottom: point.y + height / 2
+          };
+      };
+
+      const isPointInIconArea = (point) => {
+          const bounds = getIconBounds();
+          return point.x >= bounds.left && point.x <= bounds.right && point.y >= bounds.top && point.y <= bounds.bottom;
+      };
 
       const updateCityMarkerScale = () => {
           const scale = getCityScale();
           marker.setIcon(createCityIcon(scale));
+          updateIconVisibility(iconVisible);
       };
 
-      marker.on('add', () => updateCityMarkerScale());
+      const handleMouseMove = (e) => {
+          const point = map.mouseEventToContainerPoint(e.originalEvent);
+          updateIconVisibility(isPointInIconArea(point));
+      };
+
+      marker.on('add', () => {
+          updateCityMarkerScale();
+          updateIconVisibility(false);
+      });
+
       map.on('zoomend', updateCityMarkerScale);
+      map.on('mousemove', handleMouseMove);
 
       marker.bindPopup(`
           <div class="popup-content">
