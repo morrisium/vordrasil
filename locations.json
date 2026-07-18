@@ -95,7 +95,39 @@
       "disabled": false,
       "targetMap": "images/tiles_hafngard",
       "text": "Enter City of Hafngard"
-    }
+    },
+    "districts": [
+      {
+        "name": "Veilrest Spiritual District",
+        "x": 3920,
+        "y": 5520,
+        "width": 1100,
+        "height": 760,
+        "icon": "images/hafngard_district_icons/veilrest_spiritual.png",
+        "description": "<enter description>",
+        "popupButton": {
+          "visible": false,
+          "disabled": true,
+          "targetMap": "",
+          "text": "Enter Veilrest Spiritual District"
+        }
+      },
+      {
+        "name": "Merchant Quarter",
+        "x": 4860,
+        "y": 5360,
+        "width": 1080,
+        "height": 720,
+        "icon": "images/worldmap_icons/hafngard.png",
+        "description": "A dense district of guild halls, counting houses, and caravan depots that keeps Hafngard's wealth flowing.",
+        "popupButton": {
+          "visible": false,
+          "disabled": true,
+          "targetMap": "",
+          "text": ""
+        }
+      }
+    ]
   },
   "Kaldakinn": {
     "x": 14734,
