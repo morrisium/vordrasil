@@ -3,8 +3,8 @@
     padding: 0;
     height: 100%;
     width: 100%;
-    background-color: #1a1a1a; /* Dark background so there's no harsh white flash */
     overflow: hidden;
+    background: #1a1a1a; /* FIX: Prevents white light from punching through GPU layers */
 }
 
 body {
@@ -14,6 +14,48 @@ body {
 #map {
     width: 100%;
     height: 100%;
+    background: #1a1a1a;
+}
+
+.leaflet-container {
+    background: #1a1a1a;
+}
+
+.leaflet-tile-pane {
+    background: #1a1a1a;
+    will-change: transform;
+}
+
+.leaflet-tile {
+    background: #1a1a1a;
+    /*image-rendering: -webkit-optimize-contrast;
+    image-rendering: optimize-contrast;*/
+    image-rendering: pixelated; /* Perfect sharp rendering for your custom tile art */
+
+    /* Force GPU layers to prevent subpixel edge flashing */
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    /*transform-style: preserve-3d;*/
+    transform-style: flat; /* Changing to flat coordinates for discrete steps */
+}
+
+.leaflet-container img.map-tiles {
+    image-rendering: pixelated;
+    
+    /* Remove the artificial scale scale override */
+    scale: none; 
+    
+    /* Prevent any browser-side image padding adjustments */
+    padding: 0 !important;
+}
+
+/* Ensure the parent tile container does not introduce extra pixel gaps */
+.leaflet-tile-container {
+    will-change: transform;
+}
+
+.map-tiles {
+    box-shadow: 0 0 0.6px #1a1a1a; /* Matches your map background color precisely */
 }
 
 /* Custom styling for the fantasy popups */
@@ -63,6 +105,21 @@ body {
     background-color: #b22c19; /* Lighter crimson on hover */
 }
 
+.popup-btn:disabled,
+.popup-btn-disabled {
+    background-color: #5a534b;
+    color: #c9bfae;
+    border-color: #8f7d4d;
+    cursor: not-allowed;
+    opacity: 0.75;
+}
+
+.popup-btn:disabled:hover,
+.popup-btn-disabled:hover {
+    background-color: #5a534b;
+    cursor: not-allowed;
+}
+
 
 .location-marker-icon,
 .leaflet-marker-icon,
@@ -104,8 +161,9 @@ body {
     transition: transform 0.12s ease-out;
 }
 
-.elevating-city-marker:hover .marker-container {
-    transform: translateY(-4px) scale(1.05);
+.elevating-city-marker:hover .marker-container,
+.elevating-city-marker.is-active .marker-container {
+    transform: scale(1.075);
 }
 
 .city-sprite {
@@ -156,9 +214,14 @@ body {
     transform: scale(1.05); /* Slight pop-out effect */
 }
 
+.leaflet-bottom.leaflet-right {
+    display: none !important;
+}
+
 /* ==========================================================================
    Leaflet Custom Smooth Zoom Transition
    ========================================================================== */
 .leaflet-zoom-animated {
-    transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1) !important;
+    /*transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1) !important;*/
+    will-change: transform;
 }
