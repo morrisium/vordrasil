@@ -32,14 +32,6 @@ body {
     */
     background: transparent !important; 
     
-    /* 
-       THE OVERLAP: Bumped to 1.01 (a 1% enlargement).
-       On a standard 256px tile, this creates a clean ~2.5 physical pixel overlap.
-       This is the sweet spot to completely swallow sub-pixel fractional gaps 
-       on high-DPI mobile screens without distorting your map details.
-    */
-    scale: 1.01; 
-
     margin: 0 !important;
     padding: 0 !important;
 
@@ -54,7 +46,6 @@ body {
 .leaflet-container img.map-tiles {
     background: transparent !important;
     image-rendering: auto;
-    scale: 1.01; /* Must match the parent tile scale factor exactly */
     padding: 0 !important;
 }
 
