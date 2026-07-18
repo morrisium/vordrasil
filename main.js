@@ -61,6 +61,7 @@ let currentLevel = 'world';
 const worldLayer = L.layerGroup().addTo(map); 
 const cityLayer = L.layerGroup();
 let activeCityTileLayer = null;
+let activeDistrictLayer = null;
 
 const iconAtlas = new Image();
 iconAtlas.src = 'images/iconstext.png';
@@ -160,6 +161,7 @@ const worldTiles = L.tileLayer('images/tiles_world/{z}/{y}/{x}.png', {
 }).addTo(worldLayer);
 
 let activeMarker = null;
+let districtLayersByMap = new Map();
 
 const setActiveMarker = (nextMarker) => {
     if (activeMarker && activeMarker !== nextMarker) {
@@ -193,6 +195,26 @@ fetch('locations.json')
       const getCityScale = () => Math.pow(2, map.getZoom() - maxZoom);
       const allMarkers = [];
 
+      const createPopupContent = (title, description, popupButton, targetMap = '') => {
+          const rawTargetMap = typeof popupButton?.targetMap === 'string' ? popupButton.targetMap.trim() : '';
+          const normalizedTargetMap = rawTargetMap
+              ? rawTargetMap.replace(/\/{z}\/\{y}\/\{x}\.png$/i, '').replace(/\/$/, '')
+              : '';
+          const shouldShowButton = popupButton?.visible && normalizedTargetMap;
+          const buttonText = typeof popupButton?.text === 'string' ? popupButton.text : 'Enter City Map';
+          const buttonHtml = shouldShowButton
+              ? `<button onclick="loadCityMap('${normalizedTargetMap}')" class="popup-btn" ${popupButton.disabled ? 'disabled' : ''}>${buttonText}</button>`
+              : '';
+
+          return `
+              <div class="popup-content">
+                  <h2>${title}</h2>
+                  <p>${formatDescription(description)}</p>
+                  ${buttonHtml}
+              </div>
+          `;
+      };
+
       const createLocationIcon = (location, scale = 1) => {
           const width = Math.max(1, Math.round((location.width || 220) * scale));
           const height = Math.max(1, Math.round((location.height || 64) * scale));
@@ -211,6 +233,39 @@ fetch('locations.json')
               iconAnchor: [iconAnchorX, iconAnchorY],
               popupAnchor: [0, -height]
           });
+      };
+
+      const createDistrictLayer = (location, targetMap) => {
+          if (!Array.isArray(location.districts) || !location.districts.length || !targetMap) {
+              return null;
+          }
+
+          const districtLayer = L.layerGroup();
+          const popupTargetMap = targetMap;
+
+          location.districts.forEach((district) => {
+              const districtMarker = L.marker([district.y, district.x], {
+                  icon: createLocationIcon({ ...district, name: district.name }, getCityScale()),
+                  interactive: true
+              }).addTo(districtLayer);
+
+              const districtPopupButton = district.popupButton || { visible: false, disabled: true, targetMap: '', text: 'Enter City Map' };
+              districtMarker.bindPopup(createPopupContent(district.name, district.description, districtPopupButton, popupTargetMap));
+
+              const updateDistrictScale = () => {
+                  const scale = getCityScale();
+                  districtMarker.setIcon(createLocationIcon({ ...district, name: district.name }, scale));
+              };
+
+              districtMarker.on('add', updateDistrictScale);
+              map.on('zoomend', updateDistrictScale);
+              districtMarker.on('remove', () => {
+                  map.off('zoomend', updateDistrictScale);
+              });
+          });
+
+          districtLayersByMap.set(targetMap, districtLayer);
+          return districtLayer;
       };
 
       Object.entries(data).forEach(([name, location]) => {
@@ -288,11 +343,6 @@ fetch('locations.json')
               marker._setHovered(isPointInIconArea(point));
           };
 
-          marker.on('add', () => {
-              updateMarkerScale();
-              updateIconVisibility(iconVisible);
-          });
-
           map.on('zoomend', updateMarkerScale);
           map.on('mousemove', handleMouseMove);
 
@@ -301,19 +351,8 @@ fetch('locations.json')
           const normalizedTargetMap = rawTargetMap
               ? rawTargetMap.replace(/\/{z}\/{y}\/{x}\.png$/i, '').replace(/\/$/, '')
               : '';
-          const shouldShowButton = popupButton.visible && normalizedTargetMap;
-          const buttonText = typeof popupButton.text === 'string' ? popupButton.text : 'Enter City Map';
-          const buttonHtml = shouldShowButton
-              ? `<button onclick="loadCityMap('${normalizedTargetMap}')" class="popup-btn" ${popupButton.disabled ? 'disabled' : ''}>${buttonText}</button>`
-              : '';
-
-          marker.bindPopup(`
-              <div class="popup-content">
-                  <h2>${name}</h2>
-                  <p>${formatDescription(location.description)}</p>
-                  ${buttonHtml}
-              </div>
-          `);
+          marker.bindPopup(createPopupContent(name, location.description, popupButton, normalizedTargetMap));
+          createDistrictLayer(location, normalizedTargetMap);
 
           marker.on('click', () => setActiveMarker(marker));
           marker.on('popupopen', () => setActiveMarker(marker));
@@ -373,6 +412,17 @@ function loadCityMap(targetMap = '') {
     map.removeLayer(worldLayer);
     map.addLayer(cityLayer);
 
+    if (activeDistrictLayer) {
+        cityLayer.removeLayer(activeDistrictLayer);
+        activeDistrictLayer = null;
+    }
+
+    const districtLayer = districtLayersByMap.get(normalizedTargetMap) || null;
+    if (districtLayer) {
+        districtLayer.addTo(cityLayer);
+        activeDistrictLayer = districtLayer;
+    }
+
     currentLevel = 'city';
     map.fitBounds(mapBounds);
 
@@ -385,6 +435,10 @@ function handleBackNavigation() {
     map.closePopup();
     
     if (currentLevel === 'city') {
+        if (activeDistrictLayer) {
+            cityLayer.removeLayer(activeDistrictLayer);
+            activeDistrictLayer = null;
+        }
         map.removeLayer(cityLayer);
         map.addLayer(worldLayer);
         currentLevel = 'world';
