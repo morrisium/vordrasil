@@ -5,7 +5,7 @@
     "width": 3828,
     "height": 1028,
     "icon": "images/worldmap_icons/vordrasil.png",
-    "description": "The ancient capital of the realm, built atop towering stone terraces.",
+    "description": "Vordrasil is a unified kingdom born from thousands of years of conflict, magic, and triumph over darkness.\n\nHaving survived the catastrophic wars of the primordial Titans, centuries of feudal human infighting, and the terrifying dark magic of the Shadowed Epoch, the kingdom was finally unified under King Aric Veridian.\n\nNow living in the 'Age of Balance', Vordrasil is a prosperous realm where elven magic, dwarven industry, and human ambition coexist, though the lingering threat of ancient cults and undiscovered ruins keeps the kingdom constantly on its guard.",
     "popupButton": {
       "visible": false,
       "disabled": true,
@@ -19,7 +19,7 @@
     "width": 2374,
     "height": 1488,
     "icon": "images/worldmap_icons/hafngard.png",
-    "description": "A bustling, fortified harbor city nestled along the jagged northern cliffs.",
+    "description": "The restless, roaring heart of Vordrasil's trade, Hafngard is a massive coastal city and a true melting pot of cultures. It is a city built on the ambitions of daring sea captains, the wealth of merchant houses, and the endless pursuit of discovery.",
     "popupButton": {
       "visible": true,
       "disabled": false,
@@ -33,7 +33,7 @@
     "width": 1646,
     "height": 1452,
     "icon": "images/worldmap_icons/mogilsa.png",
-    "description": "A marsh-ridden market city threaded with canals and reed bridges.",
+    "description": "Carved into rugged, windswept hills where the gales never sleep, Mogilsa is a city of martial endurance and deep, spiritual reverence.",
     "popupButton": {
       "visible": true,
       "disabled": false,
@@ -47,12 +47,12 @@
     "width": 220,
     "height": 64,
     "icon": "images/worldmap_icons/gata.png",
-    "description": "A trade crossroads known for its long caravan roads and sprawling bazaars.",
+    "description": "Hidden deep within treacherous, moss-draped marshlands, Gata is a lawless haven for those looking to disappear: smugglers, outcasts, and folk with dangerous secrets.",
     "popupButton": {
       "visible": false,
       "disabled": true,
-      "targetMap": "images/tiles_hafngard",
-      "text": "Enter City Map"
+      "targetMap": "images/tiles_gata",
+      "text": "Enter Gata Town"
     }
   },
   "Drekhammar": {
@@ -61,12 +61,12 @@
     "width": 220,
     "height": 64,
     "icon": "images/worldmap_icons/drekhammar.png",
-    "description": "A grim iron-walled fortress city set in the shadow of volcanic ridges.",
+    "description": "Carved into the roots of the jagged Sentinel Peaks, this ancient dwarven stronghold pulses with heavy industry, unyielding honor, and the roaring fires of Moradin's divine forge.",
     "popupButton": {
       "visible": false,
       "disabled": true,
-      "targetMap": "images/tiles_hafngard",
-      "text": "Enter City Map"
+      "targetMap": "images/tiles_drekhammar",
+      "text": "Enter Drekhammar City"
     }
   },
   "Skaldheim": {
@@ -75,12 +75,12 @@
     "width": 220,
     "height": 64,
     "icon": "images/worldmap_icons/skaldheim.png",
-    "description": "A northern stronghold famed for its warriors, longhouses, and mead halls.",
+    "description": "A proud, towering city of granite and fluttering banners, Skaldheim is the political and historical heart of Vordrasil. Here, the destiny of the kingdom is forged beneath the shadow of the High King's indomitable keep.",
     "popupButton": {
       "visible": false,
       "disabled": true,
-      "targetMap": "images/tiles_hafngard",
-      "text": "Enter City Map"
+      "targetMap": "images/tiles_skaldheim",
+      "text": "Enter Skaldheim Capital City"
     }
   },
   "Greenwood": {
@@ -89,12 +89,12 @@
     "width": 220,
     "height": 64,
     "icon": "images/worldmap_icons/greenwood.png",
-    "description": "A hidden forest settlement wrapped in ancient groves and living green walls.",
+    "description": "A serene elven commune nested directly within the boughs of the living and breathing Runskag Forest. Greenwood is a sanctuary of peace, ancient tradition, and profound isolation, entirely attuned to nature's natural rhythms.",
     "popupButton": {
       "visible": false,
       "disabled": true,
-      "targetMap": "images/tiles_hafngard",
-      "text": "Enter City Map"
+      "targetMap": "images/tiles_greenwood",
+      "text": "Enter Greenwood Town"
     }
   },
   "Galdursheim": {
@@ -103,12 +103,12 @@
     "width": 220,
     "height": 64,
     "icon": "images/worldmap_icons/galdursheim.png",
-    "description": "A radiant city of crystal towers and old arcane tradition.",
+    "description": "Perched high atop floating earthmotes among the clouds, Galdursheim is a breathtaking city of arcane scholars and magical innovation, where knowledge is the true currency.",
     "popupButton": {
       "visible": false,
       "disabled": true,
-      "targetMap": "images/tiles_hafngard",
-      "text": "Enter City Map"
+      "targetMap": "images/tiles_galdursheim",
+      "text": "Enter Galdursheim City"
     }
   },
   "Aquamira": {
@@ -117,12 +117,12 @@
     "width": 220,
     "height": 64,
     "icon": "images/worldmap_icons/aquamira.png",
-    "description": "A luminous sea city built on coral spires and moonlit canals.",
+    "description": "Built along a network of shimmering, interconnected waterways, Aquamira is a vibrant village that thrives on the bounty of the waters and a calendar packed with endless festivals.",
     "popupButton": {
       "visible": false,
       "disabled": true,
-      "targetMap": "images/tiles_hafngard",
-      "text": "Enter City Map"
+      "targetMap": "images/tiles_aquamira",
+      "text": "Enter Aquamira Village"
     }
   },
   "Misthaven": {
@@ -131,12 +131,12 @@
     "width": 220,
     "height": 64,
     "icon": "images/worldmap_icons/misthaven.png",
-    "description": "A cliffside refuge haunted by fog, wind, and forgotten shrines.",
+    "description": "Veiled in a perpetual, silver morning fog, Misthaven is a peaceful lakeside settlement that harbors quiet traditions, eerie local folklore, and a deep reverence for solitude.",
     "popupButton": {
       "visible": false,
       "disabled": true,
-      "targetMap": "images/tiles_hafngard",
-      "text": "Enter City Map"
+      "targetMap": "images/tiles_misthaven",
+      "text": "Enter Misthaven Village"
     }
   },
   "Ruinspire": {
@@ -145,12 +145,12 @@
     "width": 220,
     "height": 64,
     "icon": "images/worldmap_icons/ruinspire.png",
-    "description": "An ash-choked ruin city where broken towers still whisper of old glory.",
+    "description": "Rising from the shattered, obsidian ruins of an ancient fortress, Ruinspire is a mysterious city haunted by a tragic history and half-whispered arcane anomalies.",
     "popupButton": {
       "visible": false,
       "disabled": true,
-      "targetMap": "images/tiles_hafngard",
-      "text": "Enter City Map"
+      "targetMap": "images/tiles_ruinspire",
+      "text": "Enter Ruinspire City"
     }
   },
   "Kaldakinn": {
@@ -159,12 +159,12 @@
     "width": 220,
     "height": 64,
     "icon": "images/worldmap_icons/kaldakinn.png",
-    "description": "A frozen mountain citadel carved into the stone of a snowbound peak.",
+    "description": "A massive fortress-city that stands as Vordrasil's primary shield. Kaldakinn is a hyper-disciplined military stronghold of endless drills and silent vigilance, dedicated entirely to holding the line against hidden dangers before they ever reach the kingdom's borders.",
     "popupButton": {
       "visible": false,
       "disabled": true,
-      "targetMap": "images/tiles_hafngard",
-      "text": "Enter City Map"
+      "targetMap": "images/tiles_kaldakinn",
+      "text": "Enter Kaldakinn City"
     }
   }
 }
