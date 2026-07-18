@@ -214,6 +214,31 @@ body {
     transform: scale(1.05); /* Slight pop-out effect */
 }
 
+#map-controls {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+}
+
+#reset-view-btn {
+    background-color: #2c251e;
+    color: #d4af37;
+    border: 1px solid #d4af37;
+    padding: 8px 14px;
+    font-family: 'Georgia', serif;
+    font-size: 0.95rem;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 6px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+#reset-view-btn:hover {
+    background-color: #d4af37;
+    color: #2c251e;
+}
+
 .leaflet-bottom.leaflet-right {
     display: none !important;
 }

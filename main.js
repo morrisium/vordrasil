@@ -22,7 +22,7 @@ const map = L.map('map', {
     crs: customCRS,
     minZoom: 2,
     maxZoom: maxZoom,
-    maxBounds: bounds,
+    maxBounds: null,
     zoomControl: false,
 
     // --- SMOOTH WHEEL OPTIONS ---
@@ -38,6 +38,22 @@ const map = L.map('map', {
 // Coordinate system bounds remain 100% the same!
 const mapBounds = [[0, 0], [12288, 16384]];
 map.fitBounds(mapBounds);
+
+const getMapCenter = () => [imgHeight / 2, imgWidth / 2];
+
+function resetMapView() {
+    const center = getMapCenter();
+    map.setView(center, map.getMinZoom(), { animate: true });
+    map.fitBounds(mapBounds, { animate: true, padding: [0, 0] });
+}
+
+const resetViewButton = document.getElementById('reset-view-btn');
+
+if (resetViewButton) {
+    resetViewButton.addEventListener('click', () => {
+        resetMapView();
+    });
+}
 
 let currentLevel = 'world';
 
