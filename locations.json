@@ -9,7 +9,8 @@
     "popupButton": {
       "visible": false,
       "disabled": true,
-      "targetMap": ""
+      "targetMap": "",
+      "text": ""
     }
   },
   "Hafngard": {
@@ -22,7 +23,8 @@
     "popupButton": {
       "visible": true,
       "disabled": false,
-      "targetMap": "images/tiles_hafngard"
+      "targetMap": "images/tiles_hafngard",
+      "text": "Enter Hafngard City"
     }
   },
   "Mogilsa": {
@@ -35,7 +37,8 @@
     "popupButton": {
       "visible": true,
       "disabled": false,
-      "targetMap": "images/tiles_mogilsa"
+      "targetMap": "images/tiles_mogilsa",
+      "text": "Enter Mogilsa Town"
     }
   },
   "Gata": {
@@ -48,7 +51,8 @@
     "popupButton": {
       "visible": false,
       "disabled": true,
-      "targetMap": "images/tiles_hafngard"
+      "targetMap": "images/tiles_hafngard",
+      "text": "Enter City Map"
     }
   },
   "Drekhammar": {
@@ -61,7 +65,8 @@
     "popupButton": {
       "visible": false,
       "disabled": true,
-      "targetMap": "images/tiles_hafngard"
+      "targetMap": "images/tiles_hafngard",
+      "text": "Enter City Map"
     }
   },
   "Skaldheim": {
@@ -74,7 +79,8 @@
     "popupButton": {
       "visible": false,
       "disabled": true,
-      "targetMap": "images/tiles_hafngard"
+      "targetMap": "images/tiles_hafngard",
+      "text": "Enter City Map"
     }
   },
   "Greenwood": {
@@ -87,7 +93,8 @@
     "popupButton": {
       "visible": false,
       "disabled": true,
-      "targetMap": "images/tiles_hafngard"
+      "targetMap": "images/tiles_hafngard",
+      "text": "Enter City Map"
     }
   },
   "Galdursheim": {
@@ -100,7 +107,8 @@
     "popupButton": {
       "visible": false,
       "disabled": true,
-      "targetMap": "images/tiles_hafngard"
+      "targetMap": "images/tiles_hafngard",
+      "text": "Enter City Map"
     }
   },
   "Aquamira": {
@@ -113,7 +121,8 @@
     "popupButton": {
       "visible": false,
       "disabled": true,
-      "targetMap": "images/tiles_hafngard"
+      "targetMap": "images/tiles_hafngard",
+      "text": "Enter City Map"
     }
   },
   "Misthaven": {
@@ -126,7 +135,8 @@
     "popupButton": {
       "visible": false,
       "disabled": true,
-      "targetMap": "images/tiles_hafngard"
+      "targetMap": "images/tiles_hafngard",
+      "text": "Enter City Map"
     }
   },
   "Ruinspire": {
@@ -139,7 +149,8 @@
     "popupButton": {
       "visible": false,
       "disabled": true,
-      "targetMap": "images/tiles_hafngard"
+      "targetMap": "images/tiles_hafngard",
+      "text": "Enter City Map"
     }
   },
   "Kaldakinn": {
@@ -152,7 +163,8 @@
     "popupButton": {
       "visible": false,
       "disabled": true,
-      "targetMap": "images/tiles_hafngard"
+      "targetMap": "images/tiles_hafngard",
+      "text": "Enter City Map"
     }
   }
 }
