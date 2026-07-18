@@ -98,33 +98,108 @@
     },
     "districts": [
       {
-        "name": "Veilrest Spiritual District",
-        "x": 3920,
-        "y": 5520,
-        "width": 1100,
-        "height": 760,
-        "icon": "images/hafngard_district_icons/veilrest_spiritual.png",
-        "description": "<enter description>",
-        "popupButton": {
-          "visible": false,
-          "disabled": true,
-          "targetMap": "",
-          "text": "Enter Veilrest Spiritual District"
-        }
-      },
-      {
-        "name": "Merchant Quarter",
-        "x": 4860,
-        "y": 5360,
-        "width": 1080,
-        "height": 720,
-        "icon": "images/worldmap_icons/hafngard.png",
-        "description": "A dense district of guild halls, counting houses, and caravan depots that keeps Hafngard's wealth flowing.",
+        "name": "Hafngard",
+        "x": 3234,
+        "y": 11070,
+        "width": 2832,
+        "height": 738,
+        "icon": "images/hafngard_district_icons/hafngard.png",
+        "description": "From the crest of the final hill along the trade road, the full grandeur of Hafngard reveals itself.\n\nAs the largest and most diverse city in the kingdom of Vordrasil, its high, proud walls of smooth, pale stone rise dramatically from the earth. A vibrant patchwork of Torvheim crops and pastures surround the city and stretch far across the valley. At regular intervals, tall sentry towers jut from the walls, topped with spires of gleaming bronze where the distant shapes of watchful guards scan the horizon.\n\nThe hustle and bustle of this grand city carries far beyond the fortification perimeter, a steady thrum that guides the way toward the main gate: a towering double door of steel-reinforced darkwood.",
         "popupButton": {
           "visible": false,
           "disabled": true,
           "targetMap": "",
           "text": ""
+        }
+      },
+      {
+        "name": "Emberward Noble District",
+        "x": 14230,
+        "y": 10336,
+        "width": 2639,
+        "height": 888,
+        "icon": "images/hafngard_district_icons/emberward_noble.png",
+        "description": "",
+        "popupButton": {
+          "visible": true,
+          "disabled": false,
+          "targetMap": "images/tiles_emberward_district",
+          "text": "Enter Emberward Noble District"
+        }
+      },
+      {
+        "name": "Gullstrand Trade District",
+        "x": 9340,
+        "y": 5970,
+        "width": 2706,
+        "height": 864,
+        "icon": "images/hafngard_district_icons/gullstrand_trade.png",
+        "description": "",
+        "popupButton": {
+          "visible": true,
+          "disabled": false,
+          "targetMap": "images/tiles_gullstrand_district",
+          "text": "Enter Gullstrand Trade District"
+        }
+      },
+	    {
+        "name": "Shrouded Quay District",
+        "x": 1634,
+        "y": 1115,
+        "width": 2752,
+        "height": 612,
+        "icon": "images/hafngard_district_icons/shrouded_quay.png",
+        "description": "",
+        "popupButton": {
+          "visible": false,
+          "disabled": true,
+          "targetMap": "images/tiles_shrouded_quay_district",
+          "text": "Enter Shrouded Quay District"
+        }
+      },
+      {
+        "name": "Skeldhaven Port District",
+        "x": 3408,
+        "y": 7204,
+        "width": 2529,
+        "height": 860,
+        "icon": "images/hafngard_district_icons/skeldhaven_port.png",
+        "description": "The Skeldhaven Port District is Hafngard's bustling western maritime hub, crowded with diverse vessels and alive with the heavy scents of salt, smoke, and foreign trade.",
+        "popupButton": {
+          "visible": true,
+          "disabled": false,
+          "targetMap": "images/tiles_skeldhaven_district",
+          "text": "Enter Skeldhaven Port District"
+        }
+      },
+      {
+        "name": "Thornreach Residential District",
+        "x": 9584,
+        "y": 2115,
+        "width": 5783,
+        "height": 514,
+        "icon": "images/hafngard_district_icons/thornreach_residential.png",
+        "description": "",
+        "popupButton": {
+          "visible": true,
+          "disabled": false,
+          "targetMap": "images/tiles_thornreach_district",
+          "text": "Enter Thornreach Residential District"
+        }
+      },
+	    {
+        "name": "Veilrest Spiritual District",
+        "x": 8294,
+        "y": 10592,
+        "width": 4595,
+        "height": 471,
+        "icon": "images/hafngard_district_icons/veilrest_spiritual.png",
+        "description": "",
+        "popupButton": {
+          "visible": true,
+          "disabled": false,
+          "targetMap": "images/tiles_veilrest_district",
+          "text": "Enter Veilrest Spiritual District"
         }
       }
     ]
