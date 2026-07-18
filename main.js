@@ -161,6 +161,19 @@ const setActiveMarker = (nextMarker) => {
 fetch('locations.json')
   .then(response => response.json())
   .then(data => {
+      // Helper function to safely escape HTML and format newlines
+      const formatDescription = (text) => {
+          // Escape HTML special characters to prevent injection
+          const escaped = String(text || 'A notable location in Vordrasil.')
+              .replace(/&/g, '&amp;')
+              .replace(/</g, '&lt;')
+              .replace(/>/g, '&gt;')
+              .replace(/"/g, '&quot;')
+              .replace(/'/g, '&#039;');
+          // Replace \n with <br> for display
+          return escaped.replace(/\n/g, '<br>');
+      };
+
       const getCityScale = () => Math.pow(2, map.getZoom() - maxZoom);
       const allMarkers = [];
 
@@ -281,7 +294,7 @@ fetch('locations.json')
           marker.bindPopup(`
               <div class="popup-content">
                   <h2>${name}</h2>
-                  <p>${location.description || 'A notable location in Vordrasil.'}</p>
+                  <p>${formatDescription(location.description)}</p>
                   ${buttonHtml}
               </div>
           `);
