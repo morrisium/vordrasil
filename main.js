@@ -272,13 +272,23 @@ fetch('locations.json')
           const marker = L.marker([location.y, location.x], {
               icon: createLocationIcon({ ...location, name }, getCityScale()),
               interactive: true
-          }).addTo(worldLayer);
+          });
 
-          allMarkers.push(marker);
-
-          let iconVisible = !HIDE_ICONS_BY_DEFAULT;
+          // Initialize state BEFORE adding to layer
           marker._isActive = false;
           marker._isHovered = false;
+          let iconVisible = !HIDE_ICONS_BY_DEFAULT;
+
+          // Add to layer
+          marker.addTo(worldLayer);
+
+          // Immediately remove any highlight class
+          const markerEl = marker.getElement();
+          if (markerEl) {
+              markerEl.classList.remove('is-active');
+          }
+
+          allMarkers.push(marker);
 
           const updateIconVisibility = (visible) => {
               const resolvedVisible = !HIDE_ICONS_BY_DEFAULT
@@ -292,6 +302,9 @@ fetch('locations.json')
               markerEl.style.opacity = resolvedVisible ? '1' : '0';
               markerEl.classList.toggle('is-active', marker._isActive);
           };
+
+          // Call once to set initial state
+          updateIconVisibility(iconVisible);
 
           const getIconBounds = () => {
               const point = map.latLngToContainerPoint([location.y, location.x]);
