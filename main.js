@@ -137,10 +137,8 @@ const worldTiles = L.tileLayer('images/tiles_world/{z}/{y}/{x}.png', {
     bounds: mapBounds,
     noWrap: true,
     errorTileUrl: 'images/tiles_world/blank.png',
-
-    // Smooth zoom additions:
-    keepBuffer: 3,         /* Keeps a wider ring of tiles loaded around the view port */
-    updatePrune: false,     /* Prevents Leaflet from aggressively unloading old tiles mid-zoom */
+    keepBuffer: 3,
+    updatePrune: false,
     crossOrigin: false,
     className: 'map-tiles'
 }).addTo(worldLayer);
@@ -170,7 +168,7 @@ fetch('locations.json')
           const width = Math.max(1, Math.round((location.width || 220) * scale));
           const height = Math.max(1, Math.round((location.height || 64) * scale));
           const iconPath = location.icon || 'images/worldmap_icons/default.png';
-          const iconAnchorX = Math.round(width / 2);
+          const iconAnchorX = width / 2;
           const iconAnchorY = height;
 
           return L.divIcon({
@@ -182,7 +180,7 @@ fetch('locations.json')
               `,
               iconSize: [width, height],
               iconAnchor: [iconAnchorX, iconAnchorY],
-              popupAnchor: [0, -Math.round(height)]
+              popupAnchor: [0, -height]
           });
       };
 
@@ -269,14 +267,15 @@ fetch('locations.json')
           map.on('zoomend', updateMarkerScale);
           map.on('mousemove', handleMouseMove);
 
-          const popupButton = location.popupButton || { visible: false, disabled: true, targetMap: '' };
+          const popupButton = location.popupButton || { visible: false, disabled: true, targetMap: '', text: 'Enter City Map' };
           const rawTargetMap = typeof popupButton.targetMap === 'string' ? popupButton.targetMap.trim() : '';
           const normalizedTargetMap = rawTargetMap
               ? rawTargetMap.replace(/\/{z}\/{y}\/{x}\.png$/i, '').replace(/\/$/, '')
               : '';
           const shouldShowButton = popupButton.visible && normalizedTargetMap;
+          const buttonText = typeof popupButton.text === 'string' ? popupButton.text : 'Enter City Map';
           const buttonHtml = shouldShowButton
-              ? `<button onclick="loadCityMap('${normalizedTargetMap}')" class="popup-btn" ${popupButton.disabled ? 'disabled' : ''}>Enter City Map</button>`
+              ? `<button onclick="loadCityMap('${normalizedTargetMap}')" class="popup-btn" ${popupButton.disabled ? 'disabled' : ''}>${buttonText}</button>`
               : '';
 
           marker.bindPopup(`
@@ -308,8 +307,6 @@ const createCityTileLayer = (tileFolder) => L.tileLayer(`${tileFolder}/{z}/{y}/{
     bounds: mapBounds,
     noWrap: true,
     errorTileUrl: 'images/tiles_world/blank.png',
-
-    // Smooth zoom additions:
     keepBuffer: 3,
     updatePrune: false,
     crossOrigin: false,
