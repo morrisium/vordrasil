@@ -1,0 +1,158 @@
+﻿{
+  "Vordrasil": {
+    "x": 2040,
+    "y": 10930,
+    "width": 3828,
+    "height": 1028,
+    "icon": "images/worldmap_icons/vordrasil.png",
+    "description": "The ancient capital of the realm, built atop towering stone terraces.",
+    "popupButton": {
+      "visible": false,
+      "disabled": true,
+      "targetMap": ""
+    }
+  },
+  "Hafngard": {
+    "x": 4085,
+    "y": 5435,
+    "width": 2374,
+    "height": 1488,
+    "icon": "images/worldmap_icons/hafngard.png",
+    "description": "A bustling, fortified harbor city nestled along the jagged northern cliffs.",
+    "popupButton": {
+      "visible": true,
+      "disabled": false,
+      "targetMap": "images/tiles_hafngard"
+    }
+  },
+  "Mogilsa": {
+    "x": 3040,
+    "y": 9235,
+    "width": 1646,
+    "height": 1452,
+    "icon": "images/worldmap_icons/mogilsa.png",
+    "description": "A marsh-ridden market city threaded with canals and reed bridges.",
+    "popupButton": {
+      "visible": true,
+      "disabled": false,
+      "targetMap": "images/tiles_mogilsa"
+    }
+  },
+  "Gata": {
+    "x": 8300,
+    "y": 8800,
+    "width": 220,
+    "height": 64,
+    "icon": "images/worldmap_icons/gata.png",
+    "description": "A trade crossroads known for its long caravan roads and sprawling bazaars.",
+    "popupButton": {
+      "visible": false,
+      "disabled": true,
+      "targetMap": "images/tiles_hafngard"
+    }
+  },
+  "Drekhammar": {
+    "x": 10350,
+    "y": 6300,
+    "width": 220,
+    "height": 64,
+    "icon": "images/worldmap_icons/drekhammar.png",
+    "description": "A grim iron-walled fortress city set in the shadow of volcanic ridges.",
+    "popupButton": {
+      "visible": false,
+      "disabled": true,
+      "targetMap": "images/tiles_hafngard"
+    }
+  },
+  "Skaldheim": {
+    "x": 11850,
+    "y": 5200,
+    "width": 220,
+    "height": 64,
+    "icon": "images/worldmap_icons/skaldheim.png",
+    "description": "A northern stronghold famed for its warriors, longhouses, and mead halls.",
+    "popupButton": {
+      "visible": false,
+      "disabled": true,
+      "targetMap": "images/tiles_hafngard"
+    }
+  },
+  "Greenwood": {
+    "x": 9100,
+    "y": 10400,
+    "width": 220,
+    "height": 64,
+    "icon": "images/worldmap_icons/greenwood.png",
+    "description": "A hidden forest settlement wrapped in ancient groves and living green walls.",
+    "popupButton": {
+      "visible": false,
+      "disabled": true,
+      "targetMap": "images/tiles_hafngard"
+    }
+  },
+  "Galdursheim": {
+    "x": 13300,
+    "y": 7450,
+    "width": 220,
+    "height": 64,
+    "icon": "images/worldmap_icons/galdursheim.png",
+    "description": "A radiant city of crystal towers and old arcane tradition.",
+    "popupButton": {
+      "visible": false,
+      "disabled": true,
+      "targetMap": "images/tiles_hafngard"
+    }
+  },
+  "Aquamira": {
+    "x": 11450,
+    "y": 10050,
+    "width": 220,
+    "height": 64,
+    "icon": "images/worldmap_icons/aquamira.png",
+    "description": "A luminous sea city built on coral spires and moonlit canals.",
+    "popupButton": {
+      "visible": false,
+      "disabled": true,
+      "targetMap": "images/tiles_hafngard"
+    }
+  },
+  "Misthaven": {
+    "x": 7800,
+    "y": 11350,
+    "width": 220,
+    "height": 64,
+    "icon": "images/worldmap_icons/misthaven.png",
+    "description": "A cliffside refuge haunted by fog, wind, and forgotten shrines.",
+    "popupButton": {
+      "visible": false,
+      "disabled": true,
+      "targetMap": "images/tiles_hafngard"
+    }
+  },
+  "Ruinspire": {
+    "x": 9600,
+    "y": 12400,
+    "width": 220,
+    "height": 64,
+    "icon": "images/worldmap_icons/ruinspire.png",
+    "description": "An ash-choked ruin city where broken towers still whisper of old glory.",
+    "popupButton": {
+      "visible": false,
+      "disabled": true,
+      "targetMap": "images/tiles_hafngard"
+    }
+  },
+  "Kaldakinn": {
+    "x": 13800,
+    "y": 9100,
+    "width": 220,
+    "height": 64,
+    "icon": "images/worldmap_icons/kaldakinn.png",
+    "description": "A frozen mountain citadel carved into the stone of a snowbound peak.",
+    "popupButton": {
+      "visible": false,
+      "disabled": true,
+      "targetMap": "images/tiles_hafngard"
+    }
+  }
+}
