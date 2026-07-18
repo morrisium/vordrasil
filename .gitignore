@@ -1,2 +1,4 @@
 /images/*.png
 /images/vips-properties.xml
+/.vscode
+/.venv
