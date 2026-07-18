@@ -1,0 +1,17 @@
+# 1. Slice the World Map
+vips dzsave images/world_map.png images/tiles_world --layout google --suffix .png
+
+# 2. Slice the Hafngard City Map
+vips dzsave images/hafngard.png images/tiles_hafngard --layout google --suffix .png
+
+# 3. Slice the Thornreach District Map
+vips dzsave images/thornreach_district.png images/tiles_thornreach --layout google --suffix .png
+
+What these parameters mean:
+dzsave: The deep-zoom saving utility inside libvips.
+
+--layout google: Generates folders in the z/x/y.png format, which is the default structure Leaflet uses.
+
+--suffix .png: Forces the sliced tile pieces to save as .png images.
+
+After running these, you will see three new folders inside your images/ directory: tiles_world, tiles_hafngard, and tiles_thornreach.
