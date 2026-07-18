@@ -22,30 +22,39 @@ body {
 }
 
 .leaflet-tile-pane {
-    background: #1a1a1a;
     will-change: transform;
 }
 
 .leaflet-tile {
-    background: #1a1a1a;
-    /*image-rendering: -webkit-optimize-contrast;
-    image-rendering: optimize-contrast;*/
-    image-rendering: pixelated; /* Perfect sharp rendering for your custom tile art */
+    /* 
+       THE FIX: Stripped the background color entirely from the tile element. 
+       This eliminates the dark anti-aliasing frame artifact.
+    */
+    background: transparent !important; 
+    
+    /* 
+       THE OVERLAP: Bumped to 1.01 (a 1% enlargement).
+       On a standard 256px tile, this creates a clean ~2.5 physical pixel overlap.
+       This is the sweet spot to completely swallow sub-pixel fractional gaps 
+       on high-DPI mobile screens without distorting your map details.
+    */
+    scale: 1.01; 
 
-    /* Force GPU layers to prevent subpixel edge flashing */
+    margin: 0 !important;
+    padding: 0 !important;
+
+    /* High-quality smooth scaling for illustrative map textures */
+    image-rendering: auto; 
+
     backface-visibility: hidden;
     -webkit-backface-visibility: hidden;
-    /*transform-style: preserve-3d;*/
-    transform-style: flat; /* Changing to flat coordinates for discrete steps */
+    transform-style: flat;
 }
 
 .leaflet-container img.map-tiles {
-    image-rendering: pixelated;
-    
-    /* Remove the artificial scale scale override */
-    scale: none; 
-    
-    /* Prevent any browser-side image padding adjustments */
+    background: transparent !important;
+    image-rendering: auto;
+    scale: 1.01; /* Must match the parent tile scale factor exactly */
     padding: 0 !important;
 }
 
@@ -55,7 +64,7 @@ body {
 }
 
 .map-tiles {
-    box-shadow: 0 0 0.6px #1a1a1a; /* Matches your map background color precisely */
+    outline: 1px solid transparent; /* Smooths out GPU layer clipping edges */
 }
 
 /* Custom styling for the fantasy popups */

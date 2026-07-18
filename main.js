@@ -26,16 +26,12 @@ const map = L.map('map', {
     zoomControl: false,
 
     // --- SMOOTH WHEEL OPTIONS ---
-    /*scrollWheelZoom: false,    // 1. Disable Leaflet's native jumpy zoom
+    scrollWheelZoom: false,    // 1. Disable Leaflet's native jumpy zoom
     smoothWheelZoom: true,     // 2. Enable the smooth momentum zoom plugin
     smoothSensitivity: 1.2,    // 3. Zoom speed/sensitivity (Adjust to taste! 1 is standard, higher is faster)
-    */
-    // --- DISCRETE ZOOM OPTIONS ---
-    scrollWheelZoom: true,     // 1. Re-enable Leaflet's native crisp step zoom
-    smoothWheelZoom: false,    // 2. Disable the smooth momentum fractional plugin
 
     // --- MAP SNAP OPTIONS ---
-    zoomSnap: 1,               // 4. Snap to whole zoom levels so the generated tile folders match the requested URLs
+    zoomSnap: 0,               // 4. Snap to whole zoom levels so the generated tile folders match the requested URLs
     zoomDelta: 1               // 5. Keeps keyboard hotkeys (+ / -) zoom steps aligned with the tile set
 });
 
