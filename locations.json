@@ -26,6 +26,13 @@
       "targetMap": "images/tiles_aquamira",
       "text": "Enter Village of Aquamira"
     }
+    ,
+    "notable_characters": [
+      {
+        "name": "Marin Tidewalker",
+        "description": "A charismatic festival bard known for leading the spring regatta and calming the river spirits."
+      }
+    ]
   },
   "Drekhammar": {
     "x": 8900,
@@ -96,6 +103,16 @@
       "targetMap": "images/tiles_hafngard",
       "text": "Enter City of Hafngard"
     },
+    "notable_characters": [
+      {
+        "name": "Captain Maren Voss",
+        "description": "Hafngard's reputed harbormaster, famed for negotiating safe passage with coastal guilds and stern discipline."
+      },
+      {
+        "name": "High Priestess Elira",
+        "description": "Spiritual leader of the Veilrest order, she is often seen blessing ships before they depart."
+      }
+    ],
     "districts": [
       {
         "name": "Hafngard",
@@ -120,6 +137,12 @@
         "height": 888,
         "icon": "images/hafngard_district_icons/emberward_noble.png",
         "description": "",
+        "notable_characters": [
+          {
+            "name": "Lady Seraphine Ember",
+            "description": "A prominent noble who oversees Emberward's ceremonial courts and lavish festivals."
+          }
+        ],
         "popupButton": {
           "visible": true,
           "disabled": false,

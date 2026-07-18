@@ -8,7 +8,7 @@ const HIDE_ICONS_BY_DEFAULT = true;
 
 // DEBUG: Change this to load a different map on first load
 // Options: 'world', 'hafngard', 'mogilsa', 'thornreach', etc.
-const DEBUG_INITIAL_MAP = 'hafngard';
+const DEBUG_INITIAL_MAP = 'skeldhaven_district';
 
 // 2. Create a custom CRS that perfectly aligns bottom-up map coordinates with top-down image tiles
 const customCRS = L.extend({}, L.CRS.Simple, {
@@ -283,7 +283,7 @@ fetch('locations.json')
       const getCityScale = () => Math.pow(2, map.getZoom() - maxZoom);
       const allMarkers = [];
 
-      const createPopupContent = (title, description, popupButton, targetMap = '') => {
+      const createPopupContent = (title, description, popupButton, targetMap = '', notableCharacters = []) => {
           const rawTargetMap = typeof popupButton?.targetMap === 'string' ? popupButton.targetMap.trim() : '';
           const normalizedTargetMap = rawTargetMap
               ? rawTargetMap.replace(/\/{z}\/\{y}\/\{x}\.png$/i, '').replace(/\/$/, '')
@@ -294,11 +294,34 @@ fetch('locations.json')
               ? `<button onclick="loadCityMap('${normalizedTargetMap}')" class="popup-btn" ${popupButton.disabled ? 'disabled' : ''}>${buttonText}</button>`
               : '';
 
+          // Render notable characters section only when provided and non-empty
+          let notableHtml = '';
+          if (Array.isArray(notableCharacters) && notableCharacters.length) {
+              const items = notableCharacters.map(c => {
+                  const name = formatDescription(c.name || 'Unnamed');
+                  const desc = formatDescription(c.description || '');
+                  return `<li><strong>${name}</strong><div class="char-desc">${desc}</div></li>`;
+              }).join('');
+
+              notableHtml = `
+                  <div class="popup-separator" aria-hidden="true"></div>
+                  <div class="popup-notable-characters">
+                      <h3>Notable characters</h3>
+                      <ul>${items}</ul>
+                  </div>
+              `;
+          }
+
           return `
               <div class="popup-content">
-                  <h2>${title}</h2>
-                  <p>${formatDescription(description)}</p>
-                  ${buttonHtml}
+                  <div class="popup-main">
+                      <h2>${title}</h2>
+                      <p>${formatDescription(description)}</p>
+                      ${notableHtml}
+                  </div>
+                  <div class="popup-footer">
+                      ${buttonHtml}
+                  </div>
               </div>
           `;
       };
@@ -354,7 +377,7 @@ fetch('locations.json')
               initializeIconVisibility(districtMarker, getIconBounds);
 
               const districtPopupButton = district.popupButton || { visible: false, disabled: true, targetMap: '', text: 'Enter City Map' };
-              districtMarker.bindPopup(createPopupContent(district.name, district.description, districtPopupButton, popupTargetMap));
+              districtMarker.bindPopup(createPopupContent(district.name, district.description, districtPopupButton, popupTargetMap, district.notable_characters || []));
 
               const updateDistrictScale = () => {
                   const scale = getCityScale();
@@ -423,7 +446,7 @@ fetch('locations.json')
           const normalizedTargetMap = rawTargetMap
               ? rawTargetMap.replace(/\/{z}\/{y}\/{x}\.png$/i, '').replace(/\/$/, '')
               : '';
-          marker.bindPopup(createPopupContent(name, location.description, popupButton, normalizedTargetMap));
+          marker.bindPopup(createPopupContent(name, location.description, popupButton, normalizedTargetMap, location.notable_characters || []));
           createDistrictLayer(location, normalizedTargetMap);
 
           marker.on('click', () => setActiveMarker(marker));
