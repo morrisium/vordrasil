@@ -6,6 +6,10 @@ const maxZoom = 6;
 // Set this to true if icons should start hidden until the cursor enters their area.
 const HIDE_ICONS_BY_DEFAULT = true;
 
+// DEBUG: Change this to load a different map on first load
+// Options: 'world', 'hafngard', 'mogilsa', 'thornreach', etc.
+const DEBUG_INITIAL_MAP = 'hafngard';
+
 // 2. Create a custom CRS that perfectly aligns bottom-up map coordinates with top-down image tiles
 const customCRS = L.extend({}, L.CRS.Simple, {
     transformation: new L.Transformation(1 / 64, 0, -1 / 64, 192)
@@ -55,11 +59,24 @@ if (resetViewButton) {
     });
 }
 
+// Hide back button on init
+document.getElementById('back-btn').style.display = 'none';
+
 let currentLevel = 'world';
 
 // Create Layer Groups
-const worldLayer = L.layerGroup().addTo(map); 
+const worldLayer = L.layerGroup();
 const cityLayer = L.layerGroup();
+
+// Add initial layer based on DEBUG setting
+if (DEBUG_INITIAL_MAP === 'world') {
+    worldLayer.addTo(map);
+    currentLevel = 'world';
+} else {
+    cityLayer.addTo(map);
+    currentLevel = 'city';
+}
+
 let activeCityTileLayer = null;
 let activeDistrictLayer = null;
 
@@ -83,6 +100,69 @@ function renderMarkerSprite(canvas, spriteX, spriteY) {
     context.drawImage(iconAtlas, Math.round(spriteX), Math.round(spriteY), width, height, 0, 0, width, height);
 }
 
+function initializeIconVisibility(marker, getIconBounds) {
+    marker._isActive = false;
+    marker._isHovered = false;
+    let iconVisible = !HIDE_ICONS_BY_DEFAULT;
+
+    const updateIconVisibility = (visible) => {
+        const resolvedVisible = !HIDE_ICONS_BY_DEFAULT ? true : marker._isActive || marker._isHovered || visible;
+        iconVisible = visible;
+
+        const markerEl = marker.getElement();
+        if (!markerEl) return;
+
+        markerEl.style.opacity = resolvedVisible ? '1' : '0';
+        markerEl.classList.toggle('is-active', marker._isActive);
+    };
+
+    marker._setActive = (isActive) => {
+        marker._isActive = !!isActive;
+        if (!isActive) marker._isHovered = false;
+        updateIconVisibility(iconVisible);
+    };
+
+    marker._setHovered = (isHovered) => {
+        marker._isHovered = !!isHovered;
+        updateIconVisibility(iconVisible);
+    };
+
+    marker._refreshIconVisibility = () => {
+        updateIconVisibility(iconVisible);
+    };
+
+    marker.on('add', () => {
+        updateIconVisibility(iconVisible);
+    });
+
+    if (typeof getIconBounds === 'function') {
+        const handleMouseMove = (e) => {
+            if (!HIDE_ICONS_BY_DEFAULT) return;
+            const point = map.mouseEventToContainerPoint(e.originalEvent);
+            if (activeMarker === marker) {
+                marker._setHovered(true);
+                return;
+            }
+            marker._setHovered(getIconBounds(point));
+        };
+
+        const attachMouseMove = () => map.on('mousemove', handleMouseMove);
+        const detachMouseMove = () => map.off('mousemove', handleMouseMove);
+
+        marker.on('add', attachMouseMove);
+        marker.on('remove', detachMouseMove);
+    } else {
+        marker.on('mouseover', () => {
+            if (HIDE_ICONS_BY_DEFAULT) marker._setHovered(true);
+        });
+        marker.on('mouseout', () => {
+            if (HIDE_ICONS_BY_DEFAULT) marker._setHovered(false);
+        });
+    }
+
+    updateIconVisibility(iconVisible);
+}
+
 function createInteractiveIconOverlayMarker(latlng, spriteX, spriteY, width = 220, height = 64, baseZoom = 2) {
     const baseIconHtml = `
                 <div class="location-marker-wrap">
@@ -99,8 +179,13 @@ function createInteractiveIconOverlayMarker(latlng, spriteX, spriteY, width = 22
 
     const marker = L.marker(latlng, {
         icon: createIcon(),
-        interactive: false,
+        interactive: true,
         draggable: false
+    });
+
+    initializeIconVisibility(marker);
+    marker.on('click', () => {
+        if (HIDE_ICONS_BY_DEFAULT) marker._setActive(true);
     });
 
     let zoomHandler = null;
@@ -121,6 +206,9 @@ function createInteractiveIconOverlayMarker(latlng, spriteX, spriteY, width = 22
             const zoomScale = Math.pow(2, map.getZoom() - baseZoom);
             wrap.style.transform = `scale(${zoomScale})`;
             marker.setIcon(createIcon());
+            if (typeof marker._refreshIconVisibility === 'function') {
+                marker._refreshIconVisibility();
+            }
         };
 
         updateScale();
@@ -249,18 +337,45 @@ fetch('locations.json')
                   interactive: true
               }).addTo(districtLayer);
 
+              const getIconBounds = (point) => {
+                  const locationPoint = map.latLngToContainerPoint([district.y, district.x]);
+                  const scale = getCityScale();
+                  const width = (district.width || 220) * scale;
+                  const height = (district.height || 64) * scale;
+                  const anchorX = Math.round(width / 2);
+                  const anchorY = Math.round(height);
+
+                  return point.x >= locationPoint.x - anchorX &&
+                      point.x <= locationPoint.x + (width - anchorX) &&
+                      point.y >= locationPoint.y - anchorY &&
+                      point.y <= locationPoint.y + (height - anchorY);
+              };
+
+              initializeIconVisibility(districtMarker, getIconBounds);
+
               const districtPopupButton = district.popupButton || { visible: false, disabled: true, targetMap: '', text: 'Enter City Map' };
               districtMarker.bindPopup(createPopupContent(district.name, district.description, districtPopupButton, popupTargetMap));
 
               const updateDistrictScale = () => {
                   const scale = getCityScale();
                   districtMarker.setIcon(createLocationIcon({ ...district, name: district.name }, scale));
+                  if (typeof districtMarker._refreshIconVisibility === 'function') {
+                      districtMarker._refreshIconVisibility();
+                  }
               };
 
               districtMarker.on('add', updateDistrictScale);
               map.on('zoomend', updateDistrictScale);
               districtMarker.on('remove', () => {
                   map.off('zoomend', updateDistrictScale);
+              });
+
+              districtMarker.on('click', () => setActiveMarker(districtMarker));
+              districtMarker.on('popupopen', () => setActiveMarker(districtMarker));
+              districtMarker.on('popupclose', () => {
+                  if (activeMarker === districtMarker) {
+                      setActiveMarker(null);
+                  }
               });
           });
 
@@ -274,90 +389,34 @@ fetch('locations.json')
               interactive: true
           });
 
-          // Initialize state BEFORE adding to layer
-          marker._isActive = false;
-          marker._isHovered = false;
-          let iconVisible = !HIDE_ICONS_BY_DEFAULT;
-
-          // Add to layer
-          marker.addTo(worldLayer);
-
-          // Immediately remove any highlight class
-          const markerEl = marker.getElement();
-          if (markerEl) {
-              markerEl.classList.remove('is-active');
-          }
-
-          allMarkers.push(marker);
-
-          const updateIconVisibility = (visible) => {
-              const resolvedVisible = !HIDE_ICONS_BY_DEFAULT
-                  ? true
-                  : marker._isActive || marker._isHovered || visible;
-
-              iconVisible = visible;
-              const markerEl = marker.getElement();
-              if (!markerEl) return;
-
-              markerEl.style.opacity = resolvedVisible ? '1' : '0';
-              markerEl.classList.toggle('is-active', marker._isActive);
-          };
-
-          // Call once to set initial state
-          updateIconVisibility(iconVisible);
-
-          const getIconBounds = () => {
-              const point = map.latLngToContainerPoint([location.y, location.x]);
+          const getIconBounds = (point) => {
+              const locationPoint = map.latLngToContainerPoint([location.y, location.x]);
               const scale = getCityScale();
               const width = (location.width || 220) * scale;
               const height = (location.height || 64) * scale;
               const anchorX = Math.round(width / 2);
               const anchorY = Math.round(height);
 
-              return {
-                  left: point.x - anchorX,
-                  right: point.x + (width - anchorX),
-                  top: point.y - anchorY,
-                  bottom: point.y + (height - anchorY)
-              };
+              return point.x >= locationPoint.x - anchorX &&
+                  point.x <= locationPoint.x + (width - anchorX) &&
+                  point.y >= locationPoint.y - anchorY &&
+                  point.y <= locationPoint.y + (height - anchorY);
           };
 
-          const isPointInIconArea = (point) => {
-              const bounds = getIconBounds();
-              return point.x >= bounds.left && point.x <= bounds.right && point.y >= bounds.top && point.y <= bounds.bottom;
-          };
+          initializeIconVisibility(marker, getIconBounds);
+          marker.addTo(worldLayer);
+          allMarkers.push(marker);
 
           const updateMarkerScale = () => {
               const scale = getCityScale();
               marker.setIcon(createLocationIcon({ ...location, name }, scale));
-              updateIconVisibility(iconVisible);
-          };
-
-          marker._setActive = (isActive) => {
-              marker._isActive = !!isActive;
-              if (!isActive) {
-                  marker._isHovered = false;
+              if (typeof marker._refreshIconVisibility === 'function') {
+                  marker._refreshIconVisibility();
               }
-              updateIconVisibility(iconVisible);
           };
 
-          marker._setHovered = (isHovered) => {
-              marker._isHovered = !!isHovered;
-              updateIconVisibility(iconVisible);
-          };
-
-          const handleMouseMove = (e) => {
-              if (!HIDE_ICONS_BY_DEFAULT) return;
-              const point = map.mouseEventToContainerPoint(e.originalEvent);
-              if (activeMarker === marker) {
-                  marker._setHovered(true);
-                  return;
-              }
-              marker._setHovered(isPointInIconArea(point));
-          };
-
+          marker.on('add', updateMarkerScale);
           map.on('zoomend', updateMarkerScale);
-          map.on('mousemove', handleMouseMove);
 
           const popupButton = location.popupButton || { visible: false, disabled: true, targetMap: '', text: 'Enter City Map' };
           const rawTargetMap = typeof popupButton.targetMap === 'string' ? popupButton.targetMap.trim() : '';
@@ -375,6 +434,13 @@ fetch('locations.json')
               }
           });
       });
+
+      // DEBUG: Load initial map based on DEBUG_INITIAL_MAP setting
+      if (DEBUG_INITIAL_MAP !== 'world') {
+          const mapPath = `images/tiles_${DEBUG_INITIAL_MAP}`;
+          loadCityMap(mapPath);
+          console.log(`DEBUG: Loaded ${DEBUG_INITIAL_MAP} on init`);
+      }
   })
   .catch(err => console.error("Could not load locations.json. Make sure to generate it first! ", err));
 
