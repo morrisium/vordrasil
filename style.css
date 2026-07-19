@@ -45,6 +45,40 @@ body {
     pointer-events: auto;
 }
 
+body.mobile-view #top-search {
+    top: 14px;
+    padding: 0 12px;
+}
+
+body.mobile-view .search-bar {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+}
+
+body.mobile-view #search-input {
+    font-size: 0.92rem;
+}
+
+body.mobile-view #map-controls {
+    top: 65px;
+    right: 10px;
+}
+
+body.mobile-view #back-btn {
+    top: 65px;
+    left: 10px;
+}
+
+body.mobile-view #popup-panel {
+    top: 130px;
+}
+
+body.desktop-view #map-controls {
+    top: 20px;
+    right: 20px;
+}
+
 #search-input {
     flex: 1;
     border: none;
@@ -339,7 +373,7 @@ body {
     border: 2px solid #d4af37;
     padding: 10px 20px;
     font-family: 'Georgia', serif;
-    font-size: 1rem;
+    font-size: 0.95rem;
     font-weight: bold;
     cursor: pointer;
     border-radius: 6px;
@@ -600,20 +634,49 @@ body {
     left: 0;
     right: auto;
     bottom: 90px;
-    width: 340px;
-    max-width: 40%;
+    width: min(420px, 40vw);
+    min-width: 300px;
+    max-width: calc(100vw - 24px);
+    box-sizing: border-box;
     background: rgba(44, 37, 30, 0.98);
     color: #f4ecd8;
     border: 2px solid #d4af37;
     border-radius: 0 10px 10px 0;
     box-shadow: 10px 0 45px rgba(0, 0, 0, 0.55);
-    padding: 16px 16px 16px 16px;
+    padding: 16px;
     overflow-y: auto;
+    overflow-x: hidden;
+    word-break: break-word;
+    overflow-wrap: anywhere;
     z-index: 1050;
     transform: translateX(-100%);
     opacity: 0;
     pointer-events: none;
     transition: transform 0.25s ease, opacity 0.25s ease;
+}
+
+#popup-panel, #popup-panel * {
+    box-sizing: border-box;
+    white-space: normal !important;
+}
+
+#popup-panel .panel-body,
+#popup-panel .popup-content,
+#popup-panel .popup-content p,
+#popup-panel .popup-content li,
+#popup-panel .popup-content h2,
+#popup-panel .popup-content h3,
+#popup-panel .popup-content strong,
+#popup-panel .popup-content .char-desc,
+#popup-panel .popup-content .event-desc {
+    max-width: 100%;
+    overflow-wrap: break-word;
+    word-break: break-word;
+}
+
+#popup-panel .popup-content ul {
+    padding-left: 18px;
+    max-width: 100%;
 }
 
 #popup-panel.right {

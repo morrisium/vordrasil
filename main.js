@@ -66,6 +66,20 @@ window.panelMode = panelMode;
 window.panelSideRight = panelSideRight;
 let justClickedMarker = false;
 
+function isMobileViewport() {
+    return window.matchMedia('(max-width: 767px)').matches;
+}
+
+function updateViewportMode() {
+    const mobile = isMobileViewport();
+    document.body.classList.toggle('mobile-view', mobile);
+    document.body.classList.toggle('desktop-view', !mobile);
+}
+
+window.addEventListener('resize', updateViewportMode);
+window.addEventListener('orientationchange', updateViewportMode);
+updateViewportMode();
+
 // --- Cookie helpers for simple settings persistence ---
 function setCookie(name, value, days = 365) {
     const d = new Date();
