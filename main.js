@@ -8,7 +8,7 @@ const HIDE_ICONS_BY_DEFAULT = true;
 
 // DEBUG: Change this to load a different map on first load
 // Options: 'world', 'hafngard', 'mogilsa', 'thornreach', etc.
-const DEBUG_INITIAL_MAP = 'skeldhaven_district';
+const DEBUG_INITIAL_MAP = 'world';
 
 // 2. Create a custom CRS that perfectly aligns bottom-up map coordinates with top-down image tiles
 const customCRS = L.extend({}, L.CRS.Simple, {
@@ -79,6 +79,29 @@ if (DEBUG_INITIAL_MAP === 'world') {
 
 let activeCityTileLayer = null;
 let activeDistrictLayer = null;
+let currentMapTarget = '';
+const mapInfoByTarget = new Map();
+
+const getBackButtonLabel = () => {
+    if (!currentMapTarget) {
+        return '';
+    }
+    const currentInfo = mapInfoByTarget.get(currentMapTarget);
+    const parentTarget = currentInfo?.parent;
+    if (!parentTarget || parentTarget === 'world') {
+        return '← Back to World Map';
+    }
+    return `← Back to ${mapInfoByTarget.get(parentTarget)?.name || 'Previous Area'}`;
+};
+const updateBackButton = () => {
+    const backBtn = document.getElementById('back-btn');
+    if (!currentMapTarget) {
+        backBtn.style.display = 'none';
+        return;
+    }
+    backBtn.style.display = 'block';
+    backBtn.innerText = getBackButtonLabel();
+};
 
 const iconAtlas = new Image();
 iconAtlas.src = 'images/iconstext.png';
@@ -280,8 +303,36 @@ fetch('locations.json')
           return escaped.replace(/\n/g, '<br>');
       };
 
+      const normalizeTargetMap = (rawTargetMap) => {
+          const trimmed = typeof rawTargetMap === 'string' ? rawTargetMap.trim() : '';
+          return trimmed ? trimmed.replace(/\/{z}\/\{y}\/\{x}\.png$/i, '').replace(/\/$/, '') : '';
+      };
+
+      const registerMapHierarchy = (locations) => {
+          Object.entries(locations).forEach(([name, location]) => {
+              const rootTarget = normalizeTargetMap(location?.popupButton?.targetMap);
+              if (rootTarget) {
+                  mapInfoByTarget.set(rootTarget, { name, parent: 'world' });
+              }
+
+              if (Array.isArray(location.districts)) {
+                  location.districts.forEach((district) => {
+                      const districtTarget = normalizeTargetMap(district?.popupButton?.targetMap);
+                      if (districtTarget) {
+                          mapInfoByTarget.set(districtTarget, {
+                              name: district.name,
+                              parent: rootTarget || 'world'
+                          });
+                      }
+                  });
+              }
+          });
+      };
+
       const getCityScale = () => Math.pow(2, map.getZoom() - maxZoom);
       const allMarkers = [];
+
+      registerMapHierarchy(data);
 
       const createPopupContent = (title, description, popupButton, targetMap = '', notableCharacters = []) => {
           const rawTargetMap = typeof popupButton?.targetMap === 'string' ? popupButton.targetMap.trim() : '';
@@ -377,6 +428,13 @@ fetch('locations.json')
               initializeIconVisibility(districtMarker, getIconBounds);
 
               const districtPopupButton = district.popupButton || { visible: false, disabled: true, targetMap: '', text: 'Enter City Map' };
+              const districtRawTarget = typeof districtPopupButton.targetMap === 'string' ? districtPopupButton.targetMap.trim() : '';
+              const normalizedDistrictTarget = districtRawTarget
+                  ? districtRawTarget.replace(/\/{z}\/\{y}\/\{x}\.png$/i, '').replace(/\/$/, '')
+                  : '';
+              if (normalizedDistrictTarget) {
+                  mapInfoByTarget.set(normalizedDistrictTarget, { name: district.name, parent: popupTargetMap });
+              }
               districtMarker.bindPopup(createPopupContent(district.name, district.description, districtPopupButton, popupTargetMap, district.notable_characters || []));
 
               const updateDistrictScale = () => {
@@ -446,6 +504,9 @@ fetch('locations.json')
           const normalizedTargetMap = rawTargetMap
               ? rawTargetMap.replace(/\/{z}\/{y}\/{x}\.png$/i, '').replace(/\/$/, '')
               : '';
+          if (normalizedTargetMap) {
+              mapInfoByTarget.set(normalizedTargetMap, { name, parent: 'world' });
+          }
           marker.bindPopup(createPopupContent(name, location.description, popupButton, normalizedTargetMap, location.notable_characters || []));
           createDistrictLayer(location, normalizedTargetMap);
 
@@ -508,6 +569,8 @@ function loadCityMap(targetMap = '') {
         cityLayer.removeLayer(activeCityTileLayer);
     }
 
+    currentMapTarget = normalizedTargetMap;
+
     activeCityTileLayer = createCityTileLayer(normalizedTargetMap);
     activeCityTileLayer.addTo(cityLayer);
 
@@ -527,26 +590,37 @@ function loadCityMap(targetMap = '') {
 
     currentLevel = 'city';
     map.fitBounds(mapBounds);
-
-    const backBtn = document.getElementById('back-btn');
-    backBtn.style.display = 'block';
-    backBtn.innerText = '← Back to World Map';
+    updateBackButton();
 }
 
 function handleBackNavigation() {
     map.closePopup();
-    
-    if (currentLevel === 'city') {
+
+    if (!currentMapTarget) {
+        return;
+    }
+
+    const parentTarget = mapInfoByTarget.get(currentMapTarget)?.parent;
+    if (!parentTarget || parentTarget === 'world') {
         if (activeDistrictLayer) {
             cityLayer.removeLayer(activeDistrictLayer);
             activeDistrictLayer = null;
         }
+        if (activeCityTileLayer) {
+            cityLayer.removeLayer(activeCityTileLayer);
+            activeCityTileLayer = null;
+        }
         map.removeLayer(cityLayer);
         map.addLayer(worldLayer);
         currentLevel = 'world';
+        currentMapTarget = '';
+        currentMapLabel = '';
         map.fitBounds(mapBounds);
-        document.getElementById('back-btn').style.display = 'none';
+        updateBackButton();
+        return;
     }
+
+    loadCityMap(parentTarget);
 }
 
 
