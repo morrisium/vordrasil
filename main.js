@@ -24,7 +24,7 @@ const bounds = [
 // 4. Initialize the map using our smart custom CRS and smooth wheel zooming
 const map = L.map('map', {
     crs: customCRS,
-    minZoom: 2,
+    minZoom: 0,
     maxZoom: maxZoom,
     maxBounds: null,
     zoomControl: false,
@@ -590,7 +590,7 @@ function createInteractiveIconOverlayMarker(latlng, spriteX, spriteY, width = 22
 
 // FIXED: Corrected path to {z}/{y}/{x}.png, removed duplicate/invalid crs option
 const worldTiles = L.tileLayer('images/tiles_world/{z}/{y}/{x}.png', {
-    minZoom: 2,
+    minZoom: 0,
     maxZoom: 6,
     bounds: mapBounds,
     noWrap: true,
@@ -1066,7 +1066,7 @@ fetch('locations.json')
 // ==========================================
 
 const createCityTileLayer = (tileFolder) => L.tileLayer(`${tileFolder}/{z}/{y}/{x}.png`, {
-    minZoom: 2,
+    minZoom: 0,
     maxZoom: 6,
     bounds: mapBounds,
     noWrap: true,
