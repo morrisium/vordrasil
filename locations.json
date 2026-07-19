@@ -27,11 +27,21 @@
       "text": "Enter Village of Aquamira"
     }
     ,
-    "notable_characters": [
+	"key_events": [
+      /*{
+        "name": "Midsummer Regatta",
+        "description": "A vibrant boat race held annually along the city's winding canals, drawing merchants, champions, and river spirits."
+      },
       {
+        "name": "Waterfall Blessing",
+        "description": "Priests of the river perform a sacred ritual to protect the village from drought and ensure the farms flourish."
+      }*/
+    ],
+    "notable_characters": [
+      /*{
         "name": "Marin Tidewalker",
         "description": "A charismatic festival bard known for leading the spring regatta and calming the river spirits."
-      }
+      }*/
     ]
   },
   "Drekhammar": {
@@ -104,14 +114,15 @@
       "text": "Enter City of Hafngard"
     },
     "notable_characters": [
-      {
+	  //Save for later
+      /*{
         "name": "Captain Maren Voss",
         "description": "Hafngard's reputed harbormaster, famed for negotiating safe passage with coastal guilds and stern discipline."
       },
       {
         "name": "High Priestess Elira",
         "description": "Spiritual leader of the Veilrest order, she is often seen blessing ships before they depart."
-      }
+      }*/
     ],
     "districts": [
       {
@@ -137,18 +148,24 @@
         "height": 888,
         "icon": "images/hafngard_district_icons/emberward_noble.png",
         "description": "",
-        "notable_characters": [
-          {
-            "name": "Lady Seraphine Ember",
-            "description": "A prominent noble who oversees Emberward's ceremonial courts and lavish festivals."
-          }
-        ],
         "popupButton": {
           "visible": true,
           "disabled": false,
           "targetMap": "images/tiles_emberward_district",
           "text": "Enter Emberward Noble District"
-        }
+        },
+		"key_events": [
+          /*{
+            "name": "Council Banquet",
+            "description": "Nobles gather in Emberward Hall to settle disputes and display opulent pageantry."
+          }*/
+        ],
+		"notable_characters": [
+          /*{
+            "name": "Lady Seraphine Ember",
+            "description": "A prominent noble who oversees Emberward's ceremonial courts and lavish festivals."
+          }*/
+        ]
       },
       {
         "name": "Gullstrand Trade District",

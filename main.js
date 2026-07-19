@@ -287,9 +287,16 @@ const setActiveMarker = (nextMarker) => {
     }
 };
 
+const stripJsonComments = (jsonText) => {
+    return jsonText
+        .replace(/\/\*[\s\S]*?\*\//g, '')
+        .replace(/\/\/.*$/gm, '');
+};
+
 fetch('locations.json')
-  .then(response => response.json())
-  .then(data => {
+  .then(response => response.text())
+  .then(text => {
+      const data = JSON.parse(stripJsonComments(text));
       // Helper function to safely escape HTML and format newlines
       const formatDescription = (text) => {
           // Escape HTML special characters to prevent injection
@@ -334,7 +341,7 @@ fetch('locations.json')
 
       registerMapHierarchy(data);
 
-      const createPopupContent = (title, description, popupButton, targetMap = '', notableCharacters = []) => {
+      const createPopupContent = (title, description, popupButton, targetMap = '', notableCharacters = [], keyEvents = []) => {
           const rawTargetMap = typeof popupButton?.targetMap === 'string' ? popupButton.targetMap.trim() : '';
           const normalizedTargetMap = rawTargetMap
               ? rawTargetMap.replace(/\/{z}\/\{y}\/\{x}\.png$/i, '').replace(/\/$/, '')
@@ -363,11 +370,29 @@ fetch('locations.json')
               `;
           }
 
+          let keyEventsHtml = '';
+          if (Array.isArray(keyEvents) && keyEvents.length) {
+              const items = keyEvents.map(c => {
+                  const name = formatDescription(c.name || 'Unnamed Event');
+                  const desc = formatDescription(c.description || '');
+                  return `<li><strong>${name}</strong><div class="event-desc">${desc}</div></li>`;
+              }).join('');
+
+              keyEventsHtml = `
+                  <div class="popup-separator" aria-hidden="true"></div>
+                  <div class="popup-key-events">
+                      <h3>Key events</h3>
+                      <ul>${items}</ul>
+                  </div>
+              `;
+          }
+
           return `
               <div class="popup-content">
                   <div class="popup-main">
                       <h2>${title}</h2>
                       <p>${formatDescription(description)}</p>
+                      ${keyEventsHtml}
                       ${notableHtml}
                   </div>
                   <div class="popup-footer">
@@ -435,7 +460,14 @@ fetch('locations.json')
               if (normalizedDistrictTarget) {
                   mapInfoByTarget.set(normalizedDistrictTarget, { name: district.name, parent: popupTargetMap });
               }
-              districtMarker.bindPopup(createPopupContent(district.name, district.description, districtPopupButton, popupTargetMap, district.notable_characters || []));
+              districtMarker.bindPopup(createPopupContent(
+                  district.name,
+                  district.description,
+                  districtPopupButton,
+                  popupTargetMap,
+                  district.notable_characters || [],
+                  district.key_events || []
+              ));
 
               const updateDistrictScale = () => {
                   const scale = getCityScale();
@@ -507,7 +539,14 @@ fetch('locations.json')
           if (normalizedTargetMap) {
               mapInfoByTarget.set(normalizedTargetMap, { name, parent: 'world' });
           }
-          marker.bindPopup(createPopupContent(name, location.description, popupButton, normalizedTargetMap, location.notable_characters || []));
+          marker.bindPopup(createPopupContent(
+              name,
+              location.description,
+              popupButton,
+              normalizedTargetMap,
+              location.notable_characters || [],
+              location.key_events || []
+          ));
           createDistrictLayer(location, normalizedTargetMap);
 
           marker.on('click', () => setActiveMarker(marker));
