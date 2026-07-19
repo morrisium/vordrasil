@@ -52,6 +52,21 @@ function resetMapView() {
 }
 
 const resetViewButton = document.getElementById('reset-view-btn');
+const panelToggleButton = document.getElementById('panel-toggle-btn');
+const panelToggleText = document.querySelector('.toggle-text');
+const popupPanel = document.getElementById('popup-panel');
+let panelMode = false;
+window.panelMode = panelMode;
+let justClickedMarker = false;
+
+function closePanelPopup() {
+    if (!popupPanel) return;
+    popupPanel.classList.remove('open');
+    popupPanel.setAttribute('aria-hidden', 'true');
+    popupPanel.style.display = 'none';
+    popupPanel.innerHTML = '';
+}
+window.closePanelPopup = closePanelPopup;
 
 if (resetViewButton) {
     resetViewButton.addEventListener('click', () => {
@@ -59,8 +74,27 @@ if (resetViewButton) {
     });
 }
 
+if (panelToggleButton && popupPanel) {
+    panelToggleButton.addEventListener('change', () => {
+        panelMode = panelToggleButton.checked;
+        panelToggleButton.setAttribute('aria-checked', String(panelMode));
+        if (panelToggleText) {
+            panelToggleText.textContent = panelMode ? 'Location Panel' : 'Location Popups';
+        }
+
+        if (!panelMode) {
+            closePanelPopup();
+        } else if (popupPanel.innerHTML.trim()) {
+            popupPanel.classList.add('open');
+            popupPanel.setAttribute('aria-hidden', 'false');
+        }
+    });
+}
+
 // Hide back button on init
-document.getElementById('back-btn').style.display = 'none';
+if (document.getElementById('back-btn')) {
+    document.getElementById('back-btn').style.display = 'none';
+}
 
 let currentLevel = 'world';
 
@@ -284,6 +318,8 @@ const setActiveMarker = (nextMarker) => {
 
     if (nextMarker) {
         nextMarker._setActive(true);
+    } else if (panelMode) {
+        closePanelPopup();
     }
 };
 
@@ -402,6 +438,43 @@ fetch('locations.json')
           `;
       };
 
+      const renderPanelPopup = (title, description, popupButton, targetMap = '', notableCharacters = [], keyEvents = []) => {
+          if (!popupPanel) {
+              return;
+          }
+
+          closePanelPopup();
+
+          const contentHtml = createPopupContent(title, description, popupButton, targetMap, notableCharacters, keyEvents);
+          popupPanel.innerHTML = `
+              <div class="panel-header">
+                  <h2>${formatDescription(title)}</h2>
+                  <button class="panel-close-btn" aria-label="Close popup panel">×</button>
+              </div>
+              <div class="panel-body">
+                  ${contentHtml}
+              </div>
+          `;
+          popupPanel.style.display = 'block';
+          popupPanel.classList.add('open');
+          popupPanel.setAttribute('aria-hidden', 'false');
+
+          const closeButton = popupPanel.querySelector('.panel-close-btn');
+          if (closeButton) {
+              closeButton.addEventListener('click', (e) => {
+                  e.stopPropagation();
+                  closePanelPopup();
+              });
+          }
+      };
+
+      const handleMarkerPopup = (marker, title, description, popupButton, targetMap, notableCharacters, keyEvents) => {
+          if (panelMode) {
+              map.closePopup();
+              renderPanelPopup(title, description, popupButton, targetMap, notableCharacters, keyEvents);
+          }
+      };
+
       const createLocationIcon = (location, scale = 1) => {
           const width = Math.max(1, Math.round((location.width || 220) * scale));
           const height = Math.max(1, Math.round((location.height || 64) * scale));
@@ -460,6 +533,14 @@ fetch('locations.json')
               if (normalizedDistrictTarget) {
                   mapInfoByTarget.set(normalizedDistrictTarget, { name: district.name, parent: popupTargetMap });
               }
+              districtMarker.panelData = {
+                  title: district.name,
+                  description: district.description,
+                  popupButton: districtPopupButton,
+                  targetMap: popupTargetMap,
+                  notableCharacters: district.notable_characters || [],
+                  keyEvents: district.key_events || []
+              };
               districtMarker.bindPopup(createPopupContent(
                   district.name,
                   district.description,
@@ -483,8 +564,36 @@ fetch('locations.json')
                   map.off('zoomend', updateDistrictScale);
               });
 
-              districtMarker.on('click', () => setActiveMarker(districtMarker));
-              districtMarker.on('popupopen', () => setActiveMarker(districtMarker));
+              districtMarker.on('click', () => {
+                  justClickedMarker = true;
+                  setActiveMarker(districtMarker);
+                  if (panelMode) {
+                      map.closePopup();
+                      renderPanelPopup(
+                          district.name,
+                          district.description,
+                          districtPopupButton,
+                          popupTargetMap,
+                          district.notable_characters || [],
+                          district.key_events || []
+                      );
+                  }
+              });
+              districtMarker.on('popupopen', () => {
+                  justClickedMarker = true;
+                  setActiveMarker(districtMarker);
+                  if (panelMode) {
+                      map.closePopup();
+                      renderPanelPopup(
+                          district.name,
+                          district.description,
+                          districtPopupButton,
+                          popupTargetMap,
+                          district.notable_characters || [],
+                          district.key_events || []
+                      );
+                  }
+              });
               districtMarker.on('popupclose', () => {
                   if (activeMarker === districtMarker) {
                       setActiveMarker(null);
@@ -549,8 +658,36 @@ fetch('locations.json')
           ));
           createDistrictLayer(location, normalizedTargetMap);
 
-          marker.on('click', () => setActiveMarker(marker));
-          marker.on('popupopen', () => setActiveMarker(marker));
+          marker.on('click', () => {
+              justClickedMarker = true;
+              setActiveMarker(marker);
+              if (panelMode) {
+                  map.closePopup();
+                  renderPanelPopup(
+                      name,
+                      location.description,
+                      popupButton,
+                      normalizedTargetMap,
+                      location.notable_characters || [],
+                      location.key_events || []
+                  );
+              }
+          });
+          marker.on('popupopen', () => {
+              justClickedMarker = true;
+              setActiveMarker(marker);
+              if (panelMode) {
+                  map.closePopup();
+                  renderPanelPopup(
+                      name,
+                      location.description,
+                      popupButton,
+                      normalizedTargetMap,
+                      location.notable_characters || [],
+                      location.key_events || []
+                  );
+              }
+          });
           marker.on('popupclose', () => {
               if (activeMarker === marker) {
                   setActiveMarker(null);
@@ -603,6 +740,8 @@ function loadCityMap(targetMap = '') {
     }
 
     map.closePopup();
+    closePanelPopup();
+    setActiveMarker(null);
 
     if (activeCityTileLayer) {
         cityLayer.removeLayer(activeCityTileLayer);
@@ -641,6 +780,8 @@ function handleBackNavigation() {
 
     const parentTarget = mapInfoByTarget.get(currentMapTarget)?.parent;
     if (!parentTarget || parentTarget === 'world') {
+        setActiveMarker(null);
+        closePanelPopup();
         if (activeDistrictLayer) {
             cityLayer.removeLayer(activeDistrictLayer);
             activeDistrictLayer = null;
@@ -659,6 +800,7 @@ function handleBackNavigation() {
         return;
     }
 
+    closePanelPopup();
     loadCityMap(parentTarget);
 }
 
@@ -669,12 +811,17 @@ function handleBackNavigation() {
 const developerPopup = L.popup();
 function onMapClick(e) {
     const target = e.originalEvent?.target;
-    if (target && target.closest && target.closest('.location-marker-wrap, .elevating-city-marker, .marker-container')) {
+
+    if (target && target.closest && (target.closest('.location-marker-wrap, .elevating-city-marker, .marker-container') || target.closest('#popup-panel') || target.closest('#panel-toggle-btn'))) {
         return;
     }
 
     if (activeMarker) {
         setActiveMarker(null);
+    }
+
+    if (panelMode) {
+        closePanelPopup();
     }
 
     const clickCoords = e.latlng;
