@@ -13,13 +13,27 @@
     <button id="back-btn" onclick="handleBackNavigation()">← Back to World Map</button>
 
     <div id="map-controls">
-        <button id="reset-view-btn" type="button">Reset View</button>
-        <div class="toggle-group">
-            <span class="toggle-text">Location Popups</span>
-            <input id="panel-toggle-btn" class="toggle-input" type="checkbox" aria-label="Toggle location panel mode" />
-            <label for="panel-toggle-btn" class="toggle-label">
-                <span class="toggle-switch" aria-hidden="true"></span>
-            </label>
+        <div class="controls-row">
+            <button id="reset-view-btn" type="button">Reset View</button>
+            <button id="cog-btn" class="icon-btn" aria-haspopup="true" aria-expanded="false" aria-controls="cog-menu">⚙</button>
+        </div>
+
+        <div id="cog-menu" class="cog-menu" role="menu" aria-hidden="true">
+            <div class="toggle-group">
+                <span class="toggle-text">Location Popups</span>
+                <input id="panel-toggle-btn" class="toggle-input" type="checkbox" aria-label="Toggle location panel mode" />
+                <label for="panel-toggle-btn" class="toggle-label">
+                    <span class="toggle-switch" aria-hidden="true"></span>
+                </label>
+            </div>
+
+            <div id="panel-location-group" class="toggle-group panel-location-group">
+                <span class="toggle-text panel-location-text">Panel Side: Left</span>
+                <input id="panel-side-toggle-btn" class="toggle-input" type="checkbox" aria-label="Toggle popup panel location" />
+                <label for="panel-side-toggle-btn" class="toggle-label">
+                    <span class="toggle-switch" aria-hidden="true"></span>
+                </label>
+            </div>
         </div>
     </div>
 
