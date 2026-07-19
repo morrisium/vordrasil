@@ -294,13 +294,17 @@ body {
     background-color: #2c251e;
     color: #d4af37;
     border: 1px solid #d4af37;
-    padding: 6px 10px;
+    padding: 8.5px 10px;
     font-family: 'Georgia', serif;
     font-size: 1rem;
     font-weight: bold;
     cursor: pointer;
     border-radius: 6px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
 }
 
 .icon-btn:hover {
