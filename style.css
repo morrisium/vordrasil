@@ -18,19 +18,23 @@ body {
 }
 
 #top-search {
-    position: absolute;
+    position: fixed;
     top: 20px;
-    left: 50%;
-    transform: translateX(-50%);
+    left: 0;
+    right: 0;
     z-index: 1100;
-    width: min(90vw, 480px);
+    width: 100%;
     padding: 0 8px;
+    box-sizing: border-box;
     pointer-events: none;
+    display: flex;
+    justify-content: center;
 }
 
 .search-bar {
     position: relative;
-    width: 100%;
+    width: min(90vw, 480px);
+    max-width: 480px;
     background: #2c251e;
     border: 1px solid #d4af37;
     border-radius: 999px;
