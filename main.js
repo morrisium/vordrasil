@@ -54,10 +54,72 @@ function resetMapView() {
 const resetViewButton = document.getElementById('reset-view-btn');
 const panelToggleButton = document.getElementById('panel-toggle-btn');
 const panelToggleText = document.querySelector('.toggle-text');
+const panelLocationGroup = document.getElementById('panel-location-group');
+const panelLocationToggleButton = document.getElementById('panel-side-toggle-btn');
+const panelLocationText = document.querySelector('.panel-location-text');
 const popupPanel = document.getElementById('popup-panel');
 let panelMode = false;
+let panelSideRight = false;
 window.panelMode = panelMode;
+window.panelSideRight = panelSideRight;
 let justClickedMarker = false;
+
+// --- Cookie helpers for simple settings persistence ---
+function setCookie(name, value, days = 365) {
+    const d = new Date();
+    d.setTime(d.getTime() + (days * 24 * 60 * 60 * 1000));
+    const expires = "expires=" + d.toUTCString();
+    document.cookie = name + "=" + encodeURIComponent(value) + ";" + expires + ";path=/";
+}
+
+function getCookie(name) {
+    const cname = name + "=";
+    const decoded = decodeURIComponent(document.cookie || "");
+    const parts = decoded.split(';');
+    for (let i = 0; i < parts.length; i++) {
+        let c = parts[i].trim();
+        if (c.indexOf(cname) === 0) return c.substring(cname.length, c.length);
+    }
+    return null;
+}
+
+function loadSettingsFromCookies() {
+    const pm = getCookie('panelMode');
+    const ps = getCookie('panelSideRight');
+    if (pm !== null) {
+        panelMode = pm === '1' || pm === 'true';
+        if (panelToggleButton) {
+            panelToggleButton.checked = panelMode;
+            panelToggleButton.setAttribute('aria-checked', String(panelMode));
+        }
+    }
+    if (ps !== null) {
+        panelSideRight = ps === '1' || ps === 'true';
+        if (panelLocationToggleButton) panelLocationToggleButton.checked = panelSideRight;
+        window.panelSideRight = panelSideRight;
+    }
+}
+
+function updatePanelLocationVisibility() {
+    if (panelLocationGroup) {
+        panelLocationGroup.classList.toggle('visible', panelMode);
+    }
+}
+
+function updatePanelLocationText() {
+    if (panelLocationText) {
+        panelLocationText.textContent = `Panel Side: ${panelSideRight ? 'Right' : 'Left'}`;
+    }
+}
+
+function updatePanelSideAppearance() {
+    if (!popupPanel) return;
+    popupPanel.classList.toggle('right', panelSideRight);
+    if (panelLocationToggleButton) {
+        panelLocationToggleButton.checked = panelSideRight;
+    }
+    updatePanelLocationText();
+}
 
 function closePanelPopup() {
     if (!popupPanel) return;
@@ -78,6 +140,7 @@ if (panelToggleButton && popupPanel) {
     panelToggleButton.addEventListener('change', () => {
         panelMode = panelToggleButton.checked;
         panelToggleButton.setAttribute('aria-checked', String(panelMode));
+        updatePanelLocationVisibility();
         if (panelToggleText) {
             panelToggleText.textContent = panelMode ? 'Location Panel' : 'Location Popups';
         }
@@ -88,6 +151,170 @@ if (panelToggleButton && popupPanel) {
             popupPanel.classList.add('open');
             popupPanel.setAttribute('aria-hidden', 'false');
         }
+        // persist panel mode
+        try { setCookie('panelMode', panelMode ? '1' : '0', 365); } catch (e) { /* ignore */ }
+    });
+}
+
+if (panelLocationToggleButton) {
+    panelLocationToggleButton.addEventListener('change', () => {
+        panelSideRight = panelLocationToggleButton.checked;
+        window.panelSideRight = panelSideRight;
+        updatePanelSideAppearance();
+        // persist panel side preference
+        try { setCookie('panelSideRight', panelSideRight ? '1' : '0', 365); } catch (e) { /* ignore */ }
+    });
+}
+
+// Load persisted settings (if any) before rendering initial UI state
+try { loadSettingsFromCookies(); } catch (e) { /* ignore */ }
+updatePanelLocationVisibility();
+updatePanelSideAppearance();
+
+// Cog menu behavior: toggle the settings menu that contains the panel controls
+const cogBtn = document.getElementById('cog-btn');
+const cogMenu = document.getElementById('cog-menu');
+let cogMenuOpen = false;
+let _cogOriginalParent = null;
+let _cogOriginalNextSibling = null;
+let _cogOverlay = null;
+
+function setCogMenu(open) {
+    if (!cogMenu || !cogBtn) return;
+    cogMenuOpen = !!open;
+    cogMenu.classList.toggle('open', cogMenuOpen);
+    cogMenu.setAttribute('aria-hidden', String(!cogMenuOpen));
+    cogBtn.setAttribute('aria-expanded', String(cogMenuOpen));
+}
+
+// When opening the menu, move it out of any transformed stacking contexts by
+// making it fixed to the viewport and positioning it near the cog button.
+// When closing, restore the original absolute positioning so it behaves
+// like before when hidden.
+function openCogMenuAtButton() {
+    if (!cogMenu || !cogBtn) return;
+    // compute button rect
+    const rect = cogBtn.getBoundingClientRect();
+    const top = Math.round(rect.bottom + 8);
+    const right = Math.round(window.innerWidth - rect.right);
+
+    // preserve auto-sizing by not setting width; just fix position
+    // create or reuse a full-viewport overlay that sits above everything
+    // Force-create an overlay at body level and move the menu into it so the
+    // menu is not constrained by ancestor stacking contexts (like map-controls).
+    try {
+        // create overlay if missing
+        if (!document.getElementById('cog-overlay')) {
+            const ov = document.createElement('div');
+            ov.id = 'cog-overlay';
+            ov.style.position = 'fixed';
+            ov.style.top = '0';
+            ov.style.left = '0';
+            ov.style.width = '100%';
+            ov.style.height = '100%';
+            ov.style.pointerEvents = 'none';
+            ov.style.zIndex = '2147483647';
+            try { ov.style.setProperty('z-index','2147483647','important'); } catch(e){}
+            document.body.appendChild(ov);
+            _cogOverlay = ov;
+        } else {
+            _cogOverlay = document.getElementById('cog-overlay');
+        }
+
+        if (!_cogOriginalParent) {
+            _cogOriginalParent = cogMenu.parentNode;
+            _cogOriginalNextSibling = cogMenu.nextSibling;
+        }
+
+        // move the menu into the overlay (this actually changes its parent)
+        if (_cogOverlay && cogMenu.parentNode !== _cogOverlay) {
+            _cogOverlay.appendChild(cogMenu);
+        }
+        // allow clicks within the menu
+        cogMenu.style.pointerEvents = 'auto';
+    } catch (e) {
+        // ignore
+    }
+
+    cogMenu.style.position = 'absolute';
+    cogMenu.style.top = top + 'px';
+    cogMenu.style.right = right + 'px';
+    cogMenu.style.left = 'auto';
+    // ensure it's visible above everything
+    try {
+        cogMenu.style.setProperty('z-index', '2147483647', 'important');
+        cogMenu.style.setProperty('transform', 'none', 'important');
+    } catch (e) {}
+}
+
+function restoreCogMenuPosition() {
+    if (!cogMenu) return;
+    // restore DOM position if we moved it
+    try {
+        if (_cogOriginalParent && cogMenu.parentNode !== _cogOriginalParent) {
+            if (_cogOriginalNextSibling && _cogOriginalNextSibling.parentNode === _cogOriginalParent) {
+                _cogOriginalParent.insertBefore(cogMenu, _cogOriginalNextSibling);
+            } else {
+                _cogOriginalParent.appendChild(cogMenu);
+            }
+        }
+    } catch (e) {
+        // ignore
+    }
+
+    cogMenu.style.position = '';
+    cogMenu.style.top = '';
+    cogMenu.style.right = '';
+    cogMenu.style.left = '';
+    try {
+        cogMenu.style.removeProperty('z-index');
+        cogMenu.style.removeProperty('position');
+        cogMenu.style.removeProperty('transform');
+    } catch (e) {}
+
+    // remove overlay if present
+    try {
+        if (_cogOverlay) {
+            // if overlay contains no other children, remove it
+            if (_cogOverlay.childElementCount === 0) {
+                _cogOverlay.parentNode.removeChild(_cogOverlay);
+                _cogOverlay = null;
+            } else if (!_cogOverlay.contains(cogMenu)) {
+                _cogOverlay.parentNode.removeChild(_cogOverlay);
+                _cogOverlay = null;
+            }
+        }
+    } catch (e) {}
+}
+
+if (cogBtn && cogMenu) {
+    cogBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const newOpen = !cogMenuOpen;
+        setCogMenu(newOpen);
+        if (newOpen) {
+            openCogMenuAtButton();
+        } else {
+            restoreCogMenuPosition();
+        }
+    });
+
+    // Prevent clicks inside menu from closing it when handled locally
+    cogMenu.addEventListener('click', (e) => {
+        e.stopPropagation();
+    });
+
+    // Close menu when clicking outside
+    document.addEventListener('click', (e) => {
+        if (cogMenuOpen && !e.target.closest('#cog-menu') && !e.target.closest('#cog-btn')) {
+            setCogMenu(false);
+            restoreCogMenuPosition();
+        }
+    });
+
+    // Close menu on Escape
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && cogMenuOpen) setCogMenu(false);
     });
 }
 
@@ -448,7 +675,6 @@ fetch('locations.json')
           const contentHtml = createPopupContent(title, description, popupButton, targetMap, notableCharacters, keyEvents);
           popupPanel.innerHTML = `
               <div class="panel-header">
-                  <h2>${formatDescription(title)}</h2>
                   <button class="panel-close-btn" aria-label="Close popup panel">×</button>
               </div>
               <div class="panel-body">
