@@ -14,7 +14,16 @@
 
     <div id="map-controls">
         <button id="reset-view-btn" type="button">Reset View</button>
+        <div class="toggle-group">
+            <span class="toggle-text">Location Popups</span>
+            <input id="panel-toggle-btn" class="toggle-input" type="checkbox" aria-label="Toggle location panel mode" />
+            <label for="panel-toggle-btn" class="toggle-label">
+                <span class="toggle-switch" aria-hidden="true"></span>
+            </label>
+        </div>
     </div>
+
+    <div id="popup-panel" class="popup-panel" aria-live="polite" aria-hidden="true"></div>
 
     <div id="map"></div>
 
