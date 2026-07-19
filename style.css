@@ -17,6 +17,72 @@ body {
     background: #1a1a1a;
 }
 
+#top-search {
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1100;
+    width: min(90vw, 480px);
+    padding: 0 8px;
+    pointer-events: none;
+}
+
+.search-bar {
+    position: relative;
+    width: 100%;
+    background: #2c251e;
+    border: 1px solid #d4af37;
+    border-radius: 999px;
+    padding: 8px 12px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.55);
+    display: flex;
+    align-items: center;
+    pointer-events: auto;
+}
+
+#search-input {
+    flex: 1;
+    border: none;
+    background: transparent;
+    color: #d4af37;
+    font-family: 'Georgia', serif;
+    font-size: 0.98rem;
+    outline: none;
+    padding-right: 70px;
+}
+
+#search-input::placeholder {
+    color: #c9bfae;
+}
+
+#search-clear {
+    position: absolute;
+    top: 47.5%;
+    right: 12px;
+    background: transparent;
+    border: none;
+    color: #d4af37;
+    font-family: 'Georgia', serif;
+    font-size: 1.35rem;
+    cursor: pointer;
+    text-transform: UPPERCASE;
+    padding: 0;
+    line-height: 0;
+}
+
+#search-clear:hover {
+    color: #fff;
+}
+
+.search-term {
+    background: rgba(212, 175, 55, 0.45);
+    color: #fff;
+    padding: 0 3px;
+    border-radius: 2px;
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+}
+
 .leaflet-container {
     background: #1a1a1a;
 }
@@ -221,8 +287,18 @@ body {
 }
 
 .elevating-city-marker:hover .marker-container,
-.elevating-city-marker.is-active .marker-container {
+.elevating-city-marker.is-active .marker-container,
+.elevating-city-marker.search-match .marker-container {
     transform: scale(1.075);
+}
+
+.elevating-city-marker.search-match .marker-container {
+    box-shadow: none;
+}
+
+.elevating-city-marker.search-match {
+    opacity: 1 !important;
+    visibility: visible !important;
 }
 
 .city-sprite {

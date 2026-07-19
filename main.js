@@ -58,6 +58,8 @@ const panelLocationGroup = document.getElementById('panel-location-group');
 const panelLocationToggleButton = document.getElementById('panel-side-toggle-btn');
 const panelLocationText = document.querySelector('.panel-location-text');
 const popupPanel = document.getElementById('popup-panel');
+const searchInput = document.getElementById('search-input');
+const searchClearButton = document.getElementById('search-clear');
 let panelMode = false;
 let panelSideRight = false;
 window.panelMode = panelMode;
@@ -163,6 +165,73 @@ if (panelLocationToggleButton) {
         updatePanelSideAppearance();
         // persist panel side preference
         try { setCookie('panelSideRight', panelSideRight ? '1' : '0', 365); } catch (e) { /* ignore */ }
+    });
+}
+
+const allMarkers = [];
+
+const normalizeSearchString = (text) => {
+    return String(text || '').toLowerCase().trim();
+};
+
+const buildSearchText = (name, description, notableCharacters = [], keyEvents = []) => {
+    const parts = [name, description];
+    if (Array.isArray(notableCharacters)) {
+        notableCharacters.forEach((item) => {
+            parts.push(item.name || '');
+            parts.push(item.description || '');
+        });
+    }
+    if (Array.isArray(keyEvents)) {
+        keyEvents.forEach((item) => {
+            parts.push(item.name || '');
+            parts.push(item.description || '');
+        });
+    }
+    return normalizeSearchString(
+        parts
+            .filter((part) => typeof part === 'string' && part.trim().length)
+            .join(' ')
+    );
+};
+
+const updateSearchHighlights = (query) => {
+    const normalizedQuery = normalizeSearchString(query);
+    const hasQuery = normalizedQuery.length > 0;
+
+    allMarkers.forEach((marker) => {
+        const isMatch = hasQuery && marker.searchText && marker.searchText.includes(normalizedQuery);
+        const markerEl = marker.getElement();
+        if (markerEl) {
+            markerEl.classList.toggle('search-match', isMatch);
+            markerEl.style.visibility = isMatch ? 'visible' : '';
+            markerEl.style.opacity = isMatch ? '1' : '';
+            markerEl.style.display = isMatch ? 'block' : '';
+        }
+        if (typeof marker._setHovered === 'function') {
+            if (isMatch) {
+                marker._setHovered(true);
+                if (typeof marker._refreshIconVisibility === 'function') {
+                    marker._refreshIconVisibility();
+                }
+            } else if (marker !== activeMarker) {
+                marker._setHovered(false);
+            }
+        }
+    });
+};
+
+if (searchClearButton && searchInput) {
+    searchClearButton.addEventListener('click', () => {
+        searchInput.value = '';
+        updateSearchHighlights('');
+        searchInput.focus();
+    });
+}
+
+if (searchInput) {
+    searchInput.addEventListener('input', () => {
+        updateSearchHighlights(searchInput.value);
     });
 }
 
@@ -561,16 +630,35 @@ fetch('locations.json')
   .then(text => {
       const data = JSON.parse(stripJsonComments(text));
       // Helper function to safely escape HTML and format newlines
-      const formatDescription = (text) => {
-          // Escape HTML special characters to prevent injection
-          const escaped = String(text || 'A notable location in Vordrasil.')
+      const escapeHtml = (text) => {
+          return String(text || '')
               .replace(/&/g, '&amp;')
               .replace(/</g, '&lt;')
               .replace(/>/g, '&gt;')
               .replace(/"/g, '&quot;')
               .replace(/'/g, '&#039;');
+      };
+
+      const formatDescription = (text) => {
+          // Escape HTML special characters to prevent injection
+          const escaped = escapeHtml(text || 'A notable location in Vordrasil.');
           // Replace \n with <br> for display
           return escaped.replace(/\n/g, '<br>');
+      };
+
+      const buildHighlightRegex = (query) => {
+          const rawQuery = String(query || '').trim();
+          if (!rawQuery) return null;
+          const escaped = rawQuery.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+          return new RegExp(escaped, 'gi');
+      };
+
+      const highlightHtml = (html, query) => {
+          const regex = buildHighlightRegex(query);
+          if (!regex) return html;
+          return html.replace(/([^<>]+)(?=<|$)/g, (text) =>
+              text.replace(regex, '<span class="search-term">$&</span>')
+          );
       };
 
       const normalizeTargetMap = (rawTargetMap) => {
@@ -600,27 +688,29 @@ fetch('locations.json')
       };
 
       const getCityScale = () => Math.pow(2, map.getZoom() - maxZoom);
-      const allMarkers = [];
 
       registerMapHierarchy(data);
 
-      const createPopupContent = (title, description, popupButton, targetMap = '', notableCharacters = [], keyEvents = []) => {
+      const createPopupContent = (title, description, popupButton, targetMap = '', notableCharacters = [], keyEvents = [], searchQuery = '') => {
           const rawTargetMap = typeof popupButton?.targetMap === 'string' ? popupButton.targetMap.trim() : '';
           const normalizedTargetMap = rawTargetMap
               ? rawTargetMap.replace(/\/{z}\/\{y}\/\{x}\.png$/i, '').replace(/\/$/, '')
               : '';
           const shouldShowButton = popupButton?.visible && normalizedTargetMap;
-          const buttonText = typeof popupButton?.text === 'string' ? popupButton.text : 'Enter City Map';
+          const buttonText = escapeHtml(typeof popupButton?.text === 'string' ? popupButton.text : 'Enter City Map');
           const buttonHtml = shouldShowButton
               ? `<button onclick="loadCityMap('${normalizedTargetMap}')" class="popup-btn" ${popupButton.disabled ? 'disabled' : ''}>${buttonText}</button>`
               : '';
+
+          const highlightedTitle = highlightHtml(escapeHtml(title), searchQuery);
+          const highlightedDescription = highlightHtml(formatDescription(description), searchQuery);
 
           // Render notable characters section only when provided and non-empty
           let notableHtml = '';
           if (Array.isArray(notableCharacters) && notableCharacters.length) {
               const items = notableCharacters.map(c => {
-                  const name = formatDescription(c.name || 'Unnamed');
-                  const desc = formatDescription(c.description || '');
+                  const name = highlightHtml(escapeHtml(c.name || 'Unnamed'), searchQuery);
+                  const desc = highlightHtml(formatDescription(c.description || ''), searchQuery);
                   return `<li><strong>${name}</strong><div class="char-desc">${desc}</div></li>`;
               }).join('');
 
@@ -636,8 +726,8 @@ fetch('locations.json')
           let keyEventsHtml = '';
           if (Array.isArray(keyEvents) && keyEvents.length) {
               const items = keyEvents.map(c => {
-                  const name = formatDescription(c.name || 'Unnamed Event');
-                  const desc = formatDescription(c.description || '');
+                  const name = highlightHtml(escapeHtml(c.name || 'Unnamed Event'), searchQuery);
+                  const desc = highlightHtml(formatDescription(c.description || ''), searchQuery);
                   return `<li><strong>${name}</strong><div class="event-desc">${desc}</div></li>`;
               }).join('');
 
@@ -653,8 +743,8 @@ fetch('locations.json')
           return `
               <div class="popup-content">
                   <div class="popup-main">
-                      <h2>${title}</h2>
-                      <p>${formatDescription(description)}</p>
+                      <h2>${highlightedTitle}</h2>
+                      <p>${highlightedDescription}</p>
                       ${keyEventsHtml}
                       ${notableHtml}
                   </div>
@@ -672,7 +762,7 @@ fetch('locations.json')
 
           closePanelPopup();
 
-          const contentHtml = createPopupContent(title, description, popupButton, targetMap, notableCharacters, keyEvents);
+          const contentHtml = createPopupContent(title, description, popupButton, targetMap, notableCharacters, keyEvents, searchInput?.value || '');
           popupPanel.innerHTML = `
               <div class="panel-header">
                   <button class="panel-close-btn" aria-label="Close popup panel">×</button>
@@ -773,8 +863,17 @@ fetch('locations.json')
                   districtPopupButton,
                   popupTargetMap,
                   district.notable_characters || [],
-                  district.key_events || []
+                  district.key_events || [],
+                  searchInput?.value || ''
               ));
+
+              districtMarker.searchText = buildSearchText(
+                  district.name,
+                  district.description,
+                  district.notable_characters || [],
+                  district.key_events || []
+              );
+              allMarkers.push(districtMarker);
 
               const updateDistrictScale = () => {
                   const scale = getCityScale();
@@ -808,6 +907,18 @@ fetch('locations.json')
               districtMarker.on('popupopen', () => {
                   justClickedMarker = true;
                   setActiveMarker(districtMarker);
+                  const popup = districtMarker.getPopup();
+                  if (popup) {
+                      popup.setContent(createPopupContent(
+                          district.name,
+                          district.description,
+                          districtPopupButton,
+                          popupTargetMap,
+                          district.notable_characters || [],
+                          district.key_events || [],
+                          searchInput?.value || ''
+                      ));
+                  }
                   if (panelMode) {
                       map.closePopup();
                       renderPanelPopup(
@@ -853,7 +964,6 @@ fetch('locations.json')
 
           initializeIconVisibility(marker, getIconBounds);
           marker.addTo(worldLayer);
-          allMarkers.push(marker);
 
           const updateMarkerScale = () => {
               const scale = getCityScale();
@@ -880,8 +990,17 @@ fetch('locations.json')
               popupButton,
               normalizedTargetMap,
               location.notable_characters || [],
-              location.key_events || []
+              location.key_events || [],
+              searchInput?.value || ''
           ));
+
+          marker.searchText = buildSearchText(
+              name,
+              location.description,
+              location.notable_characters || [],
+              location.key_events || []
+          );
+          allMarkers.push(marker);
           createDistrictLayer(location, normalizedTargetMap);
 
           marker.on('click', () => {
@@ -902,6 +1021,18 @@ fetch('locations.json')
           marker.on('popupopen', () => {
               justClickedMarker = true;
               setActiveMarker(marker);
+              const popup = marker.getPopup();
+              if (popup) {
+                  popup.setContent(createPopupContent(
+                      name,
+                      location.description,
+                      popupButton,
+                      normalizedTargetMap,
+                      location.notable_characters || [],
+                      location.key_events || [],
+                      searchInput?.value || ''
+                  ));
+              }
               if (panelMode) {
                   map.closePopup();
                   renderPanelPopup(
