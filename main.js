@@ -60,11 +60,15 @@ const panelLocationText = document.querySelector('.panel-location-text');
 const popupPanel = document.getElementById('popup-panel');
 const searchInput = document.getElementById('search-input');
 const searchClearButton = document.getElementById('search-clear');
+const searchDropdown = document.getElementById('search-dropdown');
 let panelMode = false;
 let panelSideRight = false;
 window.panelMode = panelMode;
 window.panelSideRight = panelSideRight;
 let justClickedMarker = false;
+let _lastPanelRender = null;
+let _openPopupMarker = null;
+let _openPopup = null;
 
 function isMobileViewport() {
     return window.matchMedia('(max-width: 767px)').matches;
@@ -183,6 +187,27 @@ if (panelLocationToggleButton) {
 }
 
 const allMarkers = [];
+let searchTokens = []; // array of { norm: string, display: string }
+
+const updateSearchTokens = () => {
+    const tokenMap = new Map();
+    allMarkers.forEach((marker) => {
+        if (!marker.searchText) return;
+        const parts = String(marker.searchText || '').split(/[^A-Za-z0-9'-]+/g).filter(Boolean);
+        parts.forEach((p) => {
+            const norm = normalizeSearchString(p);
+            if (!norm) return;
+            if (!tokenMap.has(norm)) {
+                // display form: preserve case-ish by capitalizing first letter
+                const display = p.charAt(0).toUpperCase() + p.slice(1);
+                tokenMap.set(norm, display);
+            }
+        });
+    });
+    searchTokens = Array.from(tokenMap.entries()).map(([norm, display]) => ({ norm, display }));
+    // sort alphabetically for a predictable user experience
+    searchTokens.sort((a, b) => a.display.localeCompare(b.display));
+};
 
 const normalizeSearchString = (text) => {
     return String(text || '').toLowerCase().trim();
@@ -207,6 +232,15 @@ const buildSearchText = (name, description, notableCharacters = [], keyEvents = 
             .filter((part) => typeof part === 'string' && part.trim().length)
             .join(' ')
     );
+};
+
+const escapeHtml = (text) => {
+    return String(text || '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
 };
 
 const reapplyMarkerSearchHighlight = (marker) => {
@@ -281,12 +315,130 @@ const updateSearchHighlights = (query) => {
             }
         }
     });
+    renderSearchDropdown(query);
+};
+
+const clearSearchDropdown = () => {
+    if (!searchDropdown) return;
+    searchDropdown.innerHTML = '';
+    searchDropdown.classList.remove('open');
+};
+
+const renderSearchDropdown = (query) => {
+    if (!searchDropdown || !searchInput) return;
+    const normalizedQuery = normalizeSearchString(query);
+    if (!normalizedQuery) {
+        clearSearchDropdown();
+        return;
+    }
+
+    // If the user typed multiple words (or a space), prefer phrase suggestions
+    let tokenResults = [];
+    if (/\s+/.test(query || '')) {
+        const qTokens = normalizedQuery.split(/\s+/).filter(Boolean);
+        const seen = new Map();
+        const phraseResults = [];
+
+        allMarkers.forEach((marker) => {
+            const label = marker._searchLabel || '';
+            const subtitle = marker._searchSubtitle || (marker.panelData && marker.panelData.description) || '';
+            const source = (label + ' ' + subtitle).trim();
+            if (!source) return;
+            // Split into original words and collapse adjacent duplicates (case-insensitive)
+            const rawWords = source.split(/\s+/).filter(Boolean).map(w => w.trim());
+            const origWords = [];
+            rawWords.forEach((w) => {
+                if (!w) return;
+                if (origWords.length === 0 || normalizeSearchString(origWords[origWords.length - 1]) !== normalizeSearchString(w)) {
+                    origWords.push(w);
+                }
+            });
+            const normWords = origWords.map(w => normalizeSearchString(w));
+            for (let i = 0; i <= normWords.length - qTokens.length; i++) {
+                let match = true;
+                for (let j = 0; j < qTokens.length; j++) {
+                    const sourceWord = normWords[i + j] || '';
+                    const tokenPart = qTokens[j] || '';
+                    if (j === qTokens.length - 1) {
+                        // last token: allow prefix match so partial typing still matches
+                        if (!sourceWord.startsWith(tokenPart)) {
+                            match = false;
+                            break;
+                        }
+                    } else {
+                        if (sourceWord !== tokenPart) {
+                            match = false;
+                            break;
+                        }
+                    }
+                }
+                if (!match) continue;
+                // determine how many words to include in the suggestion
+                const queryEndsWithSpace = /\s$/.test(query || '');
+                const lastTokenIndex = i + qTokens.length - 1;
+                const lastSourceWord = normWords[lastTokenIndex] || '';
+                const lastToken = qTokens[qTokens.length - 1] || '';
+                let end;
+                // If the user typed a trailing space, include the next word after the matched sequence
+                if (queryEndsWithSpace) {
+                    end = Math.min(i + qTokens.length + 1, origWords.length);
+                } else if (lastSourceWord.startsWith(lastToken) && lastSourceWord !== lastToken) {
+                    // user typed a partial last word -> include the full matched last word
+                    end = Math.min(i + qTokens.length, origWords.length);
+                } else {
+                    // exact match without trailing space: include next word if available
+                    end = Math.min(i + qTokens.length + 1, origWords.length);
+                }
+                // proceed even when end equals the matched token length so partial
+                // last-token matches still produce a suggestion (e.g. "Vordrasil i" -> "Vordrasil is")
+                const display = origWords.slice(i, end).join(' ');
+                const key = normalizeSearchString(display);
+                if (!seen.has(key)) {
+                    seen.set(key, true);
+                    phraseResults.push({ norm: key, display });
+                }
+                break; // only first match per marker
+            }
+        });
+
+        tokenResults = phraseResults.slice(0, 8);
+    }
+
+    if (!tokenResults.length) {
+        // Fall back to single-word token suggestions
+        tokenResults = searchTokens
+            .filter((t) => t.norm.includes(normalizedQuery))
+            .slice(0, 8);
+    }
+
+    searchDropdown.innerHTML = tokenResults.map((t, index) => `
+        <div class="search-result-item" role="option" data-token-index="${index}">
+            <span class="search-result-title">${escapeHtml(t.display)}</span>
+        </div>
+    `).join('');
+    searchDropdown.classList.add('open');
+
+    searchDropdown.querySelectorAll('.search-result-item').forEach((itemEl) => {
+        itemEl.addEventListener('click', () => {
+            const index = Number(itemEl.getAttribute('data-token-index'));
+            const token = tokenResults[index];
+            if (!token) return;
+            // Insert the full word into the search input and apply highlights
+            searchInput.value = token.display;
+            updateSearchHighlights(searchInput.value);
+                    // Also refresh any open popups/panel so highlights update there
+                    try { window.updateOpenPopups && window.updateOpenPopups(searchInput.value); } catch (e) {}
+            clearSearchDropdown();
+            searchInput.focus();
+        });
+    });
 };
 
 if (searchClearButton && searchInput) {
     searchClearButton.addEventListener('click', () => {
         searchInput.value = '';
         updateSearchHighlights('');
+        clearSearchDropdown();
         searchInput.focus();
     });
 }
@@ -294,6 +446,18 @@ if (searchClearButton && searchInput) {
 if (searchInput) {
     searchInput.addEventListener('input', () => {
         updateSearchHighlights(searchInput.value);
+        try { if (window.updateOpenPopups) window.updateOpenPopups(searchInput.value); } catch (e) { }
+    });
+    searchInput.addEventListener('blur', () => {
+        window.setTimeout(clearSearchDropdown, 150);
+    });
+}
+
+if (document) {
+    document.addEventListener('click', (event) => {
+        if (!event.target.closest('#top-search')) {
+            clearSearchDropdown();
+        }
     });
 }
 
@@ -711,15 +875,6 @@ fetch('locations.json')
   .then(text => {
       const data = JSON.parse(stripJsonComments(text));
       // Helper function to safely escape HTML and format newlines
-      const escapeHtml = (text) => {
-          return String(text || '')
-              .replace(/&/g, '&amp;')
-              .replace(/</g, '&lt;')
-              .replace(/>/g, '&gt;')
-              .replace(/"/g, '&quot;')
-              .replace(/'/g, '&#039;');
-      };
-
       const formatDescription = (text) => {
           // Escape HTML special characters to prevent injection
           const escaped = escapeHtml(text || 'A notable location in Vordrasil.');
@@ -735,7 +890,9 @@ fetch('locations.json')
       };
 
       const highlightHtml = (html, query) => {
-          const regex = buildHighlightRegex(query);
+          // Escape the query to match HTML-escaped content (e.g. apostrophes -> &#039;)
+          const escapedQuery = escapeHtml(String(query || ''));
+          const regex = buildHighlightRegex(escapedQuery);
           if (!regex) return html;
           return html.replace(/([^<>]+)(?=<|$)/g, (text) =>
               text.replace(regex, '<span class="search-term">$&</span>')
@@ -843,6 +1000,11 @@ fetch('locations.json')
 
           closePanelPopup();
 
+          // remember the data used to render the panel so we can refresh highlights
+          try {
+              _lastPanelRender = { title, description, popupButton, targetMap, notableCharacters, keyEvents };
+          } catch (e) { _lastPanelRender = null; }
+
           const contentHtml = createPopupContent(title, description, popupButton, targetMap, notableCharacters, keyEvents, searchInput?.value || '');
           popupPanel.innerHTML = `
               <div class="panel-header">
@@ -866,6 +1028,62 @@ fetch('locations.json')
                       updateSearchHighlights(searchInput.value);
                   }
               });
+          }
+      };
+
+      // Make a function available globally to refresh any open panel or popup
+      window.updateOpenPopups = (query) => {
+          try {
+              // Refresh panel popup if open and there's active marker data
+              if (popupPanel && popupPanel.classList.contains('open')) {
+                  if (activeMarker && activeMarker.panelData) {
+                      const pd = activeMarker.panelData;
+                      renderPanelPopup(
+                          pd.title || pd.panelTitle || '',
+                          pd.description || pd.panelDescription || '',
+                          pd.popupButton || (pd.popupButton === undefined ? { visible: false } : pd.popupButton),
+                          pd.targetMap || pd.target_map || activeMarker._targetMap || '',
+                          pd.notableCharacters || pd.notable_characters || [],
+                          pd.keyEvents || pd.key_events || []
+                      );
+                  } else if (_lastPanelRender) {
+                      // refresh using last known panel render data
+                      const pd = _lastPanelRender;
+                      renderPanelPopup(
+                          pd.title || '',
+                          pd.description || '',
+                          pd.popupButton || { visible: false },
+                          pd.targetMap || '',
+                          pd.notableCharacters || [],
+                          pd.keyEvents || []
+                      );
+                  }
+              }
+
+              // Refresh only the currently tracked open popup, not every marker.
+              let popup = _openPopup;
+              const popupMarker = _openPopupMarker || activeMarker;
+              const pd = popupMarker ? popupMarker.panelData || {} : {};
+              if (!popup && popupMarker) {
+                  popup = (typeof popupMarker.getPopup === 'function') ? popupMarker.getPopup() : null;
+              }
+              if (popup && map && typeof map.hasLayer === 'function' && map.hasLayer(popup)) {
+                  try {
+                      popup.setContent(createPopupContent(
+                          pd.title || pd.name || '',
+                          pd.description || '',
+                          pd.popupButton || { visible: false },
+                          pd.targetMap || pd.target_map || (popupMarker ? popupMarker._targetMap : '') || '',
+                          pd.notableCharacters || pd.notable_characters || [],
+                          pd.keyEvents || pd.key_events || [],
+                          query || ''
+                      ));
+                  } catch (e) {
+                      // ignore individual popup errors
+                  }
+              }
+          } catch (e) {
+              // swallow errors to avoid interfering with search
           }
       };
 
@@ -954,6 +1172,8 @@ fetch('locations.json')
 
               districtMarker._mapTarget = popupTargetMap;
               districtMarker._targetMap = normalizedDistrictTarget;
+              districtMarker._searchLabel = district.name;
+              districtMarker._searchSubtitle = district.description || location.name || '';
               districtMarker.searchText = buildSearchText(
                   district.name,
                   district.description,
@@ -989,10 +1209,20 @@ fetch('locations.json')
                       );
                   }
               });
-              districtMarker.on('popupopen', () => {
+              districtMarker.panelData = {
+                  title: district.name,
+                  description: district.description || '',
+                  popupButton: districtPopupButton,
+                  targetMap: popupTargetMap,
+                  notableCharacters: district.notable_characters || [],
+                  keyEvents: district.key_events || []
+              };
+              districtMarker.on('popupopen', (e) => {
                   justClickedMarker = true;
+                  _openPopupMarker = districtMarker;
+                  _openPopup = e.popup || districtMarker.getPopup();
                   setActiveMarker(districtMarker);
-                  const popup = districtMarker.getPopup();
+                  const popup = _openPopup;
                   if (popup) {
                       popup.setContent(createPopupContent(
                           district.name,
@@ -1016,7 +1246,13 @@ fetch('locations.json')
                       );
                   }
               });
-              districtMarker.on('popupclose', () => {
+              districtMarker.on('popupclose', (e) => {
+                  if (_openPopupMarker === districtMarker) {
+                      _openPopupMarker = null;
+                  }
+                  if (_openPopup && e.popup === _openPopup) {
+                      _openPopup = null;
+                  }
                   if (activeMarker === districtMarker) {
                       setActiveMarker(null);
                   }
@@ -1082,6 +1318,16 @@ fetch('locations.json')
 
           marker._mapTarget = 'world';
           marker._targetMap = normalizedTargetMap;
+          marker._searchLabel = name;
+          marker._searchSubtitle = location.description || '';
+          marker.panelData = {
+              title: name,
+              description: location.description || '',
+              popupButton,
+              targetMap: normalizedTargetMap,
+              notableCharacters: location.notable_characters || [],
+              keyEvents: location.key_events || []
+          };
           marker.searchText = buildSearchText(
               name,
               location.description,
@@ -1106,10 +1352,12 @@ fetch('locations.json')
                   );
               }
           });
-          marker.on('popupopen', () => {
+          marker.on('popupopen', (e) => {
               justClickedMarker = true;
+              _openPopupMarker = marker;
+              _openPopup = e.popup || marker.getPopup();
               setActiveMarker(marker);
-              const popup = marker.getPopup();
+              const popup = _openPopup;
               if (popup) {
                   popup.setContent(createPopupContent(
                       name,
@@ -1133,7 +1381,13 @@ fetch('locations.json')
                   );
               }
           });
-          marker.on('popupclose', () => {
+          marker.on('popupclose', (e) => {
+              if (_openPopupMarker === marker) {
+                  _openPopupMarker = null;
+              }
+              if (_openPopup && e.popup === _openPopup) {
+                  _openPopup = null;
+              }
               if (activeMarker === marker) {
                   setActiveMarker(null);
               }
@@ -1141,6 +1395,9 @@ fetch('locations.json')
       });
 
       // DEBUG: Load initial map based on DEBUG_INITIAL_MAP setting
+      // Build search tokens from the populated markers
+      try { updateSearchTokens(); } catch (e) { /* ignore */ }
+
       if (DEBUG_INITIAL_MAP !== 'world') {
           const mapPath = `images/tiles_${DEBUG_INITIAL_MAP}`;
           loadCityMap(mapPath);
