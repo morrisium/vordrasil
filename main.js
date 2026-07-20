@@ -209,19 +209,26 @@ const buildSearchText = (name, description, notableCharacters = [], keyEvents = 
     );
 };
 
+const reapplyMarkerSearchHighlight = (marker) => {
+    const markerEl = marker.getElement();
+    if (!markerEl) return;
+    markerEl.classList.toggle('search-match', !!marker._searchMatch);
+    if (marker._searchMatch) {
+        markerEl.style.visibility = 'visible';
+        markerEl.style.opacity = '1';
+        markerEl.style.display = 'block';
+    }
+};
+
 const updateSearchHighlights = (query) => {
     const normalizedQuery = normalizeSearchString(query);
     const hasQuery = normalizedQuery.length > 0;
 
     allMarkers.forEach((marker) => {
         const isMatch = hasQuery && marker.searchText && marker.searchText.includes(normalizedQuery);
-        const markerEl = marker.getElement();
-        if (markerEl) {
-            markerEl.classList.toggle('search-match', isMatch);
-            markerEl.style.visibility = isMatch ? 'visible' : '';
-            markerEl.style.opacity = isMatch ? '1' : '';
-            markerEl.style.display = isMatch ? 'block' : '';
-        }
+        marker._searchMatch = isMatch;
+        marker._searchVisible = isMatch;
+        reapplyMarkerSearchHighlight(marker);
         if (typeof marker._setHovered === 'function') {
             if (isMatch) {
                 marker._setHovered(true);
@@ -253,6 +260,12 @@ if (searchInput) {
 try { loadSettingsFromCookies(); } catch (e) { /* ignore */ }
 updatePanelLocationVisibility();
 updatePanelSideAppearance();
+
+map.on('zoomend', () => {
+    if (searchInput) {
+        updateSearchHighlights(searchInput.value);
+    }
+});
 
 // Cog menu behavior: toggle the settings menu that contains the panel controls
 const cogBtn = document.getElementById('cog-btn');
@@ -470,16 +483,20 @@ function renderMarkerSprite(canvas, spriteX, spriteY) {
 function initializeIconVisibility(marker, getIconBounds) {
     marker._isActive = false;
     marker._isHovered = false;
+    marker._searchMatch = false;
     let iconVisible = !HIDE_ICONS_BY_DEFAULT;
 
     const updateIconVisibility = (visible) => {
-        const resolvedVisible = !HIDE_ICONS_BY_DEFAULT ? true : marker._isActive || marker._isHovered || visible;
+        const resolvedVisible = !HIDE_ICONS_BY_DEFAULT
+            ? true
+            : marker._isActive || marker._isHovered || marker._searchMatch || visible;
         iconVisible = visible;
 
         const markerEl = marker.getElement();
         if (!markerEl) return;
 
         markerEl.style.opacity = resolvedVisible ? '1' : '0';
+        markerEl.style.display = resolvedVisible ? '' : 'none';
         markerEl.classList.toggle('is-active', marker._isActive);
     };
 
@@ -573,6 +590,15 @@ function createInteractiveIconOverlayMarker(latlng, spriteX, spriteY, width = 22
             const zoomScale = Math.pow(2, map.getZoom() - baseZoom);
             wrap.style.transform = `scale(${zoomScale})`;
             marker.setIcon(createIcon());
+            const markerEl = marker.getElement();
+            if (markerEl) {
+                markerEl.classList.toggle('search-match', marker._searchMatch);
+                if (marker._searchMatch) {
+                    markerEl.style.visibility = 'visible';
+                    markerEl.style.opacity = '1';
+                    markerEl.style.display = 'block';
+                }
+            }
             if (typeof marker._refreshIconVisibility === 'function') {
                 marker._refreshIconVisibility();
             }
@@ -892,9 +918,7 @@ fetch('locations.json')
               const updateDistrictScale = () => {
                   const scale = getCityScale();
                   districtMarker.setIcon(createLocationIcon({ ...district, name: district.name }, scale));
-                  if (typeof districtMarker._refreshIconVisibility === 'function') {
-                      districtMarker._refreshIconVisibility();
-                  }
+              reapplyMarkerSearchHighlight(districtMarker);
               };
 
               districtMarker.on('add', updateDistrictScale);
@@ -982,6 +1006,7 @@ fetch('locations.json')
           const updateMarkerScale = () => {
               const scale = getCityScale();
               marker.setIcon(createLocationIcon({ ...location, name }, scale));
+              reapplyMarkerSearchHighlight(marker);
               if (typeof marker._refreshIconVisibility === 'function') {
                   marker._refreshIconVisibility();
               }
