@@ -116,7 +116,7 @@ body.desktop-view #map-controls {
 .search-term {
     background: rgba(212, 175, 55, 0.45);
     color: #fff;
-    padding: 0 3px;
+    padding: 0 1px;
     border-radius: 2px;
     box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08);
 }
