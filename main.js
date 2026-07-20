@@ -220,6 +220,12 @@ const reapplyMarkerSearchHighlight = (marker) => {
     }
 };
 
+const setBackButtonHighlight = (highlight) => {
+    const backBtn = document.getElementById('back-btn');
+    if (!backBtn) return;
+    backBtn.classList.toggle('back-parent-match', Boolean(highlight));
+};
+
 const updateSearchHighlights = (query) => {
     const normalizedQuery = normalizeSearchString(query);
     const hasQuery = normalizedQuery.length > 0;
@@ -243,6 +249,20 @@ const updateSearchHighlights = (query) => {
             queue.push(info.parent);
         }
     }
+
+    let parentMatchExists = false;
+    if (currentMapTarget && hasQuery) {
+        let ancestorTarget = mapInfoByTarget.get(currentMapTarget)?.parent;
+        while (ancestorTarget) {
+            if (expandedMapTargets.has(ancestorTarget)) {
+                parentMatchExists = true;
+                break;
+            }
+            const ancestorInfo = mapInfoByTarget.get(ancestorTarget);
+            ancestorTarget = ancestorInfo ? ancestorInfo.parent : null;
+        }
+    }
+    setBackButtonHighlight(parentMatchExists);
 
     allMarkers.forEach((marker) => {
         const leadsToMatch = marker._targetMap && expandedMapTargets.has(marker._targetMap);

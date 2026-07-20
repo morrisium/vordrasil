@@ -319,24 +319,41 @@ body.desktop-view #map-controls {
     flex-direction: column;
     align-items: center;
     justify-content: flex-end;
-    transform-origin: center center;
+    transform-origin: center bottom;
     overflow: hidden;
     transition: transform 0.12s ease-out;
 }
 
 .elevating-city-marker:hover .marker-container,
-.elevating-city-marker.is-active .marker-container,
-.elevating-city-marker.search-match .marker-container {
-    transform: scale(1.075);
-}
-
-.elevating-city-marker.search-match .marker-container {
-    box-shadow: none;
+.elevating-city-marker.is-active .marker-container {
+    transform: scale(1.075); /*1.075*/
 }
 
 .elevating-city-marker.search-match {
     opacity: 1 !important;
     visibility: visible !important;
+}
+
+.elevating-city-marker.search-match .marker-container {
+    animation: iconHighlightPulse 1.5s ease-in-out infinite;
+    box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.35), 0 8px 20px rgba(0, 0, 0, 0.35);
+}
+
+.elevating-city-marker.search-match:hover .marker-container,
+.elevating-city-marker.search-match.is-active .marker-container {
+    animation: none;
+    box-shadow: none;
+}
+
+@keyframes iconHighlightPulse {
+    0%, 100% {
+        transform: scale(1);
+        box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.0);
+    }
+    50% {
+        transform: scale(1.04);
+        box-shadow: 0 0 0 12px rgba(0, 0, 0, 0.0);
+    }
 }
 
 .city-sprite {
@@ -368,6 +385,7 @@ body.desktop-view #map-controls {
     top: 20px;
     left: 20px;
     z-index: 1000; /* Ensures it floats on top of the map */
+    transform-origin: top left;
     background-color: #2c251e;
     color: #d4af37;
     border: 2px solid #d4af37;
@@ -384,7 +402,32 @@ body.desktop-view #map-controls {
 #back-btn:hover {
     background-color: #d4af37;
     color: #2c251e;
-    transform: scale(1.05); /* Slight pop-out effect */
+}
+
+#back-btn.back-parent-match {
+    animation: backHighlightPulse 1.8s ease-in-out infinite;
+    box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.35), 0 8px 20px rgba(0, 0, 0, 0.35);
+    border-color: #ffd773;
+}
+
+@keyframes backHighlightPulse {
+    0%, 100% {
+        transform: scale(1);
+        box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.35), 0 8px 20px rgba(0, 0, 0, 0.35);
+    }
+    50% {
+        transform: scale(1.04);
+        box-shadow: 0 0 0 12px rgba(212, 175, 55, 0.12), 0 10px 24px rgba(0, 0, 0, 0.35);
+    }
+}
+
+@keyframes markerHighlightPulse {
+    0%, 100% {
+        box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.1);
+    }
+    50% {
+        box-shadow: 0 0 0 12px rgba(212, 175, 55, 0.18);
+    }
 }
 
 #map-controls {
