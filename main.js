@@ -69,6 +69,7 @@ let justClickedMarker = false;
 let _lastPanelRender = null;
 let _openPopupMarker = null;
 let _openPopup = null;
+let _searchDropdownIndex = -1;
 
 function isMobileViewport() {
     return window.matchMedia('(max-width: 767px)').matches;
@@ -322,6 +323,25 @@ const clearSearchDropdown = () => {
     if (!searchDropdown) return;
     searchDropdown.innerHTML = '';
     searchDropdown.classList.remove('open');
+    _searchDropdownIndex = -1;
+};
+
+const setSearchDropdownActiveItem = (items, index) => {
+    if (!items || !items.length) {
+        _searchDropdownIndex = -1;
+        return;
+    }
+    if (index < 0) index = 0;
+    if (index >= items.length) index = items.length - 1;
+    items.forEach((item, i) => item.classList.toggle('active', i === index));
+    _searchDropdownIndex = index;
+};
+
+const selectSearchDropdownItem = () => {
+    if (!searchDropdown) return;
+    const items = searchDropdown.querySelectorAll('.search-result-item');
+    if (_searchDropdownIndex < 0 || _searchDropdownIndex >= items.length) return;
+    items[_searchDropdownIndex].click();
 };
 
 const renderSearchDropdown = (query) => {
@@ -411,6 +431,11 @@ const renderSearchDropdown = (query) => {
             .slice(0, 8);
     }
 
+    if (!tokenResults.length) {
+        clearSearchDropdown();
+        return;
+    }
+
     searchDropdown.innerHTML = tokenResults.map((t, index) => `
         <div class="search-result-item" role="option" data-token-index="${index}">
             <span class="search-result-title">${escapeHtml(t.display)}</span>
@@ -418,7 +443,10 @@ const renderSearchDropdown = (query) => {
     `).join('');
     searchDropdown.classList.add('open');
 
-    searchDropdown.querySelectorAll('.search-result-item').forEach((itemEl) => {
+    const items = searchDropdown.querySelectorAll('.search-result-item');
+    setSearchDropdownActiveItem(items, 0);
+
+    items.forEach((itemEl) => {
         itemEl.addEventListener('click', () => {
             const index = Number(itemEl.getAttribute('data-token-index'));
             const token = tokenResults[index];
@@ -447,6 +475,24 @@ if (searchInput) {
     searchInput.addEventListener('input', () => {
         updateSearchHighlights(searchInput.value);
         try { if (window.updateOpenPopups) window.updateOpenPopups(searchInput.value); } catch (e) { }
+    });
+    searchInput.addEventListener('keydown', (e) => {
+        if (!searchDropdown || !searchDropdown.classList.contains('open')) return;
+        const items = searchDropdown.querySelectorAll('.search-result-item');
+        if (!items.length) return;
+
+        if (e.key === 'ArrowDown') {
+            e.preventDefault();
+            setSearchDropdownActiveItem(items, _searchDropdownIndex + 1);
+        } else if (e.key === 'ArrowUp') {
+            e.preventDefault();
+            setSearchDropdownActiveItem(items, _searchDropdownIndex - 1);
+        } else if (e.key === 'Enter') {
+            e.preventDefault();
+            selectSearchDropdownItem();
+        } else if (e.key === 'Escape') {
+            clearSearchDropdown();
+        }
     });
     searchInput.addEventListener('blur', () => {
         window.setTimeout(clearSearchDropdown, 150);
