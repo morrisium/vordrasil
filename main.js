@@ -223,9 +223,30 @@ const reapplyMarkerSearchHighlight = (marker) => {
 const updateSearchHighlights = (query) => {
     const normalizedQuery = normalizeSearchString(query);
     const hasQuery = normalizedQuery.length > 0;
+    const matchedMapTargets = new Set();
 
     allMarkers.forEach((marker) => {
-        const isMatch = hasQuery && marker.searchText && marker.searchText.includes(normalizedQuery);
+        const isSelfMatch = hasQuery && marker.searchText && marker.searchText.includes(normalizedQuery);
+        marker._selfMatch = isSelfMatch;
+        if (isSelfMatch && marker._mapTarget) {
+            matchedMapTargets.add(marker._mapTarget);
+        }
+    });
+
+    const expandedMapTargets = new Set(matchedMapTargets);
+    const queue = [...matchedMapTargets];
+    while (queue.length) {
+        const target = queue.shift();
+        const info = mapInfoByTarget.get(target);
+        if (info && info.parent && info.parent !== 'world' && !expandedMapTargets.has(info.parent)) {
+            expandedMapTargets.add(info.parent);
+            queue.push(info.parent);
+        }
+    }
+
+    allMarkers.forEach((marker) => {
+        const leadsToMatch = marker._targetMap && expandedMapTargets.has(marker._targetMap);
+        const isMatch = marker._selfMatch || leadsToMatch;
         marker._searchMatch = isMatch;
         marker._searchVisible = isMatch;
         reapplyMarkerSearchHighlight(marker);
@@ -911,6 +932,8 @@ fetch('locations.json')
                   searchInput?.value || ''
               ));
 
+              districtMarker._mapTarget = popupTargetMap;
+              districtMarker._targetMap = normalizedDistrictTarget;
               districtMarker.searchText = buildSearchText(
                   district.name,
                   district.description,
@@ -1037,6 +1060,8 @@ fetch('locations.json')
               searchInput?.value || ''
           ));
 
+          marker._mapTarget = 'world';
+          marker._targetMap = normalizedTargetMap;
           marker.searchText = buildSearchText(
               name,
               location.description,
