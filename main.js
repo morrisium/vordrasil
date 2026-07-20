@@ -820,6 +820,10 @@ fetch('locations.json')
               closeButton.addEventListener('click', (e) => {
                   e.stopPropagation();
                   closePanelPopup();
+                  setActiveMarker(null);
+                  if (searchInput) {
+                      updateSearchHighlights(searchInput.value);
+                  }
               });
           }
       };
