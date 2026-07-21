@@ -261,14 +261,13 @@ const setBackButtonHighlight = (highlight) => {
     backBtn.classList.toggle('back-parent-match', Boolean(highlight));
 };
 
-const updateSearchHighlights = (query) => {
+const getExpandedMapTargets = (query) => {
     const normalizedQuery = normalizeSearchString(query);
     const hasQuery = normalizedQuery.length > 0;
     const matchedMapTargets = new Set();
 
     allMarkers.forEach((marker) => {
         const isSelfMatch = hasQuery && marker.searchText && marker.searchText.includes(normalizedQuery);
-        marker._selfMatch = isSelfMatch;
         if (isSelfMatch && marker._mapTarget) {
             matchedMapTargets.add(marker._mapTarget);
         }
@@ -285,11 +284,19 @@ const updateSearchHighlights = (query) => {
         }
     }
 
+    return expandedMapTargets;
+};
+
+const updateBackButtonHighlight = (query = searchInput?.value || '', expandedMapTargets = null) => {
+    const normalizedQuery = normalizeSearchString(query);
+    const hasQuery = normalizedQuery.length > 0;
+    const resolvedExpandedMapTargets = expandedMapTargets || getExpandedMapTargets(query);
+
     let parentMatchExists = false;
     if (currentMapTarget && hasQuery) {
         let ancestorTarget = mapInfoByTarget.get(currentMapTarget)?.parent;
         while (ancestorTarget) {
-            if (expandedMapTargets.has(ancestorTarget)) {
+            if (resolvedExpandedMapTargets.has(ancestorTarget)) {
                 parentMatchExists = true;
                 break;
             }
@@ -297,7 +304,21 @@ const updateSearchHighlights = (query) => {
             ancestorTarget = ancestorInfo ? ancestorInfo.parent : null;
         }
     }
+
     setBackButtonHighlight(parentMatchExists);
+};
+
+const updateSearchHighlights = (query) => {
+    const normalizedQuery = normalizeSearchString(query);
+    const hasQuery = normalizedQuery.length > 0;
+
+    allMarkers.forEach((marker) => {
+        const isSelfMatch = hasQuery && marker.searchText && marker.searchText.includes(normalizedQuery);
+        marker._selfMatch = isSelfMatch;
+    });
+
+    const expandedMapTargets = getExpandedMapTargets(query);
+    updateBackButtonHighlight(query, expandedMapTargets);
 
     allMarkers.forEach((marker) => {
         const leadsToMatch = marker._targetMap && expandedMapTargets.has(marker._targetMap);
@@ -1496,6 +1517,7 @@ function loadCityMap(targetMap = '') {
     }
 
     currentMapTarget = normalizedTargetMap;
+    updateBackButtonHighlight(searchInput?.value || '');
 
     activeCityTileLayer = createCityTileLayer(normalizedTargetMap);
     activeCityTileLayer.addTo(cityLayer);
@@ -1545,6 +1567,7 @@ function handleBackNavigation() {
         currentMapLabel = '';
         map.fitBounds(mapBounds);
         updateBackButton();
+        updateBackButtonHighlight(searchInput?.value || '');
         return;
     }
 
