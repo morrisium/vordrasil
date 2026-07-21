@@ -37,7 +37,7 @@
       }*/
     ],
     "notable_characters": [
-      /*{
+      {
         "name": "Saria 'The Spice Mistress'",
         "description": "Sells exotic herbs, rare imports, and flavor-altering enchanted spices from her Grand Bazaar stall."
       },
@@ -72,7 +72,7 @@
 	  {
 		"name": "Kelsin Watershade",
 		"description": "The dockhand maintains rental vessels and leads short boat excursions at the boathouse."
-	  },*/
+	  },
 	  // KEEP
 	  {
 		"name": "Kaelen Swiftstream",
@@ -83,7 +83,7 @@
 		"name": "Thalira Seawind",
 		"description": "The Head Priestess conducts maritime rituals and offers protective blessings for departing travelers at River's Grace Temple."
 	  },
-	  /*{
+	  {
 		"name": "Kalon",
 		"description": "The Temple Acolyte performs minor rituals and instructs young initiates at River's Grace Temple."
 	  },
@@ -98,16 +98,16 @@
 	  {
 		"name": "Taryn Stormchaser",
 		"description": "A regular who frequents the Silver Side Tavern, she stands out with dark-inked arm tattoos and weathered leather attire."
-	  },*/
+	  },
 	  // KEEP
 	  {
 		"name": "Ilana Stormwind",
 		"description": "The city councilor shapes local policy and mediates citizen disputes at the Town Hall."
-	  }/*,
+	  },
 	  {
 		"name": "Selina Clearwater",
 		"description": "The Council Secretary manages municipal records and policy drafts at the Town Hall while guiding adventurers through local laws and civic projects."
-	  }*/
+	  }
 	  /*
 	  ,
 	  {
@@ -178,19 +178,19 @@
 		"name": "Thalindra Moonwhisper",
 		"description": "The Head Librarian preserves ancient collections at The Elder's Library while safeguarding its most dangerous and powerful knowledge."
 	  },
-	  /*{
+	  {
 		"name": "Fendril Birchbloom",
 		"description": "The Library Scribe catalogs new acquisitions and transcribes ancient manuscripts at The Elder's Library."
-	  },*/
+	  },
 	  // KEEP
 	  {
 		"name": "Faeril Greenbloom",
 		"description": "The Chief Botanist identifies and cultivates rare plants and herbs at The Grand Arboretum."
 	  },
-	  /*{
+	  {
 		"name": "Thalvar Ashmantle",
 		"description": "The Head Gardener oversees the cultivation and care of all plant life at The Grand Arboretum."
-	  },*/
+	  },
 	  // KEEP
 	  {
 		"name": "Lirael Valthor",
@@ -200,7 +200,7 @@
 	  {
 		"name": "Theren Willowspire",
 		"description": "The Warden Councilor directs the protection of the surrounding Runskag Forest from the Council Hall."
-	  }/*,
+	  },
 	  {
 		"name": "Faenor Sylvanleaf",
 		"description": "The Council Hall's Councilor of Wisdom and Magic advises on ancient elven arcana and spiritual rituals at the Council Hall."
@@ -236,7 +236,7 @@
 	  {
 		"name": "Thorne Ironleaf",
 		"description": "The Expert Tracker at the Wildroot Lodge specializes in locating rare and dangerous forest beasts."
-	  }*/
+	  }
 	  /*
 	  ,
 	  {
@@ -252,7 +252,7 @@
     "width": 2374,
     "height": 1488,
     "icon": "images/worldmap_icons/hafngard.png",
-    "description": "The Jewel of the Western Sea, whose walls rise high and proud from the earth, built of smooth, pale stone, while tall sentry towers jut out at even intervals, topped with spires of gleaming bronze.\nWatchful guards scan the horizon atop the towers, keeping vigil over the main gate's massive double doors of steel-reinforced darkwood.\n\nThe Torvheim farmland sprawls around the city, where an occasional melodic chime hums softly through the air to alert the sentries above, sounded by the city's protective Alarm ward.",
+    "description": "The Jewel of the Western Sea, whose walls rise high and proud from the earth, built of smooth, pale stone, while tall sentry towers jut out at even intervals, topped with spires of gleaming bronze.\nWatchful guards scan the horizon atop the towers, keeping vigil over the main gate's massive double doors of steel-reinforced darkwood.\n\nThe Torvheim farmland sprawls around the city, where an occasional melodic chime hums softly through the air to alert the sentries above, sounded by the city's protective Alarm ward.\n\n\nThe Aetherrail Transit Hub, located in the Noble District, features the Emberward Platform as the grand departure point for the city's magical transport system, where crystalline rails powered by elemental cores extend outward into the surrounding districts.\nAlong the shimmering concourse, hovering arcane rings frame sleek, rune-covered obelisk cars that glide seamlessly in perpetual levitation.\n\nFlanking the concourse, a separate waiting lounge and dedicated car line are warded by social enchantments that prevent lower-class entry.\n\nOverseeing the facility, a meticulous gnome transportation manager maintains the network, regularly tinkering with a levitating blueprint scroll to guide the hub's daily operations.",
     "popupButton": {
       "visible": true,
       "disabled": false,
@@ -261,14 +261,53 @@
     },
     "notable_characters": [
 	  //Save for later
-      /*{
-        "name": "Captain Maren Voss",
-        "description": "Hafngard's reputed harbormaster, famed for negotiating safe passage with coastal guilds and stern discipline."
+      {
+        "name": "Lady Ingrath Valmere",
+        "description": "The Baroness leverages her control of the city's vital food trade to wield immense political power within the sun-domed Council Hall of the Emberward Noble District."
       },
       {
-        "name": "High Priestess Elira",
-        "description": "Spiritual leader of the Veilrest order, she is often seen blessing ships before they depart."
-      }*/
+        "name": "Lord Tyssen Greth",
+        "description": "The Diplomat sways municipal policy within the obsidian Council Hall of the Emberward Noble District through his sharp persuasive charm and impeccable presence."
+      },
+      {
+        "name": "Archmage Faelora Duskryn",
+        "description": "The Senior Arcane Advisor guides the city's rulers from within the grand Council Hall of the Emberward Noble District as the authoritative voice on all magic-related affairs."
+      },
+      {
+        "name": "High Priestess Avira Dawnmend",
+        "description": "High Priestess dispenses divine restoration to visitors from across the kingdom amid the serene, bird-filled marble halls of The House of Mercy in the Veilrest Spiritual District."
+      },
+      {
+        "name": "Jorel Thand",
+        "description": "Wavecaller predicts impending tempests for departing sailors inside cliffside stone halls adorned with living, wave-like ritual tattoos at The Stormwatch Chapel in the Veilrest Spiritual District."
+      },
+      {
+        "name": "Ilith Fen",
+        "description": "Curator of secrets guards dark mysteries and hidden knowledge within the black obsidian halls of The Vault of Silent Truths in the Veilrest Spiritual District."
+      },
+      {
+        "name": "Revek Steelhand",
+        "description": "Shipyard Foreman directs vessel construction across the bustling Ironwake Shipyard in the Skildhaven Port District using a magical prosthetic arm that doubles as specialized tools."
+      },
+      {
+        "name": "Elira Faen",
+        "description": "Lighthouse Keeper maintains the elemental fire beacon at Skeldspire Lighthouse in the Skeldhaven Port District while stoically communing with the surrounding sea."
+      },
+      {
+        "name": "Maxwell Duck",
+        "description": "The Venture Financier sells shares in high-stakes trade caravans and guild expeditions at Stoneledger Bank in the Gullstrand Trade District."
+      },
+      {
+        "name": "Marrow Vex",
+        "description": "Information Broker trades in valuable secrets at The Blackwake Compact while quietly helming a tightly guarded underground network."
+      }
+	  /*
+	  ,
+	  {
+		"name": "",
+		"description": ""
+	  }
+	  */
     ],
     "districts": [
       {
@@ -278,13 +317,63 @@
         "width": 2832,
         "height": 738,
         "icon": "images/hafngard_district_icons/hafngard.png",
-        "description": "The Jewel of the Western Sea, whose walls rise high and proud from the earth, built of smooth, pale stone, while tall sentry towers jut out at even intervals, topped with spires of gleaming bronze.\nWatchful guards scan the horizon atop the towers, keeping vigil over the main gate's massive double doors of steel-reinforced darkwood.\n\nThe Torvheim farmland sprawls around the city, where an occasional melodic chime hums softly through the air to alert the sentries above, sounded by the city's protective Alarm ward.",
+		"description": "The Jewel of the Western Sea, whose walls rise high and proud from the earth, built of smooth, pale stone, while tall sentry towers jut out at even intervals, topped with spires of gleaming bronze.\nWatchful guards scan the horizon atop the towers, keeping vigil over the main gate's massive double doors of steel-reinforced darkwood.\n\nThe Torvheim farmland sprawls around the city, where an occasional melodic chime hums softly through the air to alert the sentries above, sounded by the city's protective Alarm ward.\n\n\nThe Aetherrail Transit Hub, located in the Noble District, features the Emberward Platform as the grand departure point for the city's magical transport system, where crystalline rails powered by elemental cores extend outward into the surrounding districts.\nAlong the shimmering concourse, hovering arcane rings frame sleek, rune-covered obelisk cars that glide seamlessly in perpetual levitation.\n\nFlanking the concourse, a separate waiting lounge and dedicated car line are warded by social enchantments that prevent lower-class entry.\n\nOverseeing the facility, a meticulous gnome transportation manager maintains the network, regularly tinkering with a levitating blueprint scroll to guide the hub's daily operations.",
         "popupButton": {
           "visible": false,
           "disabled": true,
           "targetMap": "",
           "text": ""
-        }
+        },
+      "notable_characters": [
+	  //Save for later
+      {
+        "name": "Lady Ingrath Valmere",
+        "description": "The Baroness leverages her control of the city's vital food trade to wield immense political power within the sun-domed Council Hall of the Emberward Noble District."
+      },
+      {
+        "name": "Lord Tyssen Greth",
+        "description": "The Diplomat sways municipal policy within the obsidian Council Hall of the Emberward Noble District through his sharp persuasive charm and impeccable presence."
+      },
+      {
+        "name": "Archmage Faelora Duskryn",
+        "description": "The Senior Arcane Advisor guides the city's rulers from within the grand Council Hall of the Emberward Noble District as the authoritative voice on all magic-related affairs."
+      },
+      {
+        "name": "High Priestess Avira Dawnmend",
+        "description": "High Priestess dispenses divine restoration to visitors from across the kingdom amid the serene, bird-filled marble halls of The House of Mercy in the Veilrest Spiritual District."
+      },
+      {
+        "name": "Jorel Thand",
+        "description": "Wavecaller predicts impending tempests for departing sailors inside cliffside stone halls adorned with living, wave-like ritual tattoos at The Stormwatch Chapel in the Veilrest Spiritual District."
+      },
+      {
+        "name": "Ilith Fen",
+        "description": "Curator of secrets guards dark mysteries and hidden knowledge within the black obsidian halls of The Vault of Silent Truths in the Veilrest Spiritual District."
+      },
+      {
+        "name": "Revek Steelhand",
+        "description": "Shipyard Foreman directs vessel construction across the bustling Ironwake Shipyard in the Skildhaven Port District using a magical prosthetic arm that doubles as specialized tools."
+      },
+      {
+        "name": "Elira Faen",
+        "description": "Lighthouse Keeper maintains the elemental fire beacon at Skeldspire Lighthouse in the Skeldhaven Port District while stoically communing with the surrounding sea."
+      },
+      {
+        "name": "Maxwell Duck",
+        "description": "The Venture Financier sells shares in high-stakes trade caravans and guild expeditions at Stoneledger Bank in the Gullstrand Trade District."
+      },
+      {
+        "name": "Marrow Vex",
+        "description": "Information Broker trades in valuable secrets at The Blackwake Compact while quietly helming a tightly guarded underground network."
+      }
+	  /*
+	  ,
+	  {
+		"name": "",
+		"description": ""
+	  }
+	  */
+    ]
       },
       {
         "name": "Emberward Noble District",
@@ -299,19 +388,49 @@
           "disabled": false,
           "targetMap": "images/tiles_emberward_district",
           "text": "Enter Emberward Noble District"
-        }/*,
-		"key_events": [
+        },
+		/*"key_events": [
           {
             "name": "Council Banquet",
             "description": "Nobles gather in Emberward Hall to settle disputes and display opulent pageantry."
           }
         ],*/
-		/*"notable_characters": [
+		"notable_characters": [
+		  // KEEP
           {
-            "name": "Lady Seraphine Ember",
-            "description": "A prominent noble who oversees Emberward's ceremonial courts and lavish festivals."
-          }
-        ]*/
+            "name": "Lady Ingrath Valmere",
+            "description": "The Baroness leverages her control of the city's vital food trade to wield immense political power within the sun-domed Council Hall."
+          },
+		  // KEEP
+		  {
+			"name": "Lord Tyssen Greth",
+			"description": "The Diplomat sways municipal policy within the obsidian Council Hall through his sharp persuasive charm and impeccable presence."
+		  },
+		  // KEEP
+		  {
+			"name": "Archmage Faelora Duskryn",
+			"description": "The Senior Arcane Advisor guides the city's rulers from within the grand Council Hall as the authoritative voice on all magic-related affairs."
+		  },
+		  {
+			"name": "Delyra Vintshade",
+			"description": "The Songstress (retired) presides over the velvet-draped Gilded Thorn Tavern, providing highborn patrons an exclusive sanctuary of illusion-shielded booths for private drinks and discreet conversation."
+		  },
+		  {
+			"name": "Sirela Myrrhvale",
+			"description": "The Archivist safeguards centuries of noble genealogies and lineage records within the marble-pillared Grand Archive of Lineage."
+		  },
+		  {
+			"name": "Marven Tollcroft",
+			"description": "The Innkeeper caters to visiting dignitaries at the luxurious Northern Star Inn, effortlessly recalling every patron's favorite drink by their second visit."
+		  }
+		  /*
+		  ,
+		  {
+			"name": "",
+			"description": ""
+		  }
+		  */
+        ]
       },
       {
         "name": "Gullstrand Trade District",
@@ -326,7 +445,68 @@
           "disabled": false,
           "targetMap": "images/tiles_gullstrand_district",
           "text": "Enter Gullstrand Trade District"
-        }
+        },
+		"notable_characters": [
+          {
+            "name": "Grent Alderstock",
+            "description": "The Shopkeeper equips passing adventurers with essential expedition supplies from the crammed shelves of The Brass Coin General Goods near the transit hub."
+          },
+		  {
+			"name": "Borin Dourstone",
+			"description": "Master Blacksmith crafts battle-ready armor and enchanted weaponry within the heat-glowing stone walls of Emberstrike Forgehall."
+		  },
+		  {
+			"name": "Mikah Anvildancer",
+			"description": "Blacksmith Apprentice hones his craft at Emberstrike Forgehall, maintaining weapon displays and assisting with the forge under the rhythmic strike of hammers."
+		  },
+		  {
+			"name": "Theren Vellumshade",
+			"description": "The Arcane Purveyor offers wondrous magic wares at Galdrhall, tending a shop of self-shifting floating shelves and levitating display pedestals."
+		  },
+		  {
+			"name": "Gabriel Mossbottle",
+			"description": "The Apothecary crafts potent remedies and brews within his establishment, The Gildroot Vial, a cramped shop shrouded in creeping ivy and bioluminescent fungi."
+		  },
+		  {
+			"name": "Zaria Wispbloom",
+			"description": "The Apprentice maintains behind-the-scenes operations at The Gildroot Vial with her keen intellect and biting wit."
+		  },
+		  {
+			"name": "Delven Marris",
+			"description": "The Jeweler appraises rare gems and fine jewelry within the private evaluation room of Glint & Garnet."
+		  },
+		  {
+			"name": "Greta Dunmane",
+			"description": "The Beast Trainer boards exotic creatures and conditions them to bond with their owners at the Sable & Mane stables."
+		  },
+		  {
+			"name": "Sivra",
+			"description": "The Incense Merchant and proprietor of Seorbrand, provides fine aromatic resins and rare spell components within the bell-chimming, dark-lacquered shop."
+		  },
+		  {
+			"name": "Esme Tallwillow",
+			"description": "Clothier and owner, crafts fine attire at Silks & Sinew with the aid of self-sewing enchanted needles."
+		  },
+		  {
+			"name": "Maxwell Duck",
+			"description": "The Venture Financier sells shares in high-stakes trade caravans and guild expeditions at Stoneledger Bank."
+		  },
+		  {
+			"name": "Mokru Fenleaf",
+			"description": "Herbalist dispenses rare botanicals and magic dusts stored within floating glass orbs at The Verdant Prism."
+		  },
+		  {
+			"name": "Serina Valmorin",
+			"description": "Cartographer transcribes spell scrolls and crafts shimmering enchanted maps using floating ink pots at The Wayfarer’s Quill."
+		  }
+		  /*
+		  ,
+		  {
+			"name": "",
+			"description": ""
+		  }
+		  */
+		]
       },
 	  {
         "name": "Shrouded Quay",
@@ -341,7 +521,32 @@
           "disabled": true,
           "targetMap": "images/tiles_shrouded_quay_district",
           "text": "Enter Shrouded Quay"
-        }
+        },
+		"notable_characters": [
+		  {
+			"name": "Kael Dravik",
+			"description": "Barkeep and owner, maintains order and mediates disputes among patrons within the sanctuary of The Blackwater Grotto Tavern."
+		  },
+		  {
+			"name": "Brennan 'Bren' Murkwood",
+			"description": "Liaison connects patrons with underground factions to broker leads on discreet deals at The Blackwater Grotto Tavern."
+		  },
+		  {
+			"name": "Odin 'Old Dog' Ravenshade",
+			"description": "Guardian of the patrons of The Blackwater Grotto Tavern while dispensing historical lore on the local district."
+		  },
+		  {
+			"name": "Marrow Vex",
+			"description": "Information Broker trades in valuable secrets at The Blackwake Compact while quietly helming a tightly guarded underground network."
+		  }
+		  /*
+		  ,
+		  {
+			"name": "",
+			"description": ""
+		  }
+		  */
+		]
       },
       {
         "name": "Skeldhaven Port District",
@@ -356,7 +561,64 @@
           "disabled": false,
           "targetMap": "images/tiles_skeldhaven_district",
           "text": "Enter Skeldhaven Port District"
-        }
+        },
+		"notable_characters": [
+		  {
+			"name": "Old 'Netter' Hobb",
+			"description": "Veteran Angler frequents Gull & Gaff to procure specialized tackle and swap seafaring lore among the drying nets."
+		  },
+		  {
+			"name": "Tess Orinbow",
+			"description": "Ship Chandler and owner, supplies local fishers and amateur sailors with tackle and maritime gear inside the bait-scented shop of Gull & Gaff."
+		  },
+		  {
+			"name": "Revek Steelhand",
+			"description": "Shipyard Foreman directs vessel construction across the bustling Ironwake Shipyard using a magical prosthetic arm that doubles as specialized tools."
+		  },
+		  {
+			"name": "Nim Driftbit",
+			"description": "Arcane Mechanist designs magical rudders and levitating sails inside the blueprint-filled design hall of The Ironwake Shipyard."
+		  },
+		  {
+			"name": "'Captain' Thelka Wyrdbait",
+			"description": "Barkeep and self-proclaimed retired Corsair, serves rum and spins dubious seafaring tales beneath a massive shark jaw at The Salted Gull Tavern."
+		  },
+		  {
+			"name": "Nico 'Redbone' Latch",
+			"description": "Bardic Fence plays lively music for rowdy patrons while brokering quiet exchanges at The Salted Gull Tavern."
+		  },
+		  {
+			"name": "Elira Faen",
+			"description": "Lighthouse Keeper maintains the elemental fire beacon at Skeldspire Lighthouse while stoically communing with the surrounding sea."
+		  },
+		  {
+			"name": "Darsk",
+			"description": "Lighthouse Keeper Apprentice studies astronomy and maritime navigation under the magical lenses of Skeldspire Lighthouse."
+		  },
+		  {
+			"name": "Master Vellori Marrin",
+			"description": "Illusionist Ringmaster orchestrates glittering aquatic spectacles at the Vindfaldir Circus in a glowing coat that reacts to his gestures."
+		  },
+		  {
+			"name": "Tippa 'the Tentacled'",
+			"description": "Costume Mistress & Backstage Matron, crafts vibrant attire and manages backstage affairs at the Vindfaldir Circus using eight independently moving sleeves."
+		  },
+		  {
+			"name": "Nyree 'of the Depths'",
+			"description": "Water-Dancer & Sea Beast Tamer, tames sea beasts and performs underwater acrobatics atop water elementals at the Vindfaldir Circus."
+		  },
+		  {
+			"name": "Torven Kett",
+			"description": "Bardic Flutist plays a voice-mimicking flute to accompany flame dances beneath the shimmering silk tents of the Vindfaldir Circus."
+		  }
+		  /*
+		  ,
+		  {
+			"name": "",
+			"description": ""
+		  }
+		  */
+		]
       },
       {
         "name": "Thornreach Residential District",
@@ -371,7 +633,48 @@
           "disabled": false,
           "targetMap": "images/tiles_thornreach_district",
           "text": "Enter Thornreach Residential District"
-        }
+        },
+		"notable_characters": [
+		  {
+			"name": "Gilda Tannyr",
+			"description": "Hostess-Barkeep serves hearty stews and welcomes patrons into the cozy, community kitchen atmosphere of The Hearth & Hook Tavern."
+		  },
+		  {
+			"name": "Darmel Thistleback",
+			"description": "Storyteller patron gathers children and novice adventurers around the magically heated hearth of The Hearth & Hook Tavern to spin evening tales."
+		  },
+		  {
+			"name": "Brannoc Torvald",
+			"description": "Tavern Owner oversees high-stakes gambling, and disputes, inside the bruised, ale-soaked halls of The Crooked Keg."
+		  },
+		  {
+			"name": "Captain Erena Voss",
+			"description": "Captain and Ex-Gladiator master of arms enforces fair play and oversees city-sanctioned duels within the sandy, bronze-ringed pit of The Brazen Ring Arena."
+		  },
+		  {
+			"name": "Marlaen Drenn",
+			"description": "Arcane Duelist Coach trains aspiring mages in safe combat magic using the enchanted recovery chambers and training grounds of The Brazen Ring Arena."
+		  },
+		  {
+			"name": "Maestra Halene Carrow",
+			"description": "Theatre Director orchestrates grand theatrical productions from behind the magical acoustics and illusion projectors of The Gilded Masque Theatre."
+		  },
+		  {
+			"name": "Bran 'Patch' Thelmar",
+			"description": "Stagehand mechanic operates complex rigging and magical stage effects within the labyrinthine backstage of The Gilded Masque Theatre."
+		  },
+		  {
+			"name": "Siovanna Duskroot",
+			"description": "Method Actress dazzles audiences at The Gilded Masque Theatre by literally vanishing into thin air during her dramatic performances."
+		  }
+		  /*
+		  ,
+		  {
+			"name": "",
+			"description": ""
+		  }
+		  */
+		]
       },
 	    {
         "name": "Veilrest Spiritual District",
@@ -386,7 +689,40 @@
           "disabled": false,
           "targetMap": "images/tiles_veilrest_district",
           "text": "Enter Veilrest Spiritual District"
-        }
+        },
+		"notable_characters": [
+		  {
+			"name": "High Priestess Avira Dawnmend",
+			"description": "High Priestess dispenses divine restoration to visitors from across the kingdom amid the serene, bird-filled marble halls of The House of Mercy."
+		  },
+		  {
+			"name": "Brother Kellen Rey",
+			"description": "Acolyte Novice ministers to suffering patients and tends the tranquil inner gardens of The House of Mercy."
+		  },
+		  {
+			"name": "Jorel Thand",
+			"description": "Wavecaller predicts impending tempests for departing sailors inside cliffside stone halls adorned with living, wave-like ritual tattoos at The Stormwatch Chapel."
+		  },
+		  {
+			"name": "Vessel-Sister Caela",
+			"description": "Vessel-Sister blesses seafaring voyages while wielding a stormglass staff that pulses with living tempest light at The Stormwatch Chapel."
+		  },
+		  {
+			"name": "Ilith Fen",
+			"description": "Curator of secrets guards dark mysteries and hidden knowledge within the black obsidian halls of The Vault of Silent Truths."
+		  },
+		  {
+			"name": "Orlin Karr",
+			"description": "Scribe transcribes the silent prayers and queries of penitents onto magical vellum strips at The Vault of Silent Truths."
+		  }
+		  /*
+		  ,
+		  {
+			"name": "",
+			"description": ""
+		  }
+		  */
+		]
       }
     ]
   },
@@ -418,7 +754,7 @@
       "text": "Enter City of Misthaven"
     },
 	"notable_characters": [
-      /*{
+      {
 	    "name": "Edda Larkspur",
 	    "description": "The Innkeeper offers warm shelter and steadfast hospitality to weary travelers at The Misty Inn and Tavern."
       },
@@ -429,13 +765,13 @@
 	  {
 		"name": "Sora Brightwater",
 		"description": "The local Fisherwoman plies the surrounding waters to supply fresh daily catches."
-	  },*/
+	  },
 	  // KEEP
 	  {
 		"name": "Ilaris Vintrell",
 		"description": "The Pavilion Overseer manages merchant stalls in the Azure Pavilion"
 	  },
-	  /*{
+	  {
 		"name": "Galdric Stormhelm",
 		"description": "The Fish Vendor supplies fresh daily catches and lucky angling charms from his Azure Pavilion stall."
 	  },
@@ -450,16 +786,16 @@
 	  {
 		"name": "Madra Hallowleaf",
 		"description": "The Herb Vendor offers soothing salves, herbal remedies, and restorative teas."
-	  },*/
+	  },
 	  // KEEP
 	  {
 		"name": "Mayor Elenora Windmere",
 		"description": "The Town Mayor directs civic operations and leads council discussions from the Town Hall."
 	  },
-	  /*{
+	  {
 		"name": "Lila Mossroot",
 		"description": "The Agricultural Councilor champions local farming interests from the Town Hall."
-	  },*/
+	  },
 	  // KEEP
 	  {
 		"name": "Father Corwin Ashvale",
@@ -488,14 +824,14 @@
       "text": "Enter Town of Mogilsa"
     },
 	"notable_characters": [
-	  /*{
+	  {
 		"name": "Mara Thalwyn",
 		"description": "Innkeeper welcomes weary travelers and manages hospitality at The Last Ember"
 	  },
 	  {
 		"name": "Murik Dagmar",
 		"description": "The Owner & Barkeep pours drinks and welcomes guests at The Last Ember"
-	  },*/
+	  },
 	  // KEEP
 	  {
 		"name": "Ragna Hrodsson",
@@ -510,7 +846,7 @@
 	  {
 		"name": "Sergeant Vale",
 		"description": "The Watch Captain maintains local security and enforces order from Cliffwatch Hall."
-	  }/*,
+	  },
 	  {
 		"name": "Seren Muir",
 		"description": "The Apothecary dispenses healing potions and alchemical brews in her warmly lit shop at Glowleaf Remedies."
@@ -526,7 +862,7 @@
 	  {
 		"name": "Jorik Fane",
 		"description": "The Relic Merchant purveys ancient charms and holy artifacts at The Wandering Relic."
-	  }*/
+	  }
 	  /*
 	  ,
 	  {
