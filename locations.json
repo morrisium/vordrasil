@@ -19,14 +19,13 @@
     "width": 2552,
     "height": 984,
     "icon": "images/worldmap_icons/aquamira.png",
-    "description": "The River City, where shimmering currents move through the wide, meandering rivers that cradle it.\nCanal waters reflect the multicolored banners hanging from buildings and market stalls, fluttering in the breeze.\n\nTowering stone bridges, each adorned with carved reliefs of mythical river spirits, span the waterways.\nA murmur of bustling activity fills the air: a symphony of traders haggling and laughter.",
+    "description": "The River City, where shimmering currents move through the wide, meandering rivers that cradle it.\nCanal waters reflect the multicolored banners hanging from buildings and market stalls, fluttering in the breeze.\n\nTowering stone bridges, each adorned with carved reliefs of mythical river spirits, span the waterways, where the air thrums with a vibrant symphony of haggling traders and merry chatter.",
     "popupButton": {
       "visible": true,
       "disabled": false,
       "targetMap": "images/tiles_aquamira",
       "text": "Enter City of Aquamira"
-    }
-    ,
+    },
 	"key_events": [
       /*{
         "name": "Midsummer Regatta",
@@ -169,7 +168,76 @@
       "disabled": false,
       "targetMap": "images/tiles_greenwood",
       "text": "Enter City of Greenwood"
-    }
+    },
+	"notable_characters": [
+	  {
+		"name": "Thalindra Moonwhisper",
+		"description": "The Head Librarian preserves ancient collections at The Elder's Library while safeguarding its most dangerous and powerful knowledge."
+	  },
+	  {
+		"name": "Fendril Birchbloom",
+		"description": "The Library Scribe catalogs new acquisitions and transcribes ancient manuscripts at The Elder's Library."
+	  },
+	  {
+		"name": "Faeril Greenbloom",
+		"description": "The Chief Botanist identifies and cultivates rare plants and herbs at The Grand Arboretum."
+	  },
+	  {
+		"name": "Thalvar Ashmantle",
+		"description": "The Head Gardener oversees the cultivation and care of all plant life at The Grand Arboretum."
+	  },
+	  {
+		"name": "Lirael Valthor",
+		"description": "The High Councilor manages diplomatic affairs and champions elven interests at the Council Hall."
+	  },
+	  {
+		"name": "Theren Willowspire",
+		"description": "The Warden Councilor directs the protection of the surrounding Runskag Forest from the Council Hall."
+	  },
+	  {
+		"name": "Faenor Sylvanleaf",
+		"description": "The Council Hall's Councilor of Wisdom and Magic advises on ancient elven arcana and spiritual rituals at the Council Hall."
+	  },
+	  {
+		"name": "Tamsin Laurelwood",
+		"description": "The Innkeeper offers warm hospitality and travel advice to guests at the Sylvan Hearth Inn."
+	  },
+	  {
+		"name": "Rurik Stonebrow",
+		"description": "The Leatherworking Tinker at his Treeborn Market stall equips adventurers with finely crafted leather gear and essential tools."
+	  },
+	  {
+		"name": "Ilyana Dewleaf",
+		"description": "The Toymaker at her Treeborn Market stall crafts enchanted playthings that move and respond to touch."
+	  },
+	  {
+		"name": "Elysia Fernwhisper",
+		"description": "The Potion Maker at her Treeborn Market stall offers rare remedies and elixirs crafted from forest ingredients."
+	  },
+	  {
+		"name": "Leara Healstone",
+		"description": "The Healer at his Treeborn Market stall dispenses soothing remedies and divine cures."
+	  },
+	  {
+		"name": "Maela Greenthorn",
+		"description": "The Lodgekeeper at the Wildroot Lodge equips hunters and coordinates expeditions into the wilds."
+	  },
+	  {
+		"name": "Lyra Windwalker",
+		"description": "The Ranger at the Wildroot Lodge guides expeditions through perilous terrain and mediates with deep-forest elves."
+	  },
+	  {
+		"name": "Thorne Ironleaf",
+		"description": "The Expert Tracker at the Wildroot Lodge specializes in locating rare and dangerous forest beasts."
+	  }
+	  /*
+	  ,
+	  {
+		"name": "",
+		"description": ""
+	  }
+	  */
+	]
   },
   "Hafngard": {
     "x": 4085,
