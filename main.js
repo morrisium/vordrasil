@@ -68,6 +68,19 @@ const searchInput = document.getElementById('search-input');
 const searchClearButton = document.getElementById('search-clear');
 const searchDropdown = document.getElementById('search-dropdown');
 let panelMode = false;
+
+function attachPanelInteractionGuard(panel) {
+    if (!panel) return;
+
+    const stopPropagationEvents = ['wheel', 'mousedown', 'touchstart', 'touchmove', 'pointerdown', 'dblclick'];
+    stopPropagationEvents.forEach((eventName) => {
+        panel.addEventListener(eventName, (event) => {
+            event.stopPropagation();
+        }, { passive: false });
+    });
+}
+
+attachPanelInteractionGuard(popupPanel);
 let panelSideRight = false;
 window.panelMode = panelMode;
 window.panelSideRight = panelSideRight;
@@ -1239,18 +1252,9 @@ fetch('locations.json')
                   district.notable_characters || [],
                   district.key_events || [],
                   searchInput?.value || ''
-              ));
-
-              districtMarker._mapTarget = popupTargetMap;
-              districtMarker._targetMap = normalizedDistrictTarget;
-              districtMarker._searchLabel = district.name;
-              districtMarker._searchSubtitle = district.description || location.name || '';
-              districtMarker.searchText = buildSearchText(
-                  district.name,
-                  district.description,
-                  district.notable_characters || [],
-                  district.key_events || []
-              );
+              ), {
+                  autoPan: false
+              });
               allMarkers.push(districtMarker);
 
               const updateDistrictScale = () => {
@@ -1385,7 +1389,9 @@ fetch('locations.json')
               location.notable_characters || [],
               location.key_events || [],
               searchInput?.value || ''
-          ));
+          ), {
+              autoPan: false
+          });
 
           marker._mapTarget = 'world';
           marker._targetMap = normalizedTargetMap;
