@@ -38,10 +38,81 @@
       }*/
     ],
     "notable_characters": [
-      /*{
-        "name": "Marin Tidewalker",
-        "description": "A charismatic festival bard known for leading the spring regatta and calming the river spirits."
-      }*/
+      {
+        "name": "Saria 'The Spice Mistress'",
+        "description": "Sells exotic herbs, rare imports, and flavor-altering enchanted spices from her Grand Bazaar stall."
+      },
+	  {
+		"name": "Zara 'The Trinket Collector'",
+		"description": "Sells enchanted talismans and magical oddities from her Grand Bazaar stall."
+	  },
+	  {
+        "name": "Merrick 'The Potion Crafter'",
+        "description": "Sells bizarre, cryptically labeled potions from his Grand Bazaar stall."
+      },
+	  {
+        "name": "Greta Hammerstone",
+        "description": "The Blacksmith sells tools, weapons, and adventuring gear from her Grand Bazaar stall."
+      },
+	  {
+		"name": "Marek",
+		"description": "The Innkeeper provides food, drink, and lodging at the Golden Coin Inn."
+	  },
+	  {
+		"name": "Isla",
+		"description": "The Head Waitress manages dining service at the Golden Coin Inn."
+	  },
+	  {
+		"name": "Lady Mera Loraine",
+		"description": "The noble patron offers high-society secrets and rewarding tasks to adventurers at the Golden Coin Inn."
+	  },
+	  {
+		"name": "Vera Oarswell",
+		"description": "The Boathouse Keeper manages boat rentals, vessel maintenance, and river guidance at the River's Edge Boathouse."
+	  },
+	  {
+		"name": "Kelsin Watershade",
+		"description": "The dockhand maintains rental vessels and leads short boat excursions at the boathouse."
+	  },
+	  {
+		"name": "Kaelen Swiftstream",
+		"description": "The River Warden maintains Aquamira's trade routes at the River's Edge Boathouse while brokering discreet passage and river intelligence."
+	  },
+	  {
+		"name": "Thalira Seawind",
+		"description": "The Head Priestess conducts maritime rituals and offers protective blessings for departing travelers at River's Grace Temple."
+	  },
+	  {
+		"name": "Kalon",
+		"description": "The Temple Acolyte performs minor rituals and instructs young initiates at River's Grace Temple."
+	  },
+	  {
+		"name": "Ronan",
+		"description": "The Barkeep serves drinks and tends to patrons at the Silver Side Tavern."
+	  },
+	  {
+		"name": "Mira Windwalker",
+		"description": "The tavern waitress attends to patrons at the Silver Side Tavern."
+	  },
+	  {
+		"name": "Taryn Stormchaser",
+		"description": "A regular who frequents the Silver Side Tavern, she stands out with dark-inked arm tattoos and weathered leather attire."
+	  },
+	  {
+		"name": "Ilana Stormwind",
+		"description": "The city councilor shapes local policy and mediates citizen disputes at the Town Hall."
+	  },
+	  {
+		"name": "Selina Clearwater",
+		"description": "The Council Secretary manages municipal records and policy drafts at the Town Hall while guiding adventurers through local laws and civic projects."
+	  }
+	  /*
+	  ,
+	  {
+		"name": "",
+		"description": ""
+	  }
+	  */
     ]
   },
   "Drekhammar": {
