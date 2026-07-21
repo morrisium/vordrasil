@@ -350,12 +350,12 @@ body.mobile-view .search-dropdown {
 
 .popup-notable-characters li,
 .popup-key-events li {
-    margin: 6px 0;
+    margin: 15px 0;
 }
 
 .popup-notable-characters .char-desc,
 .popup-key-events .event-desc {
-    margin-top: 4px;
+    margin-top: 6px;
     color: #f4ecd8;
     font-size: 0.92rem;
     line-height: 1.35;
