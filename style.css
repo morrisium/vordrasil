@@ -677,6 +677,7 @@ button#reset-view-btn.pressed:active {
 
 @media (hover: none) {
     #reset-view-btn:hover,
+    #back-btn:hover,
     .icon-btn:hover,
     .toggle-label:hover,
     .cog-menu .toggle-group:hover {
