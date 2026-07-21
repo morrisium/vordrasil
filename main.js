@@ -194,16 +194,66 @@ function closePanelPopup() {
 window.closePanelPopup = closePanelPopup;
 
 if (resetViewButton) {
-    const blurResetViewButton = () => resetViewButton.blur();
+    let resetPressClearTimeout = null;
+    let resetPointerId = null;
+
+    const clearResetPressState = () => {
+        if (resetPressClearTimeout) {
+            clearTimeout(resetPressClearTimeout);
+            resetPressClearTimeout = null;
+        }
+        if (resetPointerId !== null && resetViewButton.releasePointerCapture) {
+            try {
+                resetViewButton.releasePointerCapture(resetPointerId);
+            } catch (e) {
+                /* ignore capture errors */
+            }
+            resetPointerId = null;
+        }
+        resetViewButton.classList.remove('pressed');
+    };
+
+    const scheduleClearResetPressState = () => {
+        if (resetPressClearTimeout) {
+            clearTimeout(resetPressClearTimeout);
+        }
+        resetPressClearTimeout = window.setTimeout(clearResetPressState, 160);
+    };
+
+    const pressResetViewButton = (event) => {
+        clearResetPressState();
+        resetViewButton.classList.add('pressed');
+        resetViewButton.offsetWidth; // force reflow for mobile repaint
+        if (event && event.pointerId != null && resetViewButton.setPointerCapture) {
+            try {
+                resetViewButton.setPointerCapture(event.pointerId);
+                resetPointerId = event.pointerId;
+            } catch (e) {
+                resetPointerId = null;
+            }
+        }
+    };
 
     resetViewButton.addEventListener('click', () => {
         resetMapView();
-        blurResetViewButton();
+        scheduleClearResetPressState();
     });
 
-    resetViewButton.addEventListener('pointerup', blurResetViewButton);
-    resetViewButton.addEventListener('touchend', blurResetViewButton, { passive: true });
-    resetViewButton.addEventListener('touchcancel', blurResetViewButton, { passive: true });
+    resetViewButton.addEventListener('pointerdown', (event) => {
+        if (!event.isPrimary) return;
+        pressResetViewButton(event);
+    });
+
+    resetViewButton.addEventListener('touchstart', (event) => {
+        if (event.touches && event.touches.length === 1) {
+            pressResetViewButton();
+        }
+    }, { passive: true });
+
+    resetViewButton.addEventListener('pointerup', scheduleClearResetPressState);
+    resetViewButton.addEventListener('pointercancel', clearResetPressState);
+    resetViewButton.addEventListener('touchcancel', clearResetPressState);
+    resetViewButton.addEventListener('blur', clearResetPressState);
 }
 
 if (panelToggleButton && popupPanel) {

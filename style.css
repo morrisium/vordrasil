@@ -550,7 +550,7 @@ body.mobile-view .search-dropdown {
     position: absolute;
     top: 20px;
     right: 20px;
-    z-index: 1000;
+    z-index: 1150;
     display: flex;
     flex-direction: column;
     gap: 10px;
@@ -648,7 +648,11 @@ body.mobile-view .search-dropdown {
     border-radius: 6px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
     -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
     touch-action: manipulation;
+    user-select: none;
+    transform: translateZ(0);
+    will-change: background-color, color;
 }
 
 #reset-view-btn:focus {
@@ -657,11 +661,17 @@ body.mobile-view .search-dropdown {
 }
 
 #reset-view-btn:active,
-#reset-view-btn:focus {
-    outline: none;
-    background-color: #2c251e;
-    color: #d4af37;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+#reset-view-btn.pressed {
+    background-color: #d4af37;
+    color: #2c251e;
+    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.35);
+}
+
+@media (hover: hover) and (pointer: fine) {
+    #reset-view-btn:hover {
+        background-color: #d4af37;
+        color: #2c251e;
+    }
 }
 
 @media (hover: none) {
@@ -786,17 +796,6 @@ body.mobile-view .search-dropdown {
     background: #2c251e !important;
     border-color: #2c251e !important;
     box-shadow: 0 0 0 2px rgba(0,0,0,0.25) inset;
-}
-
-#reset-view-btn:hover,
-.toggle-group:hover .toggle-label,
-.toggle-group:hover .toggle-text {
-    color: #2c251e;
-}
-
-#reset-view-btn:hover,
-.toggle-group:hover {
-    background-color: #d4af37;
 }
 
 /* Keep cog menu toggle text always yellow and prevent hover/click color changes */
@@ -938,9 +937,12 @@ a.leaflet-popup-close-button:hover {
     font-family: 'Georgia', serif;
 }
 
-#reset-view-btn:hover {
-    background-color: #d4af37;
-    color: #2c251e;
+/* Hover styles only on pointer/hover capable devices */
+@media (hover: hover) and (pointer: fine) {
+    #reset-view-btn:hover {
+        background-color: #d4af37;
+        color: #2c251e;
+    }
 }
 
 .leaflet-bottom.leaflet-right {
