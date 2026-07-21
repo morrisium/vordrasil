@@ -5,8 +5,8 @@
     "width": 3828,
     "height": 1028,
     "icon": "images/worldmap_icons/vordrasil.png",
-    "description": "Vordrasil is a unified kingdom born from thousands of years of conflict, magic, and triumph over darkness.\n\nHaving survived the catastrophic wars of the primordial Titans, centuries of feudal human infighting, and the terrifying dark magic of the Shadowed Epoch, the kingdom was finally unified under King Aric Veridian.\n\nNow living in the 'Age of Balance', Vordrasil is a prosperous realm where elven magic, dwarven industry, and human ambition coexist, though the lingering threat of ancient cults and undiscovered ruins keeps the kingdom constantly on its guard.",
-    "popupButton": {
+	"description": "Primordial terrain, shaped by ancient Titan conflicts, holds the ruins of the Lost Temples of Azerath near Ruinspire, constructed upon ley lines and elemental nexuses of immense natural power.\nThese sacred grounds retain enduring remnants of the Ancients' power and knowledge, preserving primal magical energies from the world's earliest era.\n\nDeep ancient forests, fertile river valleys, and mountain territories, host long standing settlements built through the distinct contributions of the land's diverse races.\nElven arcane mastery, dwarven craftsmanship, and human adaptability unite across the realm, preserving a shared legacy forged through ancient Orc Wars, early migrations, and historic expansions.\n\nThe capital city of Skaldheim stands alongside major urban centers including Hafngard, Drekhammar, and Greenwood, built upon a fusion of elven magic and dwarven engineering.\nFlourishing trade routes connect these cities to distant lands, carrying exotic goods, new technologies, and cultural innovations across recovering provinces.\n\nA state of cautious optimism defines current affairs under the Age of Balance, where royal leadership and political factions work to maintain order following historical periods of shadow and turmoil.\nRestored infrastructure, expanding commerce, and renewed public trust foster steady progress while maintaining vigilance against lingering shadows and hidden threats.",
+	"popupButton": {
       "visible": false,
       "disabled": true,
       "targetMap": "",
@@ -148,7 +148,7 @@
     "width": 1845,
     "height": 839,
     "icon": "images/worldmap_icons/gata.png",
-    "description": "Hidden deep within the etrenally mist-shrouded marshlands, a haven for those looking to disappear: smugglers, outcasts, and folk with secrets.\nIn its tangled alleys and stilted homes, survival is an art.",
+    "description": "Hidden deep within the eternally mist-shrouded marshlands, a haven for smugglers, outcasts, and folk with secrets, looking to disappear.\nIn its tangled alleys and stilted homes, survival is an art.",
     "popupButton": {
       "visible": false,
       "disabled": true,
@@ -245,7 +245,7 @@
     "width": 2374,
     "height": 1488,
     "icon": "images/worldmap_icons/hafngard.png",
-    "description": "The Jewel of the Western Sea, whose walls rise high and proud from the earth, built of smooth, pale stone, while tall sentry towers jut out at even intervals, topped with spires of gleaming bronze.\nWatchful guards scan the horizon atop the towers, guarding the main gate: a massive double door of steel-reinforced darkwood.\n\nThe Torvheim farmland sprawls around the city, where an occasional melodic chime hums softly through the air to alert the sentries above, sounded by the city's protective Alarm ward.",
+    "description": "The Jewel of the Western Sea, whose walls rise high and proud from the earth, built of smooth, pale stone, while tall sentry towers jut out at even intervals, topped with spires of gleaming bronze.\nWatchful guards scan the horizon atop the towers, keeping vigil over the main gate's massive double doors of steel-reinforced darkwood.\n\nThe Torvheim farmland sprawls around the city, where an occasional melodic chime hums softly through the air to alert the sentries above, sounded by the city's protective Alarm ward.",
     "popupButton": {
       "visible": true,
       "disabled": false,
@@ -389,7 +389,7 @@
     "width": 2789,
     "height": 1170,
     "icon": "images/worldmap_icons/kaldakinn.png",
-    "description": "A fortress-city, standing as Vordrasil's shield: a hardened, hyper-disciplined military encampment.\nWhere elite soldiers train and prepare to hold the line against dangers before they ever reach the kingdom's borders.",
+    "description": "A fortress-city, standing as Vordrasil's shield, forged as a hardened, hyper-disciplined military encampment.\nWhere elite soldiers train and prepare to hold the line against dangers before they ever reach the kingdom's borders.",
     "popupButton": {
       "visible": false,
       "disabled": true,
