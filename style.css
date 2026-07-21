@@ -91,6 +91,10 @@ body.mobile-view #popup-panel {
         left: 50%;
         transform: translateX(-50%);
     }
+    #popup-panel {
+        top: 130px;
+        bottom: 16px;
+    }
 }
 
 body.desktop-view #map-controls {
