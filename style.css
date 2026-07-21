@@ -750,9 +750,6 @@ body.mobile-view .search-dropdown {
     border-radius: 0 10px 10px 0;
     box-shadow: 10px 0 45px rgba(0, 0, 0, 0.55);
     padding: 16px;
-    /* Constrain total popup-panel height to half the viewport and allow internal scrolling */
-    height: auto;
-    max-height: 50vh;
     overflow-y: auto;
     overflow-x: hidden;
     word-break: break-word;
@@ -881,4 +878,48 @@ a.leaflet-popup-close-button:hover {
 .leaflet-zoom-animated {
     /*transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1) !important;*/
     will-change: transform;
+}
+
+/* ==========================================================================
+   Discrete scrollbar styling for modern browsers
+   Makes scrollbars thin and subtle across UI controls (popups, panels, dropdowns)
+   ========================================================================== */
+
+/* WebKit / Blink */
+*::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+*::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+    background-color: rgba(212, 175, 55, 0.14);
+    border-radius: 6px;
+    border: 2px solid transparent; /* provides padding look */
+    background-clip: padding-box;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(212, 175, 55, 0.22);
+}
+
+/* Firefox */
+* {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(212, 175, 55, 0.14) transparent;
+}
+
+/* Slightly larger thumb for focused or interactive scrollable regions */
+#popup-panel::-webkit-scrollbar-thumb,
+.search-dropdown::-webkit-scrollbar-thumb,
+.leaflet-popup-content-wrapper::-webkit-scrollbar-thumb {
+    background-color: rgba(212, 175, 55, 0.18);
+}
+
+#popup-panel, .search-dropdown, .leaflet-popup-content-wrapper {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(212, 175, 55, 0.18) transparent;
 }
