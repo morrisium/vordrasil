@@ -173,6 +173,7 @@ window.closePanelPopup = closePanelPopup;
 if (resetViewButton) {
     resetViewButton.addEventListener('click', () => {
         resetMapView();
+        resetViewButton.blur();
     });
 }
 

@@ -613,6 +613,18 @@ body.mobile-view .search-dropdown {
     cursor: pointer;
     border-radius: 6px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+}
+
+#reset-view-btn:focus {
+    outline: none;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+#reset-view-btn:active {
+    background-color: #2c251e;
+    color: #d4af37;
 }
 
 .toggle-group {
