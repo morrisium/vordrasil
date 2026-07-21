@@ -42,7 +42,7 @@ body {
     background: #2c251e;
     border: 1px solid #d4af37;
     border-radius: 999px;
-    padding: 8px 12px;
+    padding: 7px 12px;
     box-shadow: 0 6px 18px rgba(0,0,0,0.55);
     display: flex;
     align-items: center;
@@ -61,7 +61,7 @@ body.mobile-view .search-bar {
 }
 
 body.mobile-view #search-input {
-    font-size: 0.92rem;
+    font-size: 0.95rem;
 }
 
 body.mobile-view #map-controls {
@@ -78,6 +78,20 @@ body.mobile-view #popup-panel {
     top: 130px;
 }
 
+/* Narrow the search bar on mobile devices held in landscape (short height)
+   to avoid overlapping the floating back/reset controls. */
+@media (orientation: landscape) and (max-height: 640px) {
+    .search-bar {
+        width: min(60vw, 320px);
+        max-width: 320px;
+    }
+    .search-dropdown {
+        width: min(80vw, 320px);
+        left: 50%;
+        transform: translateX(-50%);
+    }
+}
+
 body.desktop-view #map-controls {
     top: 20px;
     right: 20px;
@@ -89,7 +103,7 @@ body.desktop-view #map-controls {
     background: transparent;
     color: #d4af37;
     font-family: 'Georgia', serif;
-    font-size: 0.98rem;
+    font-size: 0.95rem;
     outline: none;
     padding-right: 70px;
 }
@@ -451,8 +465,8 @@ body.mobile-view .search-dropdown {
     transform-origin: top left;
     background-color: #2c251e;
     color: #d4af37;
-    border: 2px solid #d4af37;
-    padding: 10px 20px;
+    border: 1px solid #d4af37;
+    padding: 8px 14px;
     font-family: 'Georgia', serif;
     font-size: 0.95rem;
     font-weight: bold;
