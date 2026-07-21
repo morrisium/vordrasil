@@ -10,6 +10,12 @@ const HIDE_ICONS_BY_DEFAULT = true;
 // Options: 'world', 'hafngard', 'mogilsa', 'thornreach', etc.
 const DEBUG_INITIAL_MAP = 'world';
 
+// DEBUG: Enable the viewport badge for mobile/desktop layout testing.
+const DEBUG_VIEWPORT_BADGE = false;
+
+// DEBUG: Show coordinates popup when clicking on the map.
+const DEBUG_COORDS_POPUP = false;
+
 // 2. Create a custom CRS that perfectly aligns bottom-up map coordinates with top-down image tiles
 const customCRS = L.extend({}, L.CRS.Simple, {
     transformation: new L.Transformation(1 / 64, 0, -1 / 64, 192)
@@ -64,10 +70,15 @@ const panelLocationGroup = document.getElementById('panel-location-group');
 const panelLocationToggleButton = document.getElementById('panel-side-toggle-btn');
 const panelLocationText = document.querySelector('.panel-location-text');
 const popupPanel = document.getElementById('popup-panel');
+const viewportDebugBadge = document.getElementById('viewport-debug-badge');
 const searchInput = document.getElementById('search-input');
 const searchClearButton = document.getElementById('search-clear');
 const searchDropdown = document.getElementById('search-dropdown');
 let panelMode = false;
+
+if (!DEBUG_VIEWPORT_BADGE && viewportDebugBadge) {
+    viewportDebugBadge.style.display = 'none';
+}
 
 function attachPanelInteractionGuard(panel) {
     if (!panel) return;
@@ -91,13 +102,25 @@ let _openPopup = null;
 let _searchDropdownIndex = -1;
 
 function isMobileViewport() {
-    return window.matchMedia('(max-width: 767px)').matches;
+    return window.matchMedia('(max-width: 767px), (max-height: 640px)').matches;
+}
+
+function updateViewportBadge(mobile, orientation) {
+    if (!viewportDebugBadge) return;
+    const modeLabel = mobile ? 'Mobile' : 'Desktop';
+    viewportDebugBadge.textContent = `${modeLabel} ${orientation}`;
+    viewportDebugBadge.className = 'viewport-badge';
+    viewportDebugBadge.classList.add(mobile ? `mobile-${orientation}` : 'desktop');
 }
 
 function updateViewportMode() {
     const mobile = isMobileViewport();
+    const orientation = window.matchMedia('(orientation: portrait)').matches ? 'portrait' : 'landscape';
     document.body.classList.toggle('mobile-view', mobile);
     document.body.classList.toggle('desktop-view', !mobile);
+    if (DEBUG_VIEWPORT_BADGE) {
+        updateViewportBadge(mobile, orientation);
+    }
 }
 
 window.addEventListener('resize', updateViewportMode);
@@ -171,10 +194,16 @@ function closePanelPopup() {
 window.closePanelPopup = closePanelPopup;
 
 if (resetViewButton) {
+    const blurResetViewButton = () => resetViewButton.blur();
+
     resetViewButton.addEventListener('click', () => {
         resetMapView();
-        resetViewButton.blur();
+        blurResetViewButton();
     });
+
+    resetViewButton.addEventListener('pointerup', blurResetViewButton);
+    resetViewButton.addEventListener('touchend', blurResetViewButton, { passive: true });
+    resetViewButton.addEventListener('touchcancel', blurResetViewButton, { passive: true });
 }
 
 if (panelToggleButton && popupPanel) {
@@ -1604,6 +1633,10 @@ function onMapClick(e) {
 
     if (panelMode) {
         closePanelPopup();
+    }
+
+    if (!DEBUG_COORDS_POPUP) {
+        return;
     }
 
     const clickCoords = e.latlng;
