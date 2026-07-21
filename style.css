@@ -75,8 +75,8 @@ body.mobile-view #back-btn {
 }
 
 body.mobile-view #popup-panel {
-    top: 130px;
-    bottom: 20px;
+    top: 117px;
+    bottom: 5px;
 }
 
 /* Narrow the search bar on mobile devices held in landscape and extend the panel to the screen bottom. */
@@ -91,8 +91,8 @@ body.mobile-view #popup-panel {
         transform: translateX(-50%);
     }
     #popup-panel {
-        top: 130px;
-        bottom: 0;
+        top: 117px;
+        bottom: 5px;
     }
 }
 

@@ -74,7 +74,7 @@ const viewportDebugBadge = document.getElementById('viewport-debug-badge');
 const searchInput = document.getElementById('search-input');
 const searchClearButton = document.getElementById('search-clear');
 const searchDropdown = document.getElementById('search-dropdown');
-let panelMode = false;
+let panelMode = true; // default to left-side panel mode
 
 if (!DEBUG_VIEWPORT_BADGE && viewportDebugBadge) {
     viewportDebugBadge.style.display = 'none';
@@ -579,6 +579,13 @@ if (document) {
 
 // Load persisted settings (if any) before rendering initial UI state
 try { loadSettingsFromCookies(); } catch (e) { /* ignore */ }
+if (panelToggleButton) {
+    panelToggleButton.checked = panelMode;
+    panelToggleButton.setAttribute('aria-checked', String(panelMode));
+}
+if (panelToggleText) {
+    panelToggleText.textContent = panelMode ? 'Location Panel' : 'Location Popups';
+}
 updatePanelLocationVisibility();
 updatePanelSideAppearance();
 
