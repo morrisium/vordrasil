@@ -19,12 +19,12 @@
     "width": 2552,
     "height": 984,
     "icon": "images/worldmap_icons/aquamira.png",
-    "description": "Built along a network of shimmering, interconnected waterways, Aquamira is a vibrant village that thrives on the bounty of the waters and a calendar packed with endless festivals.",
+    "description": "The River City, where shimmering currents move through the wide, meandering rivers that cradle it.\nCanal waters reflect the multicolored banners hanging from buildings and market stalls, fluttering in the breeze.\n\nTowering stone bridges, each adorned with carved reliefs of mythical river spirits, span the waterways.\nA murmur of bustling activity fills the air: a symphony of traders haggling and laughter.",
     "popupButton": {
       "visible": true,
       "disabled": false,
       "targetMap": "images/tiles_aquamira",
-      "text": "Enter Village of Aquamira"
+      "text": "Enter City of Aquamira"
     }
     ,
 	"key_events": [
@@ -50,7 +50,7 @@
     "width": 2204,
     "height": 1470,
     "icon": "images/worldmap_icons/drekhammar.png",
-    "description": "Carved into the roots of the jagged Sentinel Peaks, this ancient dwarven stronghold pulses with heavy industry, unyielding honor, and the roaring fires of Moradin's divine forge.",
+    "description": "Carved deep into the Sentinel Peaks, the dwarven stronghold pulses with industry and honor.\nA city where stone sings and Moradin's will echoes in every forge.",
     "popupButton": {
       "visible": false,
       "disabled": true,
@@ -64,7 +64,7 @@
     "width": 2340,
     "height": 1216,
     "icon": "images/worldmap_icons/galdursheim.png",
-    "description": "Perched high atop floating earthmotes among the clouds, Galdursheim is a breathtaking city of arcane scholars and magical innovation, where knowledge is the true currency.",
+    "description": "Perched high atop the clouds, a city of arcane scholars, magical innovation, and breathtaking beauty.\nWhere knowledge is the true currency.",
     "popupButton": {
       "visible": false,
       "disabled": true,
@@ -78,7 +78,7 @@
     "width": 1845,
     "height": 839,
     "icon": "images/worldmap_icons/gata.png",
-    "description": "Hidden deep within treacherous, moss-draped marshlands, Gata is a lawless haven for those looking to disappear: smugglers, outcasts, and folk with dangerous secrets alike.",
+    "description": "Hidden deep within the etrenally mist-shrouded marshlands, a haven for those looking to disappear: smugglers, outcasts, and folk with secrets.\nIn its tangled alleys and stilted homes, survival is an art.",
     "popupButton": {
       "visible": false,
       "disabled": true,
@@ -92,12 +92,12 @@
     "width": 2257,
     "height": 1177,
     "icon": "images/worldmap_icons/greenwood.png",
-    "description": "A serene elven commune nested directly within the boughs of the living and breathing Runskag Forest. Greenwood is a sanctuary of peace, ancient tradition, and profound isolation, entirely attuned to nature's natural rhythms.",
+    "description": "Nestled deep within the towering trees of Runskag Forest, the city seems almost a part of nature itself, built among the branches and canopies of colossal oaks, their trunks wide and gnarled.\nGraceful bridges woven from vines and delicate ropes connect towering platforms, homes, and shops that seem to grow from the very wood of the trees.\n\nLush greenery cascades from hanging gardens that bloom with vibrant flowers and fruit-bearing plants.",
     "popupButton": {
       "visible": true,
       "disabled": false,
       "targetMap": "images/tiles_greenwood",
-      "text": "Enter Town of Greenwood"
+      "text": "Enter City of Greenwood"
     }
   },
   "Hafngard": {
@@ -106,7 +106,7 @@
     "width": 2374,
     "height": 1488,
     "icon": "images/worldmap_icons/hafngard.png",
-    "description": "The restless, roaring heart of Vordrasil's trade, Hafngard is a massive coastal city where all species and cultures live and labor side by side. It is a city built on the ambitions of daring sea captains, the wealth of merchant houses, and the endless pursuit of discovery.",
+    "description": "The Jewel of the Western Sea, whose walls rise high and proud from the earth, built of smooth, pale stone, while tall sentry towers jut out at even intervals, topped with spires of gleaming bronze.\nWatchful guards scan the horizon atop the towers, guarding the main gate: a massive double door of steel-reinforced darkwood.\n\nThe Torvheim farmland sprawls around the city, where an occasional melodic chime hums softly through the air to alert the sentries above, sounded by the city's protective Alarm ward.",
     "popupButton": {
       "visible": true,
       "disabled": false,
@@ -132,7 +132,7 @@
         "width": 2832,
         "height": 738,
         "icon": "images/hafngard_district_icons/hafngard.png",
-        "description": "From the crest of the final hill along the trade road, the full grandeur of Hafngard reveals itself.\n\nAs the largest and most diverse city in the kingdom of Vordrasil, its high, proud walls of smooth, pale stone rise dramatically from the earth. A vibrant patchwork of Torvheim crops and pastures surround the city and stretch far across the valley. At regular intervals, tall sentry towers jut from the walls, topped with spires of gleaming bronze where the distant shapes of watchful guards scan the horizon.\n\nThe hustle and bustle of this grand city carries far beyond the fortification perimeter, a steady thrum that guides the way toward the main gate: a towering double door of steel-reinforced darkwood.",
+        "description": "The Jewel of the Western Sea, whose walls rise high and proud from the earth, built of smooth, pale stone, while tall sentry towers jut out at even intervals, topped with spires of gleaming bronze.\nWatchful guards scan the horizon atop the towers, guarding the main gate: a massive double door of steel-reinforced darkwood.\n\nThe Torvheim farmland sprawls around the city, where an occasional melodic chime hums softly through the air to alert the sentries above, sounded by the city's protective Alarm ward.",
         "popupButton": {
           "visible": false,
           "disabled": true,
@@ -155,16 +155,16 @@
           "text": "Enter Emberward Noble District"
         },
 		"key_events": [
-          /*{
+          {
             "name": "Council Banquet",
             "description": "Nobles gather in Emberward Hall to settle disputes and display opulent pageantry."
-          }*/
+          }
         ],
 		"notable_characters": [
-          /*{
+          {
             "name": "Lady Seraphine Ember",
             "description": "A prominent noble who oversees Emberward's ceremonial courts and lavish festivals."
-          }*/
+          }
         ]
       },
       {
@@ -250,7 +250,7 @@
     "width": 2789,
     "height": 1170,
     "icon": "images/worldmap_icons/kaldakinn.png",
-    "description": "A massive fortress-city that stands as Vordrasil's primary shield. Kaldakinn is a hyper-disciplined military stronghold, dedicated entirely to holding the line against hidden dangers before they ever reach the kingdom's borders.",
+    "description": "A fortress-city, standing as Vordrasil's shield: a hardened, hyper-disciplined military encampment.\nWhere elite soldiers train and prepare to hold the line against dangers before they ever reach the kingdom's borders.",
     "popupButton": {
       "visible": false,
       "disabled": true,
@@ -264,12 +264,12 @@
     "width": 2656,
     "height": 913,
     "icon": "images/worldmap_icons/misthaven.png",
-    "description": "Veiled in a silver morning fog, Misthaven is a peaceful lakeside settlement that harbors quiet traditions, eerie local folklore, and a deep reverence for solitude.",
+    "description": "The city sits at the water's edge of Eldrun Lake, its tranquil waters shimmering like a mirror.\nBuildings crafted from the very wood and stone of the surrounding Runskag Forest lend a charming warmth, while narrow, cobblestone streets wind through the settlement down to the sparkling lake where buildings on stilts jut into the water along wooden walkways.\n\nTowering trees of the Runskag Forest frame the town's outskirts like a protective barrier, carrying a gentle aroma of pine and fresh water.",
     "popupButton": {
       "visible": true,
       "disabled": false,
       "targetMap": "images/tiles_misthaven",
-      "text": "Enter Village of Misthaven"
+      "text": "Enter City of Misthaven"
     }
   },
   "Mogilsa": {
@@ -278,7 +278,7 @@
     "width": 1646,
     "height": 1452,
     "icon": "images/worldmap_icons/mogilsa.png",
-    "description": "Carved into rugged, windswept hills where the gales never sleep, Mogilsa is a city of martial endurance and deep, spiritual reverence.",
+    "description": "Tall stone walls run along the western and northern edges of the city, pitted by years of storm and wind erosion, while beyond the western wall a cliff plummets 200 feet to the icy waters of the Western Sea below.\nThe sound of waves crashing against the cliffs is constant in the sharp, cold air.\n\nThe residential city sees steady pilgrimage traffic to the Cavern of Silent Devotion: a holy site revered for amplifying prayer and meditation.",
     "popupButton": {
       "visible": true,
       "disabled": false,
@@ -292,7 +292,7 @@
     "width": 1632,
     "height": 1202,
     "icon": "images/worldmap_icons/ruinspire.png",
-    "description": "Rising from the shattered, obsidian ruins of an ancient fortress, Ruinspire is a mysterious city haunted by a tragic history and half-whispered arcane anomalies.",
+    "description": "Rising from the shattered remnants of a once-great fortress, a mysterious and eerie city haunted by history and faint, echoing magic.\nIts scholars, scavengers, and shadowy cabals thrive among the ruins, chasing dangerous, forgotten secrets.",
     "popupButton": {
       "visible": false,
       "disabled": true,
@@ -306,7 +306,7 @@
     "width": 1796,
     "height": 1760,
     "icon": "images/worldmap_icons/skaldheim.png",
-    "description": "A proud, towering city of granite and fluttering banners, Skaldheim is the political and historical heart of Vordrasil. Here, the destiny of the kingdom is forged beneath the shadow of the High King's indomitable keep.",
+    "description": "The capital of Vordrasil, a proud, towering city of stone and banners.\nWhere politics, trade, and history intertwine beneath the shadow of the High King's keep.",
     "popupButton": {
       "visible": false,
       "disabled": true,
