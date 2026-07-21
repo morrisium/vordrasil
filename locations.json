@@ -37,7 +37,7 @@
       }*/
     ],
     "notable_characters": [
-      {
+      /*{
         "name": "Saria 'The Spice Mistress'",
         "description": "Sells exotic herbs, rare imports, and flavor-altering enchanted spices from her Grand Bazaar stall."
       },
@@ -72,16 +72,18 @@
 	  {
 		"name": "Kelsin Watershade",
 		"description": "The dockhand maintains rental vessels and leads short boat excursions at the boathouse."
-	  },
+	  },*/
+	  // KEEP
 	  {
 		"name": "Kaelen Swiftstream",
 		"description": "The River Warden maintains Aquamira's trade routes at the River's Edge Boathouse while brokering discreet passage and river intelligence."
 	  },
+	  // KEEP
 	  {
 		"name": "Thalira Seawind",
 		"description": "The Head Priestess conducts maritime rituals and offers protective blessings for departing travelers at River's Grace Temple."
 	  },
-	  {
+	  /*{
 		"name": "Kalon",
 		"description": "The Temple Acolyte performs minor rituals and instructs young initiates at River's Grace Temple."
 	  },
@@ -96,15 +98,16 @@
 	  {
 		"name": "Taryn Stormchaser",
 		"description": "A regular who frequents the Silver Side Tavern, she stands out with dark-inked arm tattoos and weathered leather attire."
-	  },
+	  },*/
+	  // KEEP
 	  {
 		"name": "Ilana Stormwind",
 		"description": "The city councilor shapes local policy and mediates citizen disputes at the Town Hall."
-	  },
+	  }/*,
 	  {
 		"name": "Selina Clearwater",
 		"description": "The Council Secretary manages municipal records and policy drafts at the Town Hall while guiding adventurers through local laws and civic projects."
-	  }
+	  }*/
 	  /*
 	  ,
 	  {
@@ -170,30 +173,34 @@
       "text": "Enter City of Greenwood"
     },
 	"notable_characters": [
+	  // KEEP
 	  {
 		"name": "Thalindra Moonwhisper",
 		"description": "The Head Librarian preserves ancient collections at The Elder's Library while safeguarding its most dangerous and powerful knowledge."
 	  },
-	  {
+	  /*{
 		"name": "Fendril Birchbloom",
 		"description": "The Library Scribe catalogs new acquisitions and transcribes ancient manuscripts at The Elder's Library."
-	  },
+	  },*/
+	  // KEEP
 	  {
 		"name": "Faeril Greenbloom",
 		"description": "The Chief Botanist identifies and cultivates rare plants and herbs at The Grand Arboretum."
 	  },
-	  {
+	  /*{
 		"name": "Thalvar Ashmantle",
 		"description": "The Head Gardener oversees the cultivation and care of all plant life at The Grand Arboretum."
-	  },
+	  },*/
+	  // KEEP
 	  {
 		"name": "Lirael Valthor",
 		"description": "The High Councilor manages diplomatic affairs and champions elven interests at the Council Hall."
 	  },
+	  // KEEP
 	  {
 		"name": "Theren Willowspire",
 		"description": "The Warden Councilor directs the protection of the surrounding Runskag Forest from the Council Hall."
-	  },
+	  }/*,
 	  {
 		"name": "Faenor Sylvanleaf",
 		"description": "The Council Hall's Councilor of Wisdom and Magic advises on ancient elven arcana and spiritual rituals at the Council Hall."
@@ -229,7 +236,7 @@
 	  {
 		"name": "Thorne Ironleaf",
 		"description": "The Expert Tracker at the Wildroot Lodge specializes in locating rare and dangerous forest beasts."
-	  }
+	  }*/
 	  /*
 	  ,
 	  {
@@ -271,7 +278,7 @@
         "width": 2832,
         "height": 738,
         "icon": "images/hafngard_district_icons/hafngard.png",
-        "description": "The Jewel of the Western Sea, whose walls rise high and proud from the earth, built of smooth, pale stone, while tall sentry towers jut out at even intervals, topped with spires of gleaming bronze.\nWatchful guards scan the horizon atop the towers, guarding the main gate: a massive double door of steel-reinforced darkwood.\n\nThe Torvheim farmland sprawls around the city, where an occasional melodic chime hums softly through the air to alert the sentries above, sounded by the city's protective Alarm ward.",
+        "description": "The Jewel of the Western Sea, whose walls rise high and proud from the earth, built of smooth, pale stone, while tall sentry towers jut out at even intervals, topped with spires of gleaming bronze.\nWatchful guards scan the horizon atop the towers, keeping vigil over the main gate's massive double doors of steel-reinforced darkwood.\n\nThe Torvheim farmland sprawls around the city, where an occasional melodic chime hums softly through the air to alert the sentries above, sounded by the city's protective Alarm ward.",
         "popupButton": {
           "visible": false,
           "disabled": true,
@@ -286,25 +293,25 @@
         "width": 2639,
         "height": 888,
         "icon": "images/hafngard_district_icons/emberward_noble.png",
-        "description": "",
+        "description": "Perched on a gentle rise within Hafngard, an elegant inner wall of stone encircles the district. While it lacks the imposing height of the city's main wall, its presence establishes an exclusive boundary. Intricately paved cobblestone streets wind past immaculate mansions and manicured gardens.\nSoftly glowing lanterns adjust their brightness based on ambient light, illuminating pathways that remain dry and clean. Mild enchantments continuously mask noise from the common districts, keeping the atmosphere quiet, controlled, and clean.\n\nAt the main gate, a steward cloaked in gold and blue screens all entry: commoners require official business or a noble escort to enter.\n\nThe Aetherrail Transit Hub marks the elegant start of the city's magical transport system.",
         "popupButton": {
           "visible": true,
           "disabled": false,
           "targetMap": "images/tiles_emberward_district",
           "text": "Enter Emberward Noble District"
-        },
+        }/*,
 		"key_events": [
           {
             "name": "Council Banquet",
             "description": "Nobles gather in Emberward Hall to settle disputes and display opulent pageantry."
           }
-        ],
-		"notable_characters": [
+        ],*/
+		/*"notable_characters": [
           {
             "name": "Lady Seraphine Ember",
             "description": "A prominent noble who oversees Emberward's ceremonial courts and lavish festivals."
           }
-        ]
+        ]*/
       },
       {
         "name": "Gullstrand Trade District",
@@ -313,7 +320,7 @@
         "width": 2706,
         "height": 864,
         "icon": "images/hafngard_district_icons/gullstrand_trade.png",
-        "description": "",
+        "description": "Sprawling across the center of Hafngard, wide cobbled streets stretch beneath towering signs and colorful pennants.\nBustling commerce fills the thoroughfares with the sound of haggling merchants, rolling carts, and clinking coin, creating an energetic market where deals are struck and no name matters above the depth of a purse.\n\nGuards from the city watch regularly patrol this neutral ground, overseeing a shared space where noble servants run errands, commoners go about their daily lives, and adventurers frequently find themselves in the middle of unexpected opportunities.",
         "popupButton": {
           "visible": true,
           "disabled": false,
@@ -321,19 +328,19 @@
           "text": "Enter Gullstrand Trade District"
         }
       },
-	    {
-        "name": "Shrouded Quay District",
+	  {
+        "name": "Shrouded Quay",
         "x": 1634,
         "y": 1115,
         "width": 2752,
         "height": 612,
         "icon": "images/hafngard_district_icons/shrouded_quay.png",
-        "description": "",
+        "description": "Tucked into the mist-heavy docks and crumbling alleys along the southern bend of Hafngard's sea wall, dilapidated warehouses and shuttered storefronts line the narrow lanes.\nPerpetual mist blankets the district as both a literal atmospheric veil and a metaphorical cover for the covert operations of smugglers, thieves, and unsavory figures.\n\nLanterns cast steady illumination over graffiti-marked walls and hastily scrawled symbols.\nHushed conversations fill the air with hints of illicit deals and hidden treasures, operating entirely outside the reach of the city watch, whose guards rarely cross this threshold despite official patrol claims.",
         "popupButton": {
           "visible": false,
           "disabled": true,
           "targetMap": "images/tiles_shrouded_quay_district",
-          "text": "Enter Shrouded Quay District"
+          "text": "Enter Shrouded Quay"
         }
       },
       {
@@ -343,7 +350,7 @@
         "width": 2529,
         "height": 860,
         "icon": "images/hafngard_district_icons/skeldhaven_port.png",
-        "description": "The Skeldhaven Port District is Hafngard's bustling western maritime hub, crowded with diverse vessels and alive with the heavy scents of salt, smoke, and foreign trade.",
+        "description": "Forming the westernmost stretch of Hafngard, wooden piers extend into the bay, creaking under the weight of cargo and crew.\n\nShips of every kind crowd the docks, ranging from weathered fishing boats and merchant caravels to sleek corsairs, where the air remains thick with salt, smoke, tar, and foreign spices.",
         "popupButton": {
           "visible": true,
           "disabled": false,
@@ -358,7 +365,7 @@
         "width": 5783,
         "height": 514,
         "icon": "images/hafngard_district_icons/thornreach_residential.png",
-        "description": "",
+        "description": "Nestled between Hafngard's industrial backbone and active trade routes, a tapestry of homes, winding alleyways, and lively taverns forms the living soul of the city, where weathered stone rowhouses lean shoulder to shoulder.\nThe streets resonate with laughter, local music, and the smell of baked bread and sizzling meats, while Musical Streetlights softly hum old folk songs, and Floating Message Runes serve as mail between neighbors.\n\nWithin the residences, Hearthstones and Homewards keep living spaces warm, dry, and protected from intrusions.\nCommunity Wards continuously monitor the area to detect major magical disruptions and alert city wardens.",
         "popupButton": {
           "visible": true,
           "disabled": false,
@@ -373,7 +380,7 @@
         "width": 4595,
         "height": 471,
         "icon": "images/hafngard_district_icons/veilrest_spiritual.png",
-        "description": "",
+        "description": "Sitting upon a low rise within Hafngard, buildings shaped from pale stone, weathered wood, and mossy slate frame winding cobbled paths that weave through quiet courtyards.\nPale blue magical Glimmerpaths softly glow along these routes, guiding visitors between major buildings.\n\nScattered across the courtyards, large, rune-inscribed Silent Stones form circles that ward all sound for quiet reflection, maintaining an ambiance that is hushed but not somber.\n\nGrown near key plazas, shimmering silver-leafed Dream Bell Trees gently ring to mark time and offer subtle calming magic.",
         "popupButton": {
           "visible": true,
           "disabled": false,
@@ -409,7 +416,63 @@
       "disabled": false,
       "targetMap": "images/tiles_misthaven",
       "text": "Enter City of Misthaven"
-    }
+    },
+	"notable_characters": [
+      /*{
+	    "name": "Edda Larkspur",
+	    "description": "The Innkeeper offers warm shelter and steadfast hospitality to weary travelers at The Misty Inn and Tavern."
+      },
+	  {
+		"name": "Harkin Griggs",
+		"description": "The Tavern Hand diligently keeps daily tasks and service running smoothly for patrons at The Misty Inn and Tavern."
+	  },
+	  {
+		"name": "Sora Brightwater",
+		"description": "The local Fisherwoman plies the surrounding waters to supply fresh daily catches."
+	  },*/
+	  // KEEP
+	  {
+		"name": "Ilaris Vintrell",
+		"description": "The Pavilion Overseer manages merchant stalls in the Azure Pavilion"
+	  },
+	  /*{
+		"name": "Galdric Stormhelm",
+		"description": "The Fish Vendor supplies fresh daily catches and lucky angling charms from his Azure Pavilion stall."
+	  },
+	  {
+		"name": "Katria Emberlight",
+		"description": "The Performing Charm Merchant offers lucky trinkets and decorative instruments from her Azure Pavilion stall."
+	  },
+	  {
+		"name": "Velthis Sablebrew",
+		"description": "The Potion Brewer dispenses restorative elixirs and alchemical kits from his Azure Pavilion stall."
+	  },
+	  {
+		"name": "Madra Hallowleaf",
+		"description": "The Herb Vendor offers soothing salves, herbal remedies, and restorative teas."
+	  },*/
+	  // KEEP
+	  {
+		"name": "Mayor Elenora Windmere",
+		"description": "The Town Mayor directs civic operations and leads council discussions from the Town Hall."
+	  },
+	  /*{
+		"name": "Lila Mossroot",
+		"description": "The Agricultural Councilor champions local farming interests from the Town Hall."
+	  },*/
+	  // KEEP
+	  {
+		"name": "Father Corwin Ashvale",
+		"description": "Spiritual Councilor provides ethical guidance and mediates community conflicts from the Town Hall"
+	  }
+	  /*
+	  ,
+	  {
+		"name": "",
+		"description": ""
+	  }
+	  */
+	]
   },
   "Mogilsa": {
     "x": 3040,
@@ -423,7 +486,55 @@
       "disabled": false,
       "targetMap": "images/tiles_mogilsa",
       "text": "Enter Town of Mogilsa"
-    }
+    },
+	"notable_characters": [
+	  /*{
+		"name": "Mara Thalwyn",
+		"description": "Innkeeper welcomes weary travelers and manages hospitality at The Last Ember"
+	  },
+	  {
+		"name": "Murik Dagmar",
+		"description": "The Owner & Barkeep pours drinks and welcomes guests at The Last Ember"
+	  },*/
+	  // KEEP
+	  {
+		"name": "Ragna Hrodsson",
+		"description": "The Head Cook & Meadmaster of The Last Ember is renowed as the best cook in town and crafts notoriously potent, orc-felling mead."
+	  },
+	  // KEEP
+	  {
+		"name": "Mayor Halden Korrick",
+		"description": "Town Mayor directs civic operations and municipal affairs from Cliffwatch Hall"
+	  },
+	  // KEEP
+	  {
+		"name": "Sergeant Vale",
+		"description": "The Watch Captain maintains local security and enforces order from Cliffwatch Hall."
+	  }/*,
+	  {
+		"name": "Seren Muir",
+		"description": "The Apothecary dispenses healing potions and alchemical brews in her warmly lit shop at Glowleaf Remedies."
+	  },
+	  {
+		"name": "Veyda the Hollow",
+		"description": "The devotional Tattooist inscribes sacred and profane markings in her ink-scented studio at The Ink of the Gods."
+	  },
+	  {
+		"name": "Madame Olyssia",
+		"description": "The Fortune Teller divines fates from her tent-draped stall at the Silver Veil."
+	  },
+	  {
+		"name": "Jorik Fane",
+		"description": "The Relic Merchant purveys ancient charms and holy artifacts at The Wandering Relic."
+	  }*/
+	  /*
+	  ,
+	  {
+		"name": "",
+		"description": ""
+	  }
+	  */
+	]
   },
   "Ruinspire": {
     "x": 11778,
