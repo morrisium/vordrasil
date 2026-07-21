@@ -230,6 +230,9 @@ body.mobile-view .search-dropdown {
     border-radius: 8px;
     font-family: 'Georgia', serif;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+    /* Ensure floating popups never exceed half the viewport and become scrollable when content is large */
+    max-height: 50vh;
+    overflow-y: auto;
 }
 
 .leaflet-popup-tip {
@@ -747,6 +750,9 @@ body.mobile-view .search-dropdown {
     border-radius: 0 10px 10px 0;
     box-shadow: 10px 0 45px rgba(0, 0, 0, 0.55);
     padding: 16px;
+    /* Constrain total popup-panel height to half the viewport and allow internal scrolling */
+    height: auto;
+    max-height: 50vh;
     overflow-y: auto;
     overflow-x: hidden;
     word-break: break-word;
