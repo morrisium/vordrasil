@@ -1146,6 +1146,9 @@ fetch('locations.json')
               </div>
           `;
           popupPanel.style.display = 'block';
+          popupPanel.scrollTop = 0;
+          const body = popupPanel.querySelector('.panel-body');
+          if (body) body.scrollTop = 0;
           popupPanel.classList.add('open');
           popupPanel.setAttribute('aria-hidden', 'false');
 
