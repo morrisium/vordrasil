@@ -46,9 +46,15 @@ map.fitBounds(mapBounds);
 const getMapCenter = () => [imgHeight / 2, imgWidth / 2];
 
 function resetMapView() {
-    const center = getMapCenter();
-    map.setView(center, map.getMinZoom(), { animate: true });
-    map.fitBounds(mapBounds, { animate: true, padding: [0, 0] });
+    if (!map) return;
+
+    map.invalidateSize();
+    map.setView(getMapCenter(), maxZoom, { animate: false });
+    map.fitBounds(mapBounds, {
+        animate: true,
+        padding: [0, 0],
+        maxZoom: maxZoom
+    });
 }
 
 const resetViewButton = document.getElementById('reset-view-btn');
@@ -1050,11 +1056,9 @@ fetch('locations.json')
                   <div class="popup-main">
                       <h2>${highlightedTitle}</h2>
                       <p>${highlightedDescription}</p>
+                      ${buttonHtml}
                       ${keyEventsHtml}
                       ${notableHtml}
-                  </div>
-                  <div class="popup-footer">
-                      ${buttonHtml}
                   </div>
               </div>
           `;
