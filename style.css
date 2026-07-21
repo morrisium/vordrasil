@@ -76,6 +76,7 @@ body.mobile-view #back-btn {
 
 body.mobile-view #popup-panel {
     top: 130px;
+    bottom: 20px;
 }
 
 /* Narrow the search bar on mobile devices held in landscape (short height)
