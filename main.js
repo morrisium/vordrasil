@@ -1115,8 +1115,8 @@ fetch('locations.json')
               <div class="popup-content">
                   <div class="popup-main">
                       <h2>${highlightedTitle}</h2>
-                      <p>${highlightedDescription}</p>
                       ${buttonHtml}
+                      <p>${highlightedDescription}</p>
                       ${keyEventsHtml}
                       ${notableHtml}
                   </div>
